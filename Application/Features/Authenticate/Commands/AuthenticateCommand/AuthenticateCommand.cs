@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
-using Application.DTOs.User;
 using Application.Features.Authenticate.User;
 using MediatR;
 
