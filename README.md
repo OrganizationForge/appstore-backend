@@ -1,19 +1,25 @@
 # Configuracion inicial para correr la API
 
 - Bajar el repo
+  ```
+  git clone https://github.com/OrganizationForge/apps-backend.git
+  ```
 - Abrir con Visual Studio
 - Obtener el nombre de la BD local o IP/URL a usar
-  ![image](https://github.com/OrganizationForge/BackLibrary/assets/53581829/b9b11f91-81a8-4182-892e-7ec355abb0f4)
   
-  ![image](https://github.com/OrganizationForge/BackLibrary/assets/53581829/6543f562-ea07-4eb9-9b82-72a4ef77f635)
+  ![image](https://github.com/OrganizationForge/apps-backend/assets/53581829/d759601c-e09e-456c-a9c3-d0536fa37742)
 
 - Modificar el archivo appSettings.development.json para poner la BD en el connectionString
-  ![image](https://github.com/OrganizationForge/BackLibrary/assets/53581829/8c9c7663-f0c9-4c9d-9206-6144d467e81a)
   
+  ![image](https://github.com/OrganizationForge/apps-backend/assets/53581829/96e006ad-22ca-4ad1-aa3c-4a039095c539)
+
+  ![image](https://github.com/OrganizationForge/apps-backend/assets/53581829/9c988e2c-ec7d-40f1-b12e-805f5d6be7ee)
+
 ## Migracion y actualizacion de Identity
 - Debemos generar las tablas de la BD a partir del modelo y de las Migrations del proyecto Identity y Persistence.
   Para esto ingresamos en la consola de administracion de Nugget
-  ![image](https://github.com/OrganizationForge/BackLibrary/assets/53581829/83fd401a-4cfd-464e-aaf2-e567a739839b)
+  
+  ![image](https://github.com/OrganizationForge/apps-backend/assets/53581829/e9a83388-eb57-4184-9126-82573606bec6)
 
 - Dentro de la consola, seleccionamos el proyecto Identity y ejecutamos el siguiente comando:
 
@@ -25,11 +31,12 @@
   ```
   dotnet ef database-update --Context IdentityContext
   ```
-  ![image](https://github.com/OrganizationForge/BackLibrary/assets/53581829/86592e2c-4921-447f-b361-59e2204c575f)
+  ![image](https://github.com/OrganizationForge/apps-backend/assets/53581829/56a8bf27-9f2a-4305-aea7-350c2d74dbe2)
 
   Al ejecutar el comando usando el flag -Context <Context>, le decimos que nos genere una base utilizando un dbContext especifico. 
   Luego nos genera las tablas en la Base como podemos ver:
-  ![image](https://github.com/OrganizationForge/BackLibrary/assets/53581829/1028a622-8926-465e-ac4e-cf58856d75e9)
+  
+  ![image](https://github.com/OrganizationForge/apps-backend/assets/53581829/da4392db-079e-46a3-ae95-49f7af4bd8e4)
 
 ## Migracion y actualizacion de Persistence
 - Ahora seleccionamos el proyecto de Persistence y ejecutamos el siguiente comando:
@@ -42,18 +49,18 @@
   ```
   dotnet ef database-update --Context ApplicationDbContext
   ```
-  ![image](https://github.com/OrganizationForge/BackLibrary/assets/53581829/c51d8f32-97b4-4c0c-8dbb-09a02f3fa88e)
+  ![image](https://github.com/OrganizationForge/apps-backend/assets/53581829/0392f68f-6b37-40ce-958e-746b9a146c70)
 
   Al ejecutar el comando nos genera las tablas del modelo de Persistence:
 
-  ![image](https://github.com/OrganizationForge/BackLibrary/assets/53581829/ca2a8441-1de8-4527-bb6a-97411eb45ed5)
+  ![image](https://github.com/OrganizationForge/apps-backend/assets/53581829/f2a5c30a-efc8-4cf4-8548-f75b4ee6eb27)
 
 ## Ejecucion API
 
 - Luego solo resta Configurar el proyecto WebApi como proyecto de inicio y ejecutarlo.
 - El proyecto tiene configurado varias SEEDS, que crean datos iniciales en la base tanto para los usuarios en modelo Identity como para algunas clases en el modelo de Persistence.
 
-  ![image](https://github.com/OrganizationForge/BackLibrary/assets/53581829/15bf6685-ad93-448d-8796-facff1a623bd)
+![image](https://github.com/OrganizationForge/apps-backend/assets/53581829/d10bd6ca-61cb-414f-827b-a654eec67882)
 
   
 
