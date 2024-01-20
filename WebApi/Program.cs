@@ -131,6 +131,11 @@ async Task CargarSeeds()
     var context = services.GetRequiredService<ApplicationDbContext>();
     context.Database.EnsureCreated();
 
-    await BookSeed.SeedLanguagesAsync(context);
-    await BookSeed.SeedBooksAsync(context);
+    //await BookSeed.SeedLanguagesAsync(context);
+    //await BookSeed.SeedBooksAsync(context);
+
+    await ProductSeed.SeedAvailabilityAsync(context);
+    await ProductSeed.SeedBrandAsync(context);
+    await ProductSeed.SeedCategoryAsync(context);
+    await ProductSeed.SeedProductAsync(context);
 }

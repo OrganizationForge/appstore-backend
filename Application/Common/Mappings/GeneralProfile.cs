@@ -1,7 +1,9 @@
 ﻿using Application.Features.Language.Commands.CreateLanguageCommand;
 using Application.Features.Language.Queries;
+using Application.Features.Products;
 using AutoMapper;
 using Domain.Entities.Library;
+using Domain.Entities.Products;
 
 namespace Application.Common.Mappings
 {
@@ -11,7 +13,7 @@ namespace Application.Common.Mappings
         {
             #region DTOs
             CreateMap<Idiom, IdiomDTO>();
-
+            CreateMap<Product, ProductDTO>();
             #endregion
 
             #region Commands
