@@ -17,7 +17,9 @@ namespace Application.Features.Products.Queries
                 Query.Search(x => x.Description, "%" + description + "%");
 
             Query
-                .Include(x => x.Category);
+                .Include(x => x.Category)
+                .Include(x => x.Brand)
+                .Include(x => x.Availability);
         }
     }
 }
