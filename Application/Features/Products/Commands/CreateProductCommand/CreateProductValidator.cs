@@ -22,9 +22,6 @@ namespace Application.Features.Products.Commands.CreateProductCommand
             RuleFor(p => p.BrandId)
                 .NotEmpty().WithMessage("{PropertyName} no puede ser vacío.");
 
-            RuleFor(p => p.AvailabilityId)
-                .NotEmpty().WithMessage("{PropertyName} no puede ser vacío.");
-
             RuleFor(p => p.CategoryId)
                 .NotEmpty().WithMessage("{PropertyName} no puede ser vacío.");
 

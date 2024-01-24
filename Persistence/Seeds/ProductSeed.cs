@@ -127,6 +127,26 @@ namespace Persistence.Seeds
                 await context.SaveChangesAsync();
             }
         }
+
+        public static async Task SeedQuantityTypesyAsync(ApplicationDbContext context)
+        {
+            if (!context.QuantityTypes.Any())
+            {
+                context.QuantityTypes.AddRange(new List<QuantityType>
+                {
+                    new QuantityType
+                    {
+                        Description = "Unidad"
+                    },
+                     new QuantityType
+                    {
+                        Description = "Fracción"
+                    },
+                });
+
+                await context.SaveChangesAsync();
+            }
+        }
         public static async Task SeedProductAsync(ApplicationDbContext context)
         {
             if (!context.Products.Any())
@@ -145,7 +165,10 @@ namespace Persistence.Seeds
                         CategoryId = 11,
                         Warranty = "Garantia por 3 años",
                         Review = 75,
-                        Rating = 3.5
+                        Rating = 3.5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                     new Product
                     {
@@ -159,7 +182,10 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 50,
-                        Rating = 3
+                        Rating = 3,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                      new Product
                     {
@@ -173,7 +199,10 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 20,
-                        Rating = 5
+                        Rating = 5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                        new Product
                     {
@@ -187,7 +216,10 @@ namespace Persistence.Seeds
                         CategoryId = 3,
                         Warranty = "Garantia por 1 años",
                         Review = 70,
-                        Rating = 4
+                        Rating = 4,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                        new Product
                     {
@@ -201,7 +233,10 @@ namespace Persistence.Seeds
                         CategoryId = 11,
                         Warranty = "Garantia por 3 años",
                         Review = 75,
-                        Rating = 3.5
+                        Rating = 3.5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                     new Product
                     {
@@ -215,7 +250,10 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 50,
-                        Rating = 3
+                        Rating = 3,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                      new Product
                     {
@@ -229,7 +267,10 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 20,
-                        Rating = 5
+                        Rating = 5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                        new Product
                     {
@@ -243,7 +284,10 @@ namespace Persistence.Seeds
                         CategoryId = 3,
                         Warranty = "Garantia por 1 años",
                         Review = 70,
-                        Rating = 4
+                        Rating = 4,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                        new Product
                     {
@@ -257,7 +301,10 @@ namespace Persistence.Seeds
                         CategoryId = 11,
                         Warranty = "Garantia por 3 años",
                         Review = 75,
-                        Rating = 3.5
+                        Rating = 3.5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                     new Product
                     {
@@ -271,7 +318,10 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 50,
-                        Rating = 3
+                        Rating = 3,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                      new Product
                     {
@@ -285,7 +335,10 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 20,
-                        Rating = 5
+                        Rating = 5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                        new Product
                     {
@@ -299,7 +352,10 @@ namespace Persistence.Seeds
                         CategoryId = 3,
                         Warranty = "Garantia por 1 años",
                         Review = 70,
-                        Rating = 4
+                        Rating = 4,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                        new Product
                     {
@@ -313,7 +369,10 @@ namespace Persistence.Seeds
                         CategoryId = 11,
                         Warranty = "Garantia por 3 años",
                         Review = 75,
-                        Rating = 3.5
+                        Rating = 3.5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                     new Product
                     {
@@ -327,7 +386,10 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 50,
-                        Rating = 3
+                        Rating = 3,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                      new Product
                     {
@@ -341,7 +403,10 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 20,
-                        Rating = 5
+                        Rating = 5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                        new Product
                     {
@@ -355,7 +420,10 @@ namespace Persistence.Seeds
                         CategoryId = 3,
                         Warranty = "Garantia por 1 años",
                         Review = 70,
-                        Rating = 4
+                        Rating = 4,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                 });
 
