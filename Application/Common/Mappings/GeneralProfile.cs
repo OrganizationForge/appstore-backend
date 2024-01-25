@@ -1,8 +1,10 @@
-﻿using Application.Features.Language.Commands.CreateLanguageCommand;
+﻿using Application.Features.Categories.Queries;
+using Application.Features.Language.Commands.CreateLanguageCommand;
 using Application.Features.Language.Queries;
 using Application.Features.Products;
 using Application.Features.Products.Commands.CreateProductCommand;
 using AutoMapper;
+using Domain.Entities;
 using Domain.Entities.Library;
 using Domain.Entities.Products;
 
@@ -15,6 +17,7 @@ namespace Application.Common.Mappings
             #region DTOs
             CreateMap<Idiom, IdiomDTO>();
             CreateMap<Product, ProductDTO>();
+            CreateMap<Category, CategoryDTO>();
             #endregion
 
             #region Commands

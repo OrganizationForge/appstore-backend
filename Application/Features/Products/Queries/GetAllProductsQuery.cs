@@ -6,13 +6,14 @@ using MediatR;
 
 namespace Application.Features.Products.Queries
 {
-    public class GetAllProductsQuery : IRequest<PagedResponse<List<ProductDTO>>>
+    public class GetAllProductsQuery : PaginationProductParameters, IRequest<PagedResponse<List<ProductDTO>>>
     {
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
-        public string? ProductName { get; set; }
-        public string? Description { get; set; }
-        public double? Rating { get; set; }
+        //public int PageNumber { get; set; }
+        //public int PageSize { get; set; }
+        //public string? ProductName { get; set; }
+        //public string? Description { get; set; }
+        //public double? Rating { get; set; }
+        //public int? CategoryId { get; set; }
     }
 
     public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, PagedResponse<List<ProductDTO>>>
@@ -29,10 +30,10 @@ namespace Application.Features.Products.Queries
 
         public async Task<PagedResponse<List<ProductDTO>>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            var listAllProducts= await _unitOfWork.Repository<Product>().ListAsync(new ProductSpecification(request.PageSize, request.PageNumber, request.ProductName, request.Description, request.Rating));
-
+            var listAllProducts= await _unitOfWork.Repository<Product>().ListAsync(new ProductSpecification(request.PageSize, request.PageNumber, request.ProductName, request.Description, request.Rating, request.CategoryId));
+            var totalRecords = await _unitOfWork.Repository<Product>().CountAsync();
             var result = _mapper.Map<List<ProductDTO>>(listAllProducts);
-            return new PagedResponse<List<ProductDTO>>(result, request.PageNumber, request.PageSize);
+            return new PagedResponse<List<ProductDTO>>(result, request.PageNumber, request.PageSize, totalRecords);
         }
     }
 }

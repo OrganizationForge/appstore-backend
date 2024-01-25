@@ -18,6 +18,7 @@ namespace WebApi.Controllers.v1
                 ProductName = filter.ProductName,
                 Description = filter.Description,
                 Rating = filter.Rating,
+                CategoryId = filter.CategoryId,
             }));
         }
 
