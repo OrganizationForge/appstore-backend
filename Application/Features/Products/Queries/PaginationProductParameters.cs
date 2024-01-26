@@ -8,5 +8,6 @@ namespace Application.Features.Products.Queries
         public string? Description { get; set; }
         public double? Rating { get; set; }
         public int? CategoryId { get; set; }
+        public int? BrandId { get; set; }
     }
 }

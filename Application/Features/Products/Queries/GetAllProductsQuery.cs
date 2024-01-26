@@ -30,7 +30,7 @@ namespace Application.Features.Products.Queries
 
         public async Task<PagedResponse<List<ProductDTO>>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            var listAllProducts= await _unitOfWork.Repository<Product>().ListAsync(new ProductSpecification(request.PageSize, request.PageNumber, request.ProductName, request.Description, request.Rating, request.CategoryId));
+            var listAllProducts= await _unitOfWork.Repository<Product>().ListAsync(new ProductSpecification(request.PageSize, request.PageNumber, request.ProductName, request.Description, request.Rating, request.CategoryId, request.BrandId));
             var totalRecords = await _unitOfWork.Repository<Product>().CountAsync();
             var result = _mapper.Map<List<ProductDTO>>(listAllProducts);
             return new PagedResponse<List<ProductDTO>>(result, request.PageNumber, request.PageSize, totalRecords);
