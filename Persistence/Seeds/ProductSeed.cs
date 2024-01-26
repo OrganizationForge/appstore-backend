@@ -13,58 +13,58 @@ namespace Persistence.Seeds
                 {
                     new Category
                     {
-                        CategoryName = "Clothing",
+                        Description = "Clothing",
                     },
                     new Category
                     {
-                        CategoryName = "Blazers & Suits",
+                        Description = "Blazers & Suits",
                     },
                     new Category
                     {
-                        CategoryName = "Blouse",
+                        Description = "Blouse",
                         ParentId = 1,
                     },
                     new Category
                     {
-                        CategoryName = "Cardigans & Jumpers",
+                        Description = "Cardigans & Jumpers",
                         ParentId = 1
                     },
                     new Category
                     {
-                        CategoryName = "Dresses",
+                        Description = "Dresses",
                         ParentId = 1
                     },
                     new Category
                     {
-                        CategoryName = "Hoodie & Sweatshirts",
+                        Description = "Hoodie & Sweatshirts",
                         ParentId = 1
                     },
                     new Category
                     {
-                        CategoryName = "Shoes",
+                        Description = "Shoes",
                     },
                     new Category
                     {
-                        CategoryName = "Pumps & High Heels",
+                        Description = "Pumps & High Heels",
                     },
                     new Category
                     {
-                        CategoryName = "Ballerinas & Flats",
+                        Description = "Ballerinas & Flats",
                         ParentId = 2,
                     },
                     new Category
                     {
-                        CategoryName = "Sandals",
+                        Description = "Sandals",
                         ParentId = 2
                     },
                     new Category
                     {
-                        CategoryName = "Sneakers",
+                        Description = "Sneakers",
                         ParentId = 2
                     },
                     new Category
                     {
-                        CategoryName = "Boots",
+                        Description = "Boots",
                         ParentId = 2
                     },
                 });
@@ -80,27 +80,27 @@ namespace Persistence.Seeds
                 {
                     new Brand
                     {
-                        BrandName = "Adidas",
+                        Description = "Adidas",
                     },
                      new Brand
                     {
-                        BrandName = "Puma",
+                        Description = "Puma",
                     },
                     new Brand
                     {
-                        BrandName = "Nike",
+                        Description = "Nike",
                     },
                     new Brand
                     {
-                        BrandName = "Brooks",
+                        Description = "Brooks",
                     },
                     new Brand
                     {
-                        BrandName = "Fila",
+                        Description = "Fila",
                     },
                     new Brand
                     {
-                        BrandName = "Dior",
+                        Description = "Dior",
                     },
 
                 });
@@ -127,6 +127,26 @@ namespace Persistence.Seeds
                 await context.SaveChangesAsync();
             }
         }
+
+        public static async Task SeedQuantityTypesyAsync(ApplicationDbContext context)
+        {
+            if (!context.QuantityTypes.Any())
+            {
+                context.QuantityTypes.AddRange(new List<QuantityType>
+                {
+                    new QuantityType
+                    {
+                        Description = "Unidad"
+                    },
+                     new QuantityType
+                    {
+                        Description = "Fracción"
+                    },
+                });
+
+                await context.SaveChangesAsync();
+            }
+        }
         public static async Task SeedProductAsync(ApplicationDbContext context)
         {
             if (!context.Products.Any())
@@ -135,7 +155,7 @@ namespace Persistence.Seeds
                 {
                     new Product
                     {
-                        ProductName = "Women Colorblock Sneakers",
+                        Name = "Women Colorblock Sneakers",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 154,
                         Price = 154,
@@ -145,11 +165,14 @@ namespace Persistence.Seeds
                         CategoryId = 11,
                         Warranty = "Garantia por 3 años",
                         Review = 75,
-                        Rating = 3.5
+                        Rating = 3.5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                     new Product
                     {
-                        ProductName = "Cotton Lace Blouse",
+                        Name = "Cotton Lace Blouse",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 38.50,
                         Price = 28.50,
@@ -159,11 +182,14 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 50,
-                        Rating = 3
+                        Rating = 3,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                      new Product
                     {
-                        ProductName = "Mom High Waist Shorts",
+                        Name = "Mom High Waist Shorts",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 39.50,
                         Price = 28.50,
@@ -173,11 +199,14 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 20,
-                        Rating = 5
+                        Rating = 5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                        new Product
                     {
-                        ProductName = "Women Sports Jacket",
+                        Name = "Women Sports Jacket",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 68.40,
                         Price = 68.40,
@@ -187,11 +216,14 @@ namespace Persistence.Seeds
                         CategoryId = 3,
                         Warranty = "Garantia por 1 años",
                         Review = 70,
-                        Rating = 4
+                        Rating = 4,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                        new Product
                     {
-                        ProductName = "Women Colorblock Sneakers",
+                        Name = "Women Colorblock Sneakers",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 154,
                         Price = 154,
@@ -201,11 +233,14 @@ namespace Persistence.Seeds
                         CategoryId = 11,
                         Warranty = "Garantia por 3 años",
                         Review = 75,
-                        Rating = 3.5
+                        Rating = 3.5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                     new Product
                     {
-                        ProductName = "Cotton Lace Blouse",
+                        Name = "Cotton Lace Blouse",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 38.50,
                         Price = 28.50,
@@ -215,11 +250,14 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 50,
-                        Rating = 3
+                        Rating = 3,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                      new Product
                     {
-                        ProductName = "Mom High Waist Shorts",
+                        Name = "Mom High Waist Shorts",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 39.50,
                         Price = 28.50,
@@ -229,11 +267,14 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 20,
-                        Rating = 5
+                        Rating = 5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                        new Product
                     {
-                        ProductName = "Women Sports Jacket",
+                        Name = "Women Sports Jacket",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 68.40,
                         Price = 68.40,
@@ -243,11 +284,14 @@ namespace Persistence.Seeds
                         CategoryId = 3,
                         Warranty = "Garantia por 1 años",
                         Review = 70,
-                        Rating = 4
+                        Rating = 4,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                        new Product
                     {
-                        ProductName = "Women Colorblock Sneakers",
+                        Name = "Women Colorblock Sneakers",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 154,
                         Price = 154,
@@ -257,11 +301,14 @@ namespace Persistence.Seeds
                         CategoryId = 11,
                         Warranty = "Garantia por 3 años",
                         Review = 75,
-                        Rating = 3.5
+                        Rating = 3.5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                     new Product
                     {
-                        ProductName = "Cotton Lace Blouse",
+                        Name = "Cotton Lace Blouse",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 38.50,
                         Price = 28.50,
@@ -271,11 +318,14 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 50,
-                        Rating = 3
+                        Rating = 3,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                      new Product
                     {
-                        ProductName = "Mom High Waist Shorts",
+                        Name = "Mom High Waist Shorts",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 39.50,
                         Price = 28.50,
@@ -285,11 +335,14 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 20,
-                        Rating = 5
+                        Rating = 5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                        new Product
                     {
-                        ProductName = "Women Sports Jacket",
+                        Name = "Women Sports Jacket",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 68.40,
                         Price = 68.40,
@@ -299,11 +352,14 @@ namespace Persistence.Seeds
                         CategoryId = 3,
                         Warranty = "Garantia por 1 años",
                         Review = 70,
-                        Rating = 4
+                        Rating = 4,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                        new Product
                     {
-                        ProductName = "Women Colorblock Sneakers",
+                        Name = "Women Colorblock Sneakers",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 154,
                         Price = 154,
@@ -313,11 +369,14 @@ namespace Persistence.Seeds
                         CategoryId = 11,
                         Warranty = "Garantia por 3 años",
                         Review = 75,
-                        Rating = 3.5
+                        Rating = 3.5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                     new Product
                     {
-                        ProductName = "Cotton Lace Blouse",
+                        Name = "Cotton Lace Blouse",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 38.50,
                         Price = 28.50,
@@ -327,11 +386,14 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 50,
-                        Rating = 3
+                        Rating = 3,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                      new Product
                     {
-                        ProductName = "Mom High Waist Shorts",
+                        Name = "Mom High Waist Shorts",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 39.50,
                         Price = 28.50,
@@ -341,11 +403,14 @@ namespace Persistence.Seeds
                         CategoryId = 6,
                         Warranty = "Garantia por 1 años",
                         Review = 20,
-                        Rating = 5
+                        Rating = 5,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                        new Product
                     {
-                        ProductName = "Women Sports Jacket",
+                        Name = "Women Sports Jacket",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
                         PriceBase = 68.40,
                         Price = 68.40,
@@ -355,7 +420,10 @@ namespace Persistence.Seeds
                         CategoryId = 3,
                         Warranty = "Garantia por 1 años",
                         Review = 70,
-                        Rating = 4
+                        Rating = 4,
+                        QuantityTypeId=1,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10
                     },
                 });
 

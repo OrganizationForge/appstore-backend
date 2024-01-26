@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Contexts;
 
@@ -11,9 +12,11 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240124005228_Agrego modelo para QuantityTypes")]
+    partial class AgregomodeloparaQuantityTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,6 +65,11 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("BrandName")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
@@ -70,9 +78,8 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
+                        .HasMaxLength(254)
+                        .HasColumnType("nvarchar(254)");
 
                     b.Property<DateTime?>("Modified")
                         .HasColumnType("datetime2");
@@ -80,9 +87,6 @@ namespace Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("UrlImage")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -97,6 +101,11 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
@@ -104,9 +113,8 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(254)
+                        .HasColumnType("nvarchar(254)");
 
                     b.Property<DateTime?>("Modified")
                         .HasColumnType("datetime2");
@@ -116,9 +124,6 @@ namespace Persistence.Migrations
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
-
-                    b.Property<string>("UrlImage")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -265,16 +270,16 @@ namespace Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.Property<double>("PriceBase")
                         .HasColumnType("float");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int?>("QuantityTypeId")
                         .HasColumnType("int");
@@ -327,6 +332,7 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(254)
                         .HasColumnType("nvarchar(254)");
 

@@ -6,8 +6,8 @@ namespace Domain.Entities
 {
     public class Category : AuditableBaseEntity
     {
-        public string? CategoryName { get; set; }
         public string? Description { get; set; }
+        public string? UrlImage { get; set; }
 
         // Propiedad de navegación hacia la categoría padre
         public int? ParentId { get; set; }

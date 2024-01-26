@@ -1,6 +1,7 @@
-﻿using Domain.Entities;
+﻿using Application.Features.Categories.Queries;
+using Domain.Entities;
 
-namespace Application.Features.Products
+namespace Application.Features.Products.Queries
 {
     public class ProductDTO
     {
@@ -11,7 +12,7 @@ namespace Application.Features.Products
         public double Price { get; set; }
         public string? UrlImage { get; set; }
         public string? Warranty { get; set; }
-        public virtual Category? Category { get; set; }
+        public virtual CategoryDTO? Category { get; set; }
         public virtual Brand? Brand { get; set; }
         public virtual Availability? Availability { get; set; }
         public int Weight { get; set; }

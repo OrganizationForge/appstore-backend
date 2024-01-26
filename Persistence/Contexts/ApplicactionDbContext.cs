@@ -27,7 +27,7 @@ namespace Persistence.Contexts
         public DbSet<Category> Categories { get; set; }
         public DbSet<Idiom> Languages { get; set; }
         public DbSet<Product> Products { get; set; }
-
+        public DbSet<QuantityType> QuantityTypes { get; set; }
 
 
 

@@ -1,4 +1,5 @@
-﻿using Application.Features.Products.Queries;
+﻿using Application.Features.Products.Commands.CreateProductCommand;
+using Application.Features.Products.Queries;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,15 @@ namespace WebApi.Controllers.v1
                 ProductName = filter.ProductName,
                 Description = filter.Description,
                 Rating = filter.Rating,
+                CategoryId = filter.CategoryId,
+                BrandId = filter.BrandId
             }));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(CreateProductCommand command)
+        {
+            return Ok(await Mediator.Send(command));
         }
     }
 }

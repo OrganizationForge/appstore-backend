@@ -12,12 +12,9 @@ namespace Persistence.Configuration
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(p => p.CategoryName)
+            builder.Property(p => p.Description)
                 .IsRequired()
                 .HasMaxLength(100);
-
-            builder.Property(p => p.Description) 
-                .HasMaxLength(254);
 
             builder.HasOne(c => c.ParentCategory)
                 .WithMany(c => c.ChildrenCategories) // Nombre de la propiedad de navegación en la clase Category

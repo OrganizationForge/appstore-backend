@@ -31,7 +31,8 @@ namespace Application.Features.Language.Queries.GetAllLanguages
             var listAllIdioms = await _unitOfWork.Repository<Idiom>().ListAsync(new IdiomSpecification(request.PageSize, request.PageNumber, request.Code, request.Description));
 
             var result = _mapper.Map<List<IdiomDTO>>(listAllIdioms);
-            return new PagedResponse<List<IdiomDTO>>(result, request.PageNumber, request.PageSize);
+            var totalRecords = await _unitOfWork.Repository<Idiom>().CountAsync();
+            return new PagedResponse<List<IdiomDTO>>(result, request.PageNumber, request.PageSize, totalRecords);
         }
     }
 }

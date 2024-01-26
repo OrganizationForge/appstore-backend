@@ -4,10 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Domain.Entities
 {
-    public class Brand : AuditableBaseEntity
+    public class QuantityType : AuditableBaseEntity
     {
-        public string? Description { get; set; }
-        public string? UrlImage { get; set; }
+        public string? Description { get; set; } 
 
         [JsonIgnore]
         public virtual ICollection<Product>? Products { get; set; }
