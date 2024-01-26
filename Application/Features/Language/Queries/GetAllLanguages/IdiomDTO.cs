@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Language.Queries
+namespace Application.Features.Language.Queries.GetAllLanguages
 {
     public class IdiomDTO
     {

@@ -12,7 +12,7 @@ namespace Persistence.Configuration
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(p => p.ProductName)
+            builder.Property(p => p.Name)
                 .IsRequired()
                 .HasMaxLength(100);
 

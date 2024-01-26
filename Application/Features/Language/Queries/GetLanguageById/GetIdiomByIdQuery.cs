@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
+using Application.Features.Language.Queries.GetAllLanguages;
 using AutoMapper;
 using Domain.Entities.Library;
 using MediatR;

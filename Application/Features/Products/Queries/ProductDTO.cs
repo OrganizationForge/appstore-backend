@@ -1,7 +1,7 @@
 ﻿using Application.Features.Categories.Queries;
 using Domain.Entities;
 
-namespace Application.Features.Products
+namespace Application.Features.Products.Queries
 {
     public class ProductDTO
     {
