@@ -19,7 +19,9 @@ namespace WebApi.Controllers.v1
                 Description = filter.Description,
                 Rating = filter.Rating,
                 CategoryId = filter.CategoryId,
-                BrandId = filter.BrandId
+                BrandId = filter.BrandId,
+                MinPrice = filter.MinPrice,
+                MaxPrice = filter.MaxPrice
             }));
         }
 

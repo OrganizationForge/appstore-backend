@@ -5,22 +5,25 @@ namespace Application.Features.Products.Queries
 {
     public class ProductSpecification : Specification<Product>
     {
-        public ProductSpecification(int pageSize, int pageNumber, string productName, string description, double? rating, int? categoryId, int? brandId  )
+        public ProductSpecification(PaginationProductParameters parameters)
         {
-            Query.Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize);
+            Query.Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize);
 
-            if (!string.IsNullOrEmpty(productName))
-                Query.Search(x => x.Name, "%" + productName + "%");
+            if (!string.IsNullOrEmpty(parameters.ProductName))
+                Query.Search(x => x.Name, "%" + parameters.ProductName + "%");
 
-            if (!string.IsNullOrEmpty(description))
-                Query.Search(x => x.Description, "%" + description + "%");
+            if (!string.IsNullOrEmpty(parameters.Description))
+                Query.Search(x => x.Description, "%" + parameters.Description + "%");
 
-            if (categoryId != null)
-                Query.Where(x => x.CategoryId == categoryId);
+            if (parameters.CategoryId != null)
+                Query.Where(x => x.CategoryId == parameters.CategoryId);
 
-            if(brandId != null)
-                Query.Where(x => x.BrandId == brandId);
+            if(parameters.BrandId != null)
+                Query.Where(x => x.BrandId == parameters.BrandId);
+
+            if(parameters.MinPrice != null)
+                Query.Where(x => x.Price >= parameters.MinPrice && x.Price <= parameters.MaxPrice);
 
             Query
                 .Include(x => x.Category)

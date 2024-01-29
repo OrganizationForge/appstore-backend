@@ -1,4 +1,5 @@
-﻿using Application.Features.Categories.Queries;
+﻿using Application.Features.Brands.Queries;
+using Application.Features.Categories.Queries;
 using Domain.Entities;
 
 namespace Application.Features.Products.Queries
@@ -13,7 +14,7 @@ namespace Application.Features.Products.Queries
         public string? UrlImage { get; set; }
         public string? Warranty { get; set; }
         public virtual CategoryDTO? Category { get; set; }
-        public virtual Brand? Brand { get; set; }
+        public virtual BrandDTO? Brand { get; set; }
         public virtual Availability? Availability { get; set; }
         public int Weight { get; set; }
         public int Review { get; set; }

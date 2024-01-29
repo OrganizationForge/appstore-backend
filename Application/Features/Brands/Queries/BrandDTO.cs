@@ -1,6 +1,6 @@
 ﻿namespace Application.Features.Brands.Queries
 {
-    internal class BrandDTO
+    public class BrandDTO
     {
         public int Id { get; set; }
         public string? Description { get; set; }
