@@ -25,7 +25,7 @@ namespace Shared.Services
                     using (var stream = new FileStream(fullPath, FileMode.Create))
                     {
                         // Convert the base64 string to a byte array
-                        var imageBytes = Convert.FromBase64String(file.ImageBytes);
+                        var imageBytes = Convert.FromBase64String(file.ImageBytes.Split(',').Last());
 
                         // Write the byte array to the stream to create the image file
                         stream.Write(imageBytes, 0, imageBytes.Length);

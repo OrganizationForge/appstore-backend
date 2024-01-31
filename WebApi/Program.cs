@@ -3,6 +3,7 @@ using Identity;
 using Identity.Models;
 using Identity.Seeds;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using Persistence.Contexts;
@@ -79,6 +80,13 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1")
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
+
+app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+    RequestPath = new PathString("/Resources")
+});
 
 app.UseRouting();
 
