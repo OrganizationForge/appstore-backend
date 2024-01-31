@@ -7,7 +7,7 @@ namespace Shared.Services
 {
     public class EmailService : IEmailService
     {
-        public async Task SendAsync(EmailRequestDto request)
+        public async Task SendAsync(EmailDTO request)
         {
             var emailClient = new SmtpClient("smtp.gmail.com");
             emailClient.EnableSsl = true;

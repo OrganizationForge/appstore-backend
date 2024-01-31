@@ -17,7 +17,7 @@ namespace Persistence.Configuration
                 .HasMaxLength(100);
 
             builder.HasOne(c => c.ParentCategory)
-                .WithMany(c => c.ChildrenCategories) // Nombre de la propiedad de navegación en la clase Category
+                .WithMany(c => c.Childrens) // Nombre de la propiedad de navegación en la clase Category
                 .HasForeignKey(c => c.ParentId)
                 .OnDelete(DeleteBehavior.Restrict); // Opcional: especifica el comportamiento de eliminación
         }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Contexts;
 
@@ -11,9 +12,11 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240130175223_Agrego modelo de ProductFiles")]
+    partial class AgregomodelodeProductFiles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -288,6 +291,9 @@ namespace Persistence.Migrations
                     b.Property<double>("Stock")
                         .HasColumnType("float");
 
+                    b.Property<string>("UrlImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Warranty")
                         .HasMaxLength(254)
                         .HasColumnType("nvarchar(254)");
@@ -385,7 +391,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.HasOne("Domain.Entities.Category", "ParentCategory")
-                        .WithMany("Childrens")
+                        .WithMany("ChildrenCategories")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -453,7 +459,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
-                    b.Navigation("Childrens");
+                    b.Navigation("ChildrenCategories");
 
                     b.Navigation("Products");
                 });

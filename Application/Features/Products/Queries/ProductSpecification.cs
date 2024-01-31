@@ -11,7 +11,7 @@ namespace Application.Features.Products.Queries
                 .Take(parameters.PageSize);
 
             if (!string.IsNullOrEmpty(parameters.ProductName))
-                Query.Search(x => x.Name, "%" + parameters.ProductName + "%");
+                Query.Search(x => x.ProductName, "%" + parameters.ProductName + "%");
 
             if (!string.IsNullOrEmpty(parameters.Description))
                 Query.Search(x => x.Description, "%" + parameters.Description + "%");
@@ -28,7 +28,8 @@ namespace Application.Features.Products.Queries
             Query
                 .Include(x => x.Category)
                 .Include(x => x.Brand)
-                .Include(x => x.Availability);
+                .Include(x => x.Availability)
+                .Include(x => x.ProductFiles);
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Contexts;
 
@@ -11,9 +12,11 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240130155437_Modifico campo de Products")]
+    partial class ModificocampodeProducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -288,6 +291,9 @@ namespace Persistence.Migrations
                     b.Property<double>("Stock")
                         .HasColumnType("float");
 
+                    b.Property<string>("UrlImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Warranty")
                         .HasMaxLength(254)
                         .HasColumnType("nvarchar(254)");
@@ -306,49 +312,6 @@ namespace Persistence.Migrations
                     b.HasIndex("QuantityTypeId");
 
                     b.ToTable("Products", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Entities.Products.ProductFile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("Modified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("NameImage")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("ProductId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<string>("UrlImage")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductFiles", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.QuantityType", b =>
@@ -385,7 +348,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.HasOne("Domain.Entities.Category", "ParentCategory")
-                        .WithMany("Childrens")
+                        .WithMany("ChildrenCategories")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -430,17 +393,6 @@ namespace Persistence.Migrations
                     b.Navigation("QuantityType");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Products.ProductFile", b =>
-                {
-                    b.HasOne("Domain.Entities.Products.Product", "Product")
-                        .WithMany("Files")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Domain.Entities.Availability", b =>
                 {
                     b.Navigation("Products");
@@ -453,7 +405,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
-                    b.Navigation("Childrens");
+                    b.Navigation("ChildrenCategories");
 
                     b.Navigation("Products");
                 });
@@ -461,11 +413,6 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Library.Idiom", b =>
                 {
                     b.Navigation("Books");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Products.Product", b =>
-                {
-                    b.Navigation("Files");
                 });
 
             modelBuilder.Entity("Domain.Entities.QuantityType", b =>

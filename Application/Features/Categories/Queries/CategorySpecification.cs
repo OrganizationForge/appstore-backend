@@ -8,7 +8,7 @@ namespace Application.Features.Categories.Queries
         public CategorySpecification()
         {
             Query.Where(x => x.ParentId == null)
-            .Include(x => x.ChildrenCategories);
+            .Include(x => x.Childrens);
         }
     }
 }

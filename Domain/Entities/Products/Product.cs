@@ -4,11 +4,10 @@ namespace Domain.Entities.Products
 {
     public class Product : AuditableBaseEntity
     {
-        public string? Name { get; set; }
+        public string? ProductName { get; set; }
         public string? Description { get; set; }
         public double PriceBase { get; set; }
         public double Price { get; set; } 
-        public string? UrlImage { get; set; }
         public int? BrandId { get; set; }
         public int? AvailabilityId { get; set; } = 1;
         public int? CategoryId { get; set; }
@@ -25,5 +24,6 @@ namespace Domain.Entities.Products
         public virtual Brand? Brand { get; set; }
         public virtual Availability? Availability { get; set; } // Propiedad de navegación hacia la disponibilidad
         public virtual QuantityType? QuantityType { get; set; }
+        public virtual List<ProductFile>? ProductFiles { get; set; }
     }
 }

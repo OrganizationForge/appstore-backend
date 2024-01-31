@@ -28,12 +28,7 @@ namespace Persistence.Contexts
         public DbSet<Idiom> Languages { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<QuantityType> QuantityTypes { get; set; }
-
-
-
-
-
-
+        public DbSet<ProductFile> ProductFiles { get; set; }
 
 
         //Sobrescribimos SaveAsync
