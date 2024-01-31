@@ -26,7 +26,7 @@ namespace Application.Features.Language.Commands.CreateLanguageCommand
 
         public async Task Handle(IdiomCreateEvent notification, CancellationToken cancellationToken)
         {
-            EmailRequestDto emailRequest = new EmailRequestDto
+            EmailDTO emailRequest = new EmailDTO
             {
                 To = "maty.giraudo@hotmail.com",
                 Subject = "Nuevo Idioma guardado",

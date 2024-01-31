@@ -11,18 +11,14 @@ namespace Persistence
     {
         public static void AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
         {
+            #region Services
+            // Register services here
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
                 configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
-            // Register services here
-            //services.Configure<MongoDbSettings>(configuration.GetSection(nameof(MongoDbSettings)));
 
-            //services.AddSingleton<MongoDbContext>(serviceProvider =>
-            //{
-            //    var settings = serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value;
-            //    return new MongoDbContext(settings.ConnectionString, settings.DatabaseName);
-            //});
+            #endregion
 
             //Agregamos una inyeccion donde le decimos que un tipo de RepositoryAsync va a implementar
             //un IRepositoryAsync cualquiera sea
@@ -30,6 +26,7 @@ namespace Persistence
             services
                 .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))
                 .AddTransient(typeof(IRepositoryAsync<>), typeof(RepositoryAsync<>));
+
             #endregion
 
             #region Caching

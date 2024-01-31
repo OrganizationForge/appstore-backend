@@ -9,5 +9,7 @@ namespace Application.Features.Products.Queries
         public double? Rating { get; set; }
         public int? CategoryId { get; set; }
         public int? BrandId { get; set; }
+        public double? MinPrice { get; set; }
+        public double? MaxPrice { get; set; }
     }
 }

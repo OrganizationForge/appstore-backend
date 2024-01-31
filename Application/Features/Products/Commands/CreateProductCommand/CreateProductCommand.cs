@@ -1,8 +1,10 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
+using Application.DTOs;
 using AutoMapper;
 using Domain.Entities.Products;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Features.Products.Commands.CreateProductCommand
 {
@@ -12,7 +14,6 @@ namespace Application.Features.Products.Commands.CreateProductCommand
         public string? Description { get; set; }
         public double PriceBase { get; set; }
         public double Price { get; set; }
-        public string? UrlImage { get; set; } = "";
         public int BrandId { get; set; }
         public int AvailabilityId { get; set; }
         public int CategoryId { get; set; }
@@ -23,6 +24,7 @@ namespace Application.Features.Products.Commands.CreateProductCommand
         public double Rating { get; set; } = 0;
         public string? BarCode { get; set; }
         public double Stock { get; set; }
+        public List<ImageDTO>? ProductFiles { get; set; }
     }
 
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Response<int>>
@@ -42,6 +44,8 @@ namespace Application.Features.Products.Commands.CreateProductCommand
             var newProduct = _mapper.Map<Product>(request);
 
             await _unitOfWork.Repository<Product>().AddAsync(newProduct);
+
+            newProduct.AddDomainEvent(new ProductCreatedEvent(newProduct, request.ProductFiles!));
 
             await _unitOfWork.Save(cancellationToken);
 

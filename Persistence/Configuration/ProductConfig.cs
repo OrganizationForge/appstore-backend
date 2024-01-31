@@ -12,7 +12,7 @@ namespace Persistence.Configuration
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(p => p.Name)
+            builder.Property(p => p.ProductName)
                 .IsRequired()
                 .HasMaxLength(100);
 
@@ -42,6 +42,10 @@ namespace Persistence.Configuration
             builder.HasOne(p => p.Availability)
                 .WithMany(b => b.Products)
                 .HasForeignKey(p => p.AvailabilityId);
+
+            builder.HasMany(p => p.ProductFiles)
+                .WithOne(b => b.Product)
+                .HasForeignKey(p => p.ProductId);
 
         }
     }

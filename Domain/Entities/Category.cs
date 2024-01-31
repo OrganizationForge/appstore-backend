@@ -14,7 +14,7 @@ namespace Domain.Entities
         public Category? ParentCategory { get; set; }
 
         // Colección de categorías hijas
-        public virtual List<Category>? ChildrenCategories { get; set; }
+        public virtual List<Category>? Childrens { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<Product>? Products { get; set; }

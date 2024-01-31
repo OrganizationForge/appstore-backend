@@ -20,6 +20,7 @@ namespace Application.Common.Mappings
             CreateMap<Product, ProductDTO>();
             CreateMap<Category, CategoryDTO>();
             CreateMap<Brand, BrandDTO>();
+            CreateMap<ProductFile, ProductFileDTO>();
             #endregion
 
             #region Commands
