@@ -15,8 +15,8 @@ namespace Domain.Entities
 
         // Colección de categorías hijas
         public virtual List<Category>? Childrens { get; set; }
+        public virtual List<Spec>? Specs { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<Product>? Products { get; set; }
     }
 }

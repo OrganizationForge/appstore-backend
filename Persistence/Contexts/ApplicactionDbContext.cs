@@ -29,6 +29,7 @@ namespace Persistence.Contexts
         public DbSet<Product> Products { get; set; }
         public DbSet<QuantityType> QuantityTypes { get; set; }
         public DbSet<ProductFile> ProductFiles { get; set; }
+        public DbSet<Spec> Specs { get; set; }
 
 
         //Sobrescribimos SaveAsync
