@@ -1,7 +1,10 @@
 using Application;
+using HealthChecks.UI.Client;
+using HealthChecks.UI.Configuration;
 using Identity;
 using Identity.Models;
 using Identity.Seeds;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
@@ -13,6 +16,7 @@ using Serilog.Events;
 using Shared;
 using System.Text.Json.Serialization;
 using WebApi.Extensions;
+using WebApi.Extensions.HealthCheck;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +40,9 @@ builder.Services.AddSharedLayer(builder.Configuration);
 
 //Aca agrego capa de persistencia
 builder.Services.AddPersistenceLayer(builder.Configuration);
+
+//Configuro Health Ckeck
+builder.Services.ConfigureHealthChecks(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddControllers()
@@ -78,6 +85,19 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1")
 //}
 
 app.UseHttpsRedirection();
+
+//HealthCheck Middleware
+app.MapHealthChecks("/api/health", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+app.UseHealthChecksUI(delegate (Options options)
+{
+    options.UIPath = "/healthcheck-ui";
+    options.AddCustomStylesheet("./Extensions/HealthCheck/healthcheck.css");
+
+});
 
 app.UseCors("AllowAll");
 
