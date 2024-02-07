@@ -22,10 +22,6 @@ namespace Persistence.Configuration
                     .WithMany(c => c.Childrens) 
                     .HasForeignKey(c => c.ParentId)
                     .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(p => p.Category)
-                .WithMany(b => b.Specs)
-                .HasForeignKey(p => p.CategoryId);
         }
     }
 }

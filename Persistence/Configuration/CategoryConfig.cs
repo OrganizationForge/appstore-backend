@@ -20,6 +20,11 @@ namespace Persistence.Configuration
                 .WithMany(c => c.Childrens) // Nombre de la propiedad de navegación en la clase Category
                 .HasForeignKey(c => c.ParentId)
                 .OnDelete(DeleteBehavior.Restrict); // Opcional: especifica el comportamiento de eliminación
+
+            builder.HasMany(c => c.Specs)
+                .WithOne(c => c.Category)
+                .HasForeignKey(c => c.CategoryId);
+
         }
     }
 }
