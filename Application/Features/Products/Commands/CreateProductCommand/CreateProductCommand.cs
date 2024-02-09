@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
-using Application.DTOs;
 using AutoMapper;
 using Domain.Entities.Products;
 using MediatR;
@@ -24,7 +23,7 @@ namespace Application.Features.Products.Commands.CreateProductCommand
         public double Rating { get; set; } = 0;
         public string? BarCode { get; set; }
         public double Stock { get; set; }
-        public List<ImageDTO>? ImageFiles { get; set; }
+        public IFormFileCollection? ImageFiles { get; set; }
     }
 
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Response<int>>

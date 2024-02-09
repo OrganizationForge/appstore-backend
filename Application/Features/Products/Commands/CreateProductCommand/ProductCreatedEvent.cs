@@ -1,5 +1,4 @@
 ﻿using Application.Common.Interfaces;
-using Application.DTOs;
 using Domain.Common;
 using Domain.Entities.Products;
 using MediatR;
@@ -10,9 +9,9 @@ namespace Application.Features.Products.Commands.CreateProductCommand
     public class ProductCreatedEvent : BaseEvent
     {
         public Product Product { get; }
-        public List<ImageDTO> FormFiles { get; }
+        public IFormFileCollection FormFiles { get; }
 
-        public ProductCreatedEvent(Product product, List<ImageDTO> formFiles)
+        public ProductCreatedEvent(Product product, IFormFileCollection formFiles)
         {
             Product = product;
             FormFiles = formFiles;
@@ -41,7 +40,7 @@ namespace Application.Features.Products.Commands.CreateProductCommand
                 {
                     var newFile = new ProductFile
                     {
-                        NameImage = file.ImageName,
+                        NameImage = file.FileName,
                         UrlImage = _fileService.UploadFile(file, @"Images\" + notification.Product.Id),
                         ProductId = notification.Product.Id
                     };

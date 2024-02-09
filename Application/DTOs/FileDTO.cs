@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs
 {
-    public class ImageDTO
+    public class FileDTO
     {
-        public string? ImageName { get; set; }
-        public string?  ImageBytes { get; set; }
+        public string? Filename { get; set; }
+        public string?  Base64Content { get; set; }
 
     }
 }
