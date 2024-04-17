@@ -9,7 +9,7 @@ namespace WebApi.Controllers.v1
     public class ProductsController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] PaginationProductParameters filter)
+        public async Task<IActionResult> Get(PaginationProductParameters filter)
         {
             return Ok(await Mediator.Send(new GetAllProductsQuery
             {
