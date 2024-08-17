@@ -1,5 +1,7 @@
-﻿using Application.Features.Products.Commands.CreateProductCommand;
-using Application.Features.Products.Queries;
+﻿using Application.Features.Language.Queries.GetLanguageById;
+using Application.Features.Products.Commands.CreateProductCommand;
+using Application.Features.Products.Queries.GetAllProducts;
+using Application.Features.Products.Queries.GetProductById;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +11,7 @@ namespace WebApi.Controllers.v1
     public class ProductsController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] PaginationProductParameters filter)
+        public async Task<IActionResult> GetAllAsync([FromQuery] PaginationProductParameters filter)
         {
             return Ok(await Mediator.Send(new GetAllProductsQuery
             {
@@ -23,6 +25,12 @@ namespace WebApi.Controllers.v1
                 MinPrice = filter.MinPrice,
                 MaxPrice = filter.MaxPrice
             }));
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetAsync(int id)
+        {
+            return Ok(await Mediator.Send(new GetProductByIdQuery { Id = id }));
         }
 
         [HttpPost]

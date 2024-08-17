@@ -10,9 +10,9 @@ namespace Application.Features.Products.Commands.CreateProductCommand
     public class ProductCreatedEvent : BaseEvent
     {
         public Product Product { get; }
-        public List<ImageDTO> FormFiles { get; }
+        public ICollection<ImageDTO> FormFiles { get; }
 
-        public ProductCreatedEvent(Product product, List<ImageDTO> formFiles)
+        public ProductCreatedEvent(Product product, ICollection<ImageDTO> formFiles)
         {
             Product = product;
             FormFiles = formFiles;

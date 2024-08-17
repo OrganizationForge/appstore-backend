@@ -24,7 +24,7 @@ namespace Application.Features.Products.Commands.CreateProductCommand
         public double Rating { get; set; } = 0;
         public string? BarCode { get; set; }
         public double Stock { get; set; }
-        public List<ImageDTO>? ProductFiles { get; set; }
+        public ICollection<ImageDTO>? ProductFiles { get; set; }
     }
 
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Response<int>>

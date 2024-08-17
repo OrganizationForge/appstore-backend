@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using Domain.Entities.Products;
 
-namespace Application.Features.Products.Queries
+namespace Application.Features.Products.Queries.GetAllProducts
 {
     public class ProductSpecification : Specification<Product>
     {
@@ -19,10 +19,10 @@ namespace Application.Features.Products.Queries
             if (parameters.CategoryId != null)
                 Query.Where(x => x.CategoryId == parameters.CategoryId);
 
-            if(parameters.BrandId != null)
+            if (parameters.BrandId != null)
                 Query.Where(x => x.BrandId == parameters.BrandId);
 
-            if(parameters.MinPrice != null)
+            if (parameters.MinPrice != null)
                 Query.Where(x => x.Price >= parameters.MinPrice && x.Price <= parameters.MaxPrice);
 
             Query
@@ -33,4 +33,3 @@ namespace Application.Features.Products.Queries
         }
     }
 }
- 

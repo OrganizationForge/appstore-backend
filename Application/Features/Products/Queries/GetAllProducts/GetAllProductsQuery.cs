@@ -4,7 +4,7 @@ using AutoMapper;
 using Domain.Entities.Products;
 using MediatR;
 
-namespace Application.Features.Products.Queries
+namespace Application.Features.Products.Queries.GetAllProducts
 {
     public class GetAllProductsQuery : PaginationProductParameters, IRequest<PagedResponse<List<ProductDTO>>>
     {

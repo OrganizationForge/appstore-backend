@@ -1,6 +1,6 @@
 ﻿using Application.Common.Parameters;
 
-namespace Application.Features.Products.Queries
+namespace Application.Features.Products.Queries.GetAllProducts
 {
     public class PaginationProductParameters : RequestParameters
     {
