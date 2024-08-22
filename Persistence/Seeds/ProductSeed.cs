@@ -147,6 +147,33 @@ namespace Persistence.Seeds
                 await context.SaveChangesAsync();
             }
         }
+        public static async Task SeedSpecsyAsync(ApplicationDbContext context)
+        {
+            if (!context.Specs.Any())
+            {
+                context.Specs.AddRange(new List<Spec>
+                {
+                    new Spec
+                    {
+                        Name = "Grupo1",
+                        Type = "Object",
+                        CategoryId = 4
+                    },
+                    new Spec
+                    {
+                        Name = "Nombre",
+                        Type = "input",
+                        Format = "text",
+                        CategoryId = 4,
+                        Required = true,
+                        ParentId = 1
+                    },
+
+                });
+
+                await context.SaveChangesAsync();
+            }
+        }
         //public static async Task SeedProductAsync(ApplicationDbContext context)
         //{
         //    if (!context.Products.Any())

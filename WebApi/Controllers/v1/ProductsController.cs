@@ -49,60 +49,10 @@ namespace WebApi.Controllers.v1
         //}
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateProductCommand command)
+        public async Task<IActionResult> Post( [FromBody]CreateProductCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
 
-        private async Task<ICollection<FileUpload>> ProcessImageFiles(IFormFileCollection files)
-        {
-            var productFiles = new List<FileUpload>();
-
-            foreach (var file in files)
-            {
-                using (var stream = file.OpenReadStream())
-                {
-                    // Convertir el archivo en una matriz de bytes
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await stream.CopyToAsync(memoryStream);
-                        var imageBytes = memoryStream.ToArray();
-
-                        // Crear un objeto ImageDTO
-                        var imageDto = new FileUpload
-                        {
-                            ImageName = file.FileName,
-                            ImageBytes = imageBytes.ToString()
-                        };
-
-                        productFiles.Add(imageDto);
-                    }
-                }
-            }
-
-            return productFiles;
-        }
-
-        //public async Task<IActionResult> AsyncUpload(IFormFile myFile)
-        //{
-        //    // Specifies the target location for the uploaded files
-        //    string targetLocation = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-        //    try
-        //    {
-        //        if (!Directory.Exists(targetLocation))
-        //            Directory.CreateDirectory(targetLocation);
-
-        //        using (var fileStream = System.IO.File.Create(Path.Combine(targetLocation, myFile.FileName)))
-        //        {
-        //            myFile.CopyTo(fileStream);
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        Response.StatusCode = 400;
-        //    }
-        //    byte[] fileBytes = await myFile.GetBytes();
-        //    return new ContentResult() { Content = Convert.ToBase64String(fileBytes) };
-        //}
     }
 }

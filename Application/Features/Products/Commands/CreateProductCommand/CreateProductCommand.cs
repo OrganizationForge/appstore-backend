@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
-using Application.DTOs;
 using AutoMapper;
 using Domain.Entities.Products;
 using MediatR;
@@ -45,7 +44,7 @@ namespace Application.Features.Products.Commands.CreateProductCommand
 
             await _unitOfWork.Repository<Product>().AddAsync(newProduct);
 
-            newProduct.AddDomainEvent(new ProductCreatedEvent(newProduct, request.ProductFiles!));
+            newProduct.AddDomainEvent(new ProductCreatedEvent(newProduct, request.ImageFiles!));
 
             await _unitOfWork.Save(cancellationToken);
 

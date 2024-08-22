@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs
 {
+<<<<<<<< HEAD:Application/DTOs/FileUpload.cs
     public class FileUpload
+========
+    public class FileDTO
+>>>>>>>> feature-products:Application/DTOs/FileDTO.cs
     {
-        public string? ImageName { get; set; }
-        public string?  ImageBytes { get; set; }
+        public string? Filename { get; set; }
+        public string?  Base64Content { get; set; }
 
     }
 
