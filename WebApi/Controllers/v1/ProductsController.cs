@@ -1,4 +1,5 @@
-﻿using Application.Features.Language.Queries.GetLanguageById;
+﻿using Application.DTOs;
+using Application.Features.Language.Queries.GetLanguageById;
 using Application.Features.Products.Commands.CreateProductCommand;
 using Application.Features.Products.Queries.GetAllProducts;
 using Application.Features.Products.Queries.GetProductById;
@@ -33,10 +34,53 @@ namespace WebApi.Controllers.v1
             return Ok(await Mediator.Send(new GetProductByIdQuery { Id = id }));
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> Post([FromBody]CreateProductCommand command)
+        //{
+        //    // Procesar los archivos de imagen
+        //    var productFiles = await ProcessImageFiles(command.ProductFiles);
+
+        //    // Actualizar el comando con los archivos procesados
+        //    //command.ProductFiles = productFiles;
+
+        //    // Continuar con el procesamiento del comando
+        //    //return Ok(await Mediator.Send(command));
+        //    return Ok(await Mediator.Send(command));
+        //}
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateProductCommand command)
         {
             return Ok(await Mediator.Send(command));
+        }
+
+        private async Task<ICollection<FileUpload>> ProcessImageFiles(IFormFileCollection files)
+        {
+            var productFiles = new List<FileUpload>();
+
+            foreach (var file in files)
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                    // Convertir el archivo en una matriz de bytes
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await stream.CopyToAsync(memoryStream);
+                        var imageBytes = memoryStream.ToArray();
+
+                        // Crear un objeto ImageDTO
+                        var imageDto = new FileUpload
+                        {
+                            ImageName = file.FileName,
+                            ImageBytes = imageBytes.ToString()
+                        };
+
+                        productFiles.Add(imageDto);
+                    }
+                }
+            }
+
+            return productFiles;
         }
 
         //public async Task<IActionResult> AsyncUpload(IFormFile myFile)

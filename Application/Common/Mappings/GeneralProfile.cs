@@ -25,7 +25,8 @@ namespace Application.Common.Mappings
 
             #region Commands
             CreateMap<CreateIdiomCommand, Idiom>();
-            CreateMap<CreateProductCommand, Product>();
+            CreateMap<CreateProductCommand, Product>()
+                .ForMember(dest => dest.ProductFiles, opt => opt.Ignore());
             #endregion
         }
     }

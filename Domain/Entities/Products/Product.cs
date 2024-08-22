@@ -22,7 +22,7 @@ namespace Domain.Entities.Products
 
         public virtual Category? Category { get; set; }
         public virtual Brand? Brand { get; set; }
-        public virtual Availability? Availability { get; set; } // Propiedad de navegación hacia la disponibilidad
+        public virtual Availability? Availability { get; set; } 
         public virtual QuantityType? QuantityType { get; set; }
         public virtual List<ProductFile>? ProductFiles { get; set; }
     }

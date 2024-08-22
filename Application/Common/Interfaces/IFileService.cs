@@ -1,9 +1,11 @@
 ﻿using Application.DTOs;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Common.Interfaces
 {
     public interface IFileService
     {
-        string UploadFile(ImageDTO file, string route);
+        string UploadFile(FileUpload file, string route);
+        string UploadFile(IFormFile file, string route);
     }
 }
