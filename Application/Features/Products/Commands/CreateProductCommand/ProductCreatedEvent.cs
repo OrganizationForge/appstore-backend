@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.DTOs;
 using Domain.Common;
 using Domain.Entities.Products;
 using MediatR;

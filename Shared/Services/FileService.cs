@@ -25,7 +25,7 @@ namespace Shared.Services
             {
                 if (file != null)
                 {
-                    var fileName = file.Filename;
+                    var fileName = file.FileName;
                     var fullPath = Path.Combine(pathToSave, fileName);
                     using (var stream = new FileStream(fullPath, FileMode.Create))
                     {

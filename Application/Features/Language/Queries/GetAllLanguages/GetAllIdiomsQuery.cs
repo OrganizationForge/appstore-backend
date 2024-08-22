@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.Features.Language.Queries.GetAllLanguages
 {
-    public class GetAllIdiomsQuery : IRequest<Response<int>>
+    public class GetAllIdiomsQuery : IRequest<PagedResponse<List<IdiomDTO>>>
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
@@ -14,7 +14,7 @@ namespace Application.Features.Language.Queries.GetAllLanguages
         public string? Description { get; set; }
     }
 
-    public class GetAllIdiomsQueryHandler : IRequestHandler<GetAllIdiomsQuery, PagedResponse<int>>
+    public class GetAllIdiomsQueryHandler : IRequestHandler<GetAllIdiomsQuery, PagedResponse<List<IdiomDTO>>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
