@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
+using Ardalis.Specification;
 using AutoMapper;
 using Domain.Entities.Products;
 using MediatR;
@@ -24,7 +25,8 @@ namespace Application.Features.Products.Queries.GetProductById
 
         public async Task<Response<ProductDTO>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            var product = await _unitOfWork.Repository<Product>().GetByIdAsync(request.Id);
+            var product = await _unitOfWork.Repository<Product>().FirstOrDefaultAsync(new ProductByIdSpecification(request.Id), cancellationToken);
+            //var product = await _unitOfWork.Repository<Product>().GetByIdAsync(request.Id, cancellationToken);
 
             if (product == null)
                 throw new KeyNotFoundException($"Registro no encontrado con id {request.Id}");

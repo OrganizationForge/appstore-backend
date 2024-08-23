@@ -8,8 +8,11 @@ namespace Application.DTOs
 {
     public class FileUpload
     {
-        public string? FileName { get; set; }
-        public string? ImageBytes { get; set; }
+        //public string? FileName { get; set; }
+        //public string? ImageBytes { get; set; }
+        public string Name { get; set; } = default!;
+        public string Extension { get; set; } = default!;
+        public string Data { get; set; } = default!;
 
     }
 

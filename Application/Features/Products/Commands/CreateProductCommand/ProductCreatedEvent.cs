@@ -41,7 +41,7 @@ namespace Application.Features.Products.Commands.CreateProductCommand
                 {
                     var newFile = new ProductFile
                     {
-                        NameImage = file.FileName,
+                        NameImage = file.Name,
                         UrlImage = _fileService.UploadFile(file, @"Images\" + notification.Product.Id),
                         ProductId = notification.Product.Id
                     };

@@ -25,12 +25,12 @@ namespace Shared.Services
             {
                 if (file != null)
                 {
-                    var fileName = file.FileName;
+                    var fileName = file.Name;
                     var fullPath = Path.Combine(pathToSave, fileName);
                     using (var stream = new FileStream(fullPath, FileMode.Create))
                     {
                         // Convert the base64 string to a byte array
-                        string base64Data = Regex.Match(file.ImageBytes, "data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+                        string base64Data = Regex.Match(file.Data, "data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
                         var imageBytes = Convert.FromBase64String(base64Data);
 
                         // Write the byte array to the stream to create the image file
