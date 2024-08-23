@@ -1,6 +1,8 @@
 ﻿using Application.Features.Authenticate.Commands.AuthenticateCommand;
+using Application.Features.Authenticate.Commands.RefreshTokenCommand;
 using Application.Features.Authenticate.Commands.RegisterCommand;
 using Application.Features.Authenticate.User;
+using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -25,13 +27,24 @@ namespace WebApi.Controllers
         {
             return Ok(await Mediator.Send(new RegisterCommand
             {
-                Nombre= request.Nombre,
-                Apellido= request.Apellido,
+                Nombre = request.Nombre,
+                Apellido = request.Apellido,
                 Email = request.Email,
                 Password = request.Password,
-                ConfirmPassword= request.ConfirmPassword,
-                UserName= request.UserName,
+                ConfirmPassword = request.ConfirmPassword,
+                UserName = request.UserName,
                 Origin = Request.Headers["origin"]
+            }));
+        }
+
+        [HttpPost("Refresh")]
+        public async Task<IActionResult> RefreshToken(RefreshTokenRequest request)
+        {
+            return Ok(await Mediator.Send(new RefreshTokenCommand
+            {
+                AccessToken = request.AccessToken,
+                RefreshToken = request.RefreshToken,
+                IpAddress = GenerateIpAddress()
             }));
         }
 

@@ -3,15 +3,18 @@ using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Wrappers;
 using Application.Features.Authenticate.User;
+using Azure.Core;
 using Domain.Settings;
+using Identity.Context;
 using Identity.Helpers;
 using Identity.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace Identity.Services
@@ -23,14 +26,16 @@ namespace Identity.Services
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JWTSettings _jwtSettings;
         private readonly IDateTimeService _dateTimeService;
+        private readonly IdentityContext _identityContext;
 
-        public AccountService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager, IOptions<JWTSettings> jwtSettings, IDateTimeService dateTimeService)
+        public AccountService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager, IOptions<JWTSettings> jwtSettings, IDateTimeService dateTimeService, IdentityContext identityContext)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _jwtSettings = jwtSettings.Value;
             _dateTimeService = dateTimeService;
+            _identityContext = identityContext;
         }
 
 
@@ -59,12 +64,11 @@ namespace Identity.Services
             response.Roles = rolesList.ToList();
             response.IsVerified = usuario.EmailConfirmed;
 
-            var refreshToken = GenerateRefreshToken(ipAddress);
-            response.RefreshToken = refreshToken.Token;
+            //var refreshToken = GenerateRefreshToken(ipAddress, usuario.Id);
+            //response.RefreshToken = refreshToken.Token;
+            response.RefreshToken = await GenerateRefreshToken(ipAddress, usuario.Id);
             return new Response<AuthenticationResponse>(response, $"Usuario {usuario.UserName} autenticado");
         }
-
-       
 
         public async Task<Response<string>> RegisterAsync(RegisterRequest request, string origin)
         {
@@ -98,6 +102,60 @@ namespace Identity.Services
                 else
                     throw new ApiException($"{result.Errors}");
             }
+        }
+        public async Task<Response<AuthenticationResponse>> RefreshTokenAsync(string accessToken, string refreshToken, string ipAddress)
+        {
+            var oldToken = await _identityContext.RefreshTokens.FirstOrDefaultAsync(q => q.Token == refreshToken);
+
+            // Refresh token no existe, expiró o fue revocado manualmente
+            // (Pensando que el usuario puede dar click en "Cerrar Sesión en todos lados" o similar)
+            if (oldToken is null || oldToken.Expires <= DateTime.UtcNow)
+            {
+                throw new ApiException("RefreshToken inactivo");
+            }
+
+            // Se está intentando usar un Refresh Token que ya fue usado anteriormente,
+            // puede significar que este refresh token fue robado.
+            if (!oldToken.IsActive)
+            {
+                //_logger.LogWarning("El refresh token del {UserId} ya fue usado. RT={RefreshToken}", refreshToken.UserId, refreshToken.RefreshTokenValue);
+
+                var refreshTokens = await _identityContext.RefreshTokens
+                    .Where(q => q.IsActive && q.UserId == oldToken.UserId).ToListAsync();
+
+                foreach (var rt in refreshTokens)
+                {
+                    rt.Revoked = DateTime.Now;
+                }
+
+                await _identityContext.SaveChangesAsync();
+
+                throw new ApiException("Se ha intentado usar un RefreshToken inactivo");
+            }
+
+            // TODO: Podríamos validar que el Access Token sí corresponde al mismo usuario
+            oldToken.Revoked = DateTime.Now;
+
+            var user = await _identityContext.Users.FindAsync(oldToken.UserId);
+
+            if (user is null)
+            {
+                throw new ApiException("El usuario no corresponde a ningun RefreshToken");
+            }
+
+            JwtSecurityToken jwtSecurityToken = await GenerateJwyToken(user);
+            AuthenticationResponse response = new AuthenticationResponse();
+            response.Id = user.Id;
+            response.JWToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            response.Email = user.Email;
+            response.UserName = user.UserName;
+
+            var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+            response.Roles = rolesList.ToList();
+            response.IsVerified = user.EmailConfirmed;
+
+            response.RefreshToken = await GenerateRefreshToken(ipAddress, user.Id);
+            return new Response<AuthenticationResponse>(response, $"Usuario {user.UserName} autenticado");
         }
 
         private async Task<JwtSecurityToken> GenerateJwyToken(ApplicationUser usuario)
@@ -139,24 +197,23 @@ namespace Identity.Services
             return jwtSecutiryToken;
         }
 
-        private RefreshToken GenerateRefreshToken(string ipAddress)
+        private async Task<string> GenerateRefreshToken(string ipAddress, string idUser)
         {
-            return new RefreshToken
+
+            var newAccessToken = new RefreshToken
             {
-                Token = RandomTokenString(),
-                Expires = DateTime.Now.AddDays(7),
+                Token = Guid.NewGuid().ToString("N"),
+                Expires = DateTime.UtcNow.AddDays(7),
                 Created = DateTime.Now,
                 CreatedByIp = ipAddress,
+                UserId = idUser
             };
-        }
 
-        private string RandomTokenString()
-        {
-            using var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
-            var randomBytes = new byte[40];
-            rngCryptoServiceProvider.GetBytes(randomBytes);
-            return BitConverter.ToString(randomBytes).Replace("-", "");
+            _identityContext.RefreshTokens.Add(newAccessToken);
 
+            await _identityContext.SaveChangesAsync();
+
+            return newAccessToken.Token;
         }
     }
 }

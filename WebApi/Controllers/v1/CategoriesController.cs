@@ -1,5 +1,6 @@
 ﻿using Application.Features.Categories.Queries;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.v1
