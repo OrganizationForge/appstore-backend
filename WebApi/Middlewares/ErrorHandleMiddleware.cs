@@ -19,7 +19,7 @@ namespace WebApi.Middlewares
             try
             {
                 //Aca en el flujo si no hay error continua
-                await _next(context);
+                 await _next(context);
             }
             catch (Exception error)
             {

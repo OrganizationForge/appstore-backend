@@ -1,6 +1,6 @@
 ﻿namespace Application.DTOs
 {
-    public class EmailRequestDto
+    public class EmailDTO
     {
         public string? To { get; set; }
         public string? Subject { get; set; }

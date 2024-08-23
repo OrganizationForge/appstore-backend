@@ -10,5 +10,7 @@ namespace Identity.Context
         {
 
         }
+
+        public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
     }
 }

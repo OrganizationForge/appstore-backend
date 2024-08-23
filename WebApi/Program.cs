@@ -1,8 +1,12 @@
 using Application;
+using HealthChecks.UI.Client;
+using HealthChecks.UI.Configuration;
 using Identity;
 using Identity.Models;
 using Identity.Seeds;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using Persistence.Contexts;
@@ -12,6 +16,7 @@ using Serilog.Events;
 using Shared;
 using System.Text.Json.Serialization;
 using WebApi.Extensions;
+using WebApi.Extensions.HealthCheck;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +41,9 @@ builder.Services.AddSharedLayer(builder.Configuration);
 //Aca agrego capa de persistencia
 builder.Services.AddPersistenceLayer(builder.Configuration);
 
+//Configuro Health Ckeck
+builder.Services.ConfigureHealthChecks(builder.Configuration);
+
 // Add services to the container.
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -53,6 +61,26 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please insert JWT with Bearer into field",
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+   {
+     new OpenApiSecurityScheme
+     {
+       Reference = new OpenApiReference
+       {
+         Type = ReferenceType.SecurityScheme,
+         Id = "Bearer"
+       }
+      },
+      new string[] { }
+    }
+  });
 });
 
 builder.Services.AddCors(options =>
@@ -78,7 +106,27 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1")
 
 app.UseHttpsRedirection();
 
+//HealthCheck Middleware
+app.MapHealthChecks("/api/health", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+app.UseHealthChecksUI(delegate (Options options)
+{
+    options.UIPath = "/healthcheck-ui";
+    options.AddCustomStylesheet("./Extensions/HealthCheck/healthcheck.css");
+
+});
+
 app.UseCors("AllowAll");
+
+app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+    RequestPath = new PathString("/Resources")
+});
 
 app.UseRouting();
 
@@ -131,6 +179,13 @@ async Task CargarSeeds()
     var context = services.GetRequiredService<ApplicationDbContext>();
     context.Database.EnsureCreated();
 
-    await BookSeed.SeedLanguagesAsync(context);
-    await BookSeed.SeedBooksAsync(context);
+    //await BookSeed.SeedLanguagesAsync(context);
+    //await BookSeed.SeedBooksAsync(context);
+
+    await ProductSeed.SeedAvailabilityAsync(context);
+    await ProductSeed.SeedBrandAsync(context);
+    await ProductSeed.SeedCategoryAsync(context);
+    await ProductSeed.SeedQuantityTypesyAsync(context);
+    await ProductSeed.SeedSpecsyAsync(context);
+    //await ProductSeed.SeedProductAsync(context);
 }

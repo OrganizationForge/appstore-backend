@@ -1,4 +1,4 @@
-﻿namespace Application.Features.Authenticate.User
+﻿namespace Identity.Models
 {
     public class RefreshToken
     {
@@ -12,6 +12,8 @@
         public string? RevokedByIp { get; set; }
         public string? replaceByToken { get; set; }
         public bool IsActive => Revoked == null && !IsExpired;
+        public ApplicationUser User { get; set; }
+        public string UserId { get; set; }
 
     }
 }
