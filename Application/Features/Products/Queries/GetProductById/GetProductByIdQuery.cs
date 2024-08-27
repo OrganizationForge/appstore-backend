@@ -4,6 +4,7 @@ using Ardalis.Specification;
 using AutoMapper;
 using Domain.Entities.Products;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Features.Products.Queries.GetProductById
 {
@@ -16,11 +17,13 @@ namespace Application.Features.Products.Queries.GetProductById
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public GetProductByIdQueryHandler(IMapper mapper, IUnitOfWork unitOfWork)
+        public GetProductByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
-            _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<Response<ProductDTO>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
@@ -33,6 +36,18 @@ namespace Application.Features.Products.Queries.GetProductById
             else
             {
                 var result = _mapper.Map<ProductDTO>(product);
+                var baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host.Value}";
+
+
+                if (result.ProductFiles != null)
+                {
+                    foreach (var file in result.ProductFiles!)
+                    {
+                        file.UrlImage = $"{baseUrl}\\{file.UrlImage}";
+                    }
+                }
+
+
                 return new Response<ProductDTO>(result);
             }
         }

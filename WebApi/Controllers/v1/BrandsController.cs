@@ -1,5 +1,7 @@
-﻿using Application.Features.Brands.Queries;
+﻿using Application.Features.Brands.Commands.CreateBrandCommand;
+using Application.Features.Brands.Queries;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.v1
@@ -11,6 +13,13 @@ namespace WebApi.Controllers.v1
         public async Task<IActionResult> Get()
         {
             return Ok(await Mediator.Send(new GetAllBrandsQuery()));
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Post(CreateBrandCommand command)
+        {
+            return Ok(await Mediator.Send(command));
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Shared.Services
         {
 
             var folderName = Path.Combine("Resources", route);
-            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            var pathToSave = Path.Combine(Directory .GetCurrentDirectory(), folderName);
 
             string fileRoute = "";
 

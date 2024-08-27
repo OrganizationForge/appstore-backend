@@ -122,11 +122,18 @@ app.UseHealthChecksUI(delegate (Options options)
 app.UseCors("AllowAll");
 
 app.UseStaticFiles();
-app.UseStaticFiles(new StaticFileOptions()
+
+var resourcesPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
+
+if (Directory.Exists(resourcesPath) && Directory.EnumerateFiles(resourcesPath, "*", SearchOption.AllDirectories).Any())
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
-    RequestPath = new PathString("/Resources")
-});
+    app.UseStaticFiles(new StaticFileOptions()
+    {
+        FileProvider = new PhysicalFileProvider(resourcesPath),
+        RequestPath = new PathString("/Resources")
+    });
+}
+
 
 app.UseRouting();
 
