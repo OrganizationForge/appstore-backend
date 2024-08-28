@@ -30,7 +30,7 @@ Log.Logger = new LoggerConfiguration()
 
 /***** INSTANCIAMOS CAPAS *****/
 //Aca Agrego el servicio de la capa de aplicacion
-builder.Services.AddApplicationLayer();
+builder.Services.AddApplicationLayer(builder.Configuration);
 
 //Agrego el service de JWT
 builder.Services.AddIdentityInfrastructureLayer(builder.Configuration);
