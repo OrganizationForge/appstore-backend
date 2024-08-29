@@ -14,7 +14,7 @@ namespace Shared.Services
             //utvj ggdz lvwb kilf
             // Get your Gmail username and password.
             var userName = "1994elmaty@gmail.com";
-            var password = "utvj ggdz lvwb kilf";
+            var password = "felv maor vlck vjtd";
 
             // Create a NetworkCredential object.
             var networkCredential = new NetworkCredential(userName, password);
@@ -32,4 +32,6 @@ namespace Shared.Services
             await emailClient.SendMailAsync(message);
         }
     }
+
+
 }

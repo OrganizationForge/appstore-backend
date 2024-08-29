@@ -30,7 +30,7 @@ namespace Application.Features.Language.Commands.CreateLanguageCommand
             {
                 To = "maty.giraudo@hotmail.com",
                 Subject = "Nuevo Idioma guardado",
-                Body = $"Has igresadoi un nuevo idioma : {notification.Idiom.Code} - {notification.Idiom.Description}",
+                Body = $"Has ingresado un nuevo idioma : {notification.Idiom.Code} - {notification.Idiom.Description}",
                 From = "1994elmaty@gmail.com"
             };
 

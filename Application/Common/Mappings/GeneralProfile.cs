@@ -1,4 +1,5 @@
-﻿using Application.Features.Brands.Queries;
+﻿using Application.Features.Brands.Commands.CreateBrandCommand;
+using Application.Features.Brands.Queries;
 using Application.Features.Categories.Queries;
 using Application.Features.Language.Commands.CreateLanguageCommand;
 using Application.Features.Language.Queries.GetAllLanguages;
@@ -8,6 +9,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Entities.Library;
 using Domain.Entities.Products;
+using System.Net;
 
 namespace Application.Common.Mappings
 {
@@ -21,12 +23,17 @@ namespace Application.Common.Mappings
             CreateMap<Category, CategoryDTO>();
             CreateMap<Brand, BrandDTO>();
             CreateMap<ProductFile, ProductFileDTO>();
+
+
+
             #endregion
 
             #region Commands
             CreateMap<CreateIdiomCommand, Idiom>();
             CreateMap<CreateProductCommand, Product>()
                 .ForMember(dest => dest.ProductFiles, opt => opt.Ignore());
+            CreateMap<CreateBrandCommand, Brand>();
+
             #endregion
         }
     }
