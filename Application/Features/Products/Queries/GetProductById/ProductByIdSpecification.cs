@@ -13,7 +13,8 @@ namespace Application.Features.Products.Queries.GetProductById
         public ProductByIdSpecification(int id) {
 
             Query.Where(p => p.Id == id)
-                .Include(p => p.Brand);
+                .Include(p => p.Brand)
+                .Include(p => p.ProductFiles);
         }
     }
 }
