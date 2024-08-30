@@ -25,5 +25,6 @@ namespace Domain.Entities.Products
         public virtual Availability? Availability { get; set; } 
         public virtual QuantityType? QuantityType { get; set; }
         public virtual List<ProductFile>? ProductFiles { get; set; }
+        public virtual List<Comment>? Comments { get; set; }
     }
 }

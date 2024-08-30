@@ -12,7 +12,8 @@ namespace Application.Features.Products.Queries.GetProductById
                 .Include(p => p.Brand)
                 .Include(p => p.Category)
                 .Include(p => p.Availability)
-                .Include(x => x.ProductFiles);
+                .Include(x => x.ProductFiles)
+                .Include(x => x.Comments);
         }
     }
 }

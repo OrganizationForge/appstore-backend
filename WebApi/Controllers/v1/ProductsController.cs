@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Application.Features.Language.Queries.GetLanguageById;
+using Application.Features.ProductComments.Commands.CreateCommentCommand;
 using Application.Features.Products.Commands.CreateProductCommand;
 using Application.Features.Products.Queries.GetAllProducts;
 using Application.Features.Products.Queries.GetProductById;
@@ -50,6 +51,13 @@ namespace WebApi.Controllers.v1
 
         [HttpPost]
         public async Task<IActionResult> Post( [FromBody]CreateProductCommand command)
+        {
+            return Ok(await Mediator.Send(command));
+        }
+
+        [HttpPost]
+        [Route("comments")]
+        public async Task<IActionResult> PostComment([FromBody] CreateCommentCommand command)
         {
             return Ok(await Mediator.Send(command));
         }

@@ -3,6 +3,8 @@ using Application.Features.Brands.Queries;
 using Application.Features.Categories.Queries;
 using Application.Features.Language.Commands.CreateLanguageCommand;
 using Application.Features.Language.Queries.GetAllLanguages;
+using Application.Features.ProductComments.Commands.CreateCommentCommand;
+using Application.Features.ProductComments.Queries;
 using Application.Features.Products.Commands.CreateProductCommand;
 using Application.Features.Products.Queries;
 using AutoMapper;
@@ -23,6 +25,7 @@ namespace Application.Common.Mappings
             CreateMap<Category, CategoryDTO>();
             CreateMap<Brand, BrandDTO>();
             CreateMap<ProductFile, ProductFileDTO>();
+            CreateMap<Comment, CommentDTO>();
 
 
 
@@ -33,6 +36,7 @@ namespace Application.Common.Mappings
             CreateMap<CreateProductCommand, Product>()
                 .ForMember(dest => dest.ProductFiles, opt => opt.Ignore());
             CreateMap<CreateBrandCommand, Brand>();
+            CreateMap<CreateCommentCommand, Comment>();
 
             #endregion
         }

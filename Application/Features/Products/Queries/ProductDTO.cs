@@ -1,5 +1,6 @@
 ﻿using Application.Features.Brands.Queries;
 using Application.Features.Categories.Queries;
+using Application.Features.ProductComments.Queries;
 using Domain.Entities;
 
 namespace Application.Features.Products.Queries
@@ -16,6 +17,7 @@ namespace Application.Features.Products.Queries
         public virtual BrandDTO? Brand { get; set; }
         public virtual Availability? Availability { get; set; }
         public virtual List<ProductFileDTO>? ProductFiles { get; set; }
+        public virtual List<CommentDTO>? Comments { get; set; }
         public int Weight { get; set; }
         public int Review { get; set; }
         public double Rating { get; set; }
