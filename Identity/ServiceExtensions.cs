@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
 using Domain.Settings;
+using Identity.Common;
 using Identity.Context;
 using Identity.Models;
 using Identity.Services;
@@ -31,6 +32,7 @@ namespace Identity
             #endregion
 
             services.Configure<JWTSettings>(configuration.GetSection("JWTSettings"));
+            services.Configure<SecuritySettings>(configuration.GetSection(nameof(SecuritySettings)));
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

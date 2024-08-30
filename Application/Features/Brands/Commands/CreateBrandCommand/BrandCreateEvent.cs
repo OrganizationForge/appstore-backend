@@ -40,7 +40,7 @@ namespace Application.Features.Brands.Commands.CreateBrandCommand
                 From = "1994elmaty@gmail.com"
             };
 
-            await _emailService.SendAsync(emailRequest);
+            //await _emailService.SendAsync(emailRequest);
         }
     }
 }

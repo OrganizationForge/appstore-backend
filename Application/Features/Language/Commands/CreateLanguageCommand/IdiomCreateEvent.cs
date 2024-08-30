@@ -34,7 +34,7 @@ namespace Application.Features.Language.Commands.CreateLanguageCommand
                 From = "1994elmaty@gmail.com"
             };
 
-            await _emailService.SendAsync(emailRequest);
+            //await _emailService.SendAsync(emailRequest);
         }
     }
 }
