@@ -22,6 +22,7 @@ namespace Shared
             .AddTransient<IDateTimeService, DateTimeService>()
             .AddTransient<IEmailService, EmailService>()
             .AddTransient<IFileService, FileService>()
+            .AddTransient<IPaymentService, MercadoPagoService>()
             .AddTransient<IEmailTemplateService, EmailTemplateService>();
         }
     }
