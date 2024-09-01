@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Common.Mailing;
 using Domain.Common;
 using Domain.Common.Interfaces;
 using MediatR;
@@ -20,7 +21,8 @@ namespace Shared
             .AddTransient<IDomainEventDispatcher, DomainEventDispatcher>()
             .AddTransient<IDateTimeService, DateTimeService>()
             .AddTransient<IEmailService, EmailService>()
-            .AddTransient<IFileService, FileService>();
+            .AddTransient<IFileService, FileService>()
+            .AddTransient<IEmailTemplateService, EmailTemplateService>();
         }
     }
 }

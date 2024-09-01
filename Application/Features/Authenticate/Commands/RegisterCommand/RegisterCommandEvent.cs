@@ -33,7 +33,7 @@ namespace Application.Features.Authenticate.Commands.RegisterCommand
 
         public async Task Handle(RegisterCommandEvent notification, CancellationToken cancellationToken)
         {
-            //await _emailService.SendAsync(emailRequest);
+            await _emailService.SendAsync(notification.Request, cancellationToken);
         }
     }
 }

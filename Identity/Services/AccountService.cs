@@ -109,11 +109,6 @@ namespace Identity.Services
                 throw new ApiException($"El mail {request.Email} ya fue registrado previamente");
             }
 
-            var result = await _userManager.CreateAsync(usuario, request.Password);
-            if (!result.Succeeded)
-                throw new ApiException($"{result.Errors}");
-
-            await _userManager.AddToRoleAsync(usuario, Roles.Basic.ToString());
 
 
             if (_securitySettings.RequireConfirmedAccount && !string.IsNullOrEmpty(usuario.Email))
@@ -135,6 +130,13 @@ namespace Identity.Services
                 usuario.AddDomainEvent(new RegisterCommandEvent(mailRequest));
                 //_jobService.Enqueue(() => _mailService.SendAsync(mailRequest, CancellationToken.None));
             }
+
+
+            var result = await _userManager.CreateAsync(usuario, request.Password);
+            if (!result.Succeeded)
+                throw new ApiException($"{result.Errors}");
+
+            await _userManager.AddToRoleAsync(usuario, Roles.Basic.ToString());
 
             return new Response<string>(usuario.Id, message: $"Usuario {usuario.UserName} registrado correctamente. Por favor chequear en {usuario.Email} para verificar tu cuenta!");
         }
