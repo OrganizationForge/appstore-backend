@@ -2,12 +2,12 @@
 using Application.Features.Authenticate.Commands.RefreshTokenCommand;
 using Application.Features.Authenticate.Commands.RegisterCommand;
 using Application.Features.Authenticate.User;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.Identity
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [ApiVersion("1.0")]
     public class AccountController : BaseApiController
     {
         [HttpGet]
@@ -42,7 +42,7 @@ namespace WebApi.Controllers.Identity
             return Ok();
         }
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync(RegisterRequest request)
         {
             return Ok(await Mediator.Send(new RegisterCommand
@@ -116,7 +116,7 @@ namespace WebApi.Controllers.Identity
 
         }
 
-        [HttpPost("Authenticate")]
+        [HttpPost("authenticate")]
         public async Task<IActionResult> AuthenticateAsync(AuthenticationRequest request)
         {
             return Ok(await Mediator.Send(new AuthenticateCommand
@@ -127,7 +127,7 @@ namespace WebApi.Controllers.Identity
             }));
         }
 
-        [HttpPost("Refresh")]
+        [HttpPost("refresh")]
         public async Task<IActionResult> RefreshToken(RefreshTokenRequest request)
         {
             return Ok(await Mediator.Send(new RefreshTokenCommand
