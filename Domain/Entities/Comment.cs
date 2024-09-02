@@ -13,7 +13,7 @@ namespace Domain.Entities
         public int Rating { get; set; }
         public int Likes { get; set; } = 0;
         public int Dislikes { get; set; } = 0;
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
 
         public virtual Product? Product { get; set; }
     }

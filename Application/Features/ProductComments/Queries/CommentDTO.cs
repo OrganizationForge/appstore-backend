@@ -8,7 +8,7 @@ namespace Application.Features.ProductComments.Queries
 {
     public class CommentDTO
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string? CustomerName { get; set; }
         public string? Content { get; set; }
         public string? CustomerImage { get; set; }

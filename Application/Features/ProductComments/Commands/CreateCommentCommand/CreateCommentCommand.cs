@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.ProductComments.Commands.CreateCommentCommand
 {
-    public class CreateCommentCommand : IRequest<Response<int>>
+    public class CreateCommentCommand : IRequest<Response<Guid>>
     {
         public string? CustomerName { get; set; }
         public string? Content { get; set; }
@@ -21,10 +21,10 @@ namespace Application.Features.ProductComments.Commands.CreateCommentCommand
         public string? Pros { get; set; }
         public string? Cons { get; set; }
         public int Rating { get; set; }
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
     }
 
-    public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand, Response<int>>
+    public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand, Response<Guid>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -35,7 +35,7 @@ namespace Application.Features.ProductComments.Commands.CreateCommentCommand
             _mapper = mapper;
         }
 
-        public async Task<Response<int>> Handle(CreateCommentCommand request, CancellationToken cancellationToken)
+        public async Task<Response<Guid>> Handle(CreateCommentCommand request, CancellationToken cancellationToken)
         {
             var newComment = _mapper.Map<Comment>(request);
 
@@ -45,7 +45,7 @@ namespace Application.Features.ProductComments.Commands.CreateCommentCommand
 
             await _unitOfWork.Save(cancellationToken);
 
-            return new Response<int>(newComment.Id);
+            return new Response<Guid>(newComment.Id);
         }
     }
 }

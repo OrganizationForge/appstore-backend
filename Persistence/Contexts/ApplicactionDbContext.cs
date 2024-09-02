@@ -2,7 +2,6 @@
 using Domain.Common;
 using Domain.Common.Interfaces;
 using Domain.Entities;
-using Domain.Entities.Library;
 using Domain.Entities.Products;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -22,10 +21,8 @@ namespace Persistence.Contexts
             _domainEventDispatcher = domainEventDispatcher;
         }
         public DbSet<Availability> Availabilities { get; set; }
-        public DbSet<Book> Books { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Idiom> Languages { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<QuantityType> QuantityTypes { get; set; }
         public DbSet<ProductFile> ProductFiles { get; set; }

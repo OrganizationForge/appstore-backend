@@ -2,9 +2,9 @@
 
 namespace Domain.Common
 {
-    public abstract class BaseEvent: INotification
+    public abstract class DomainEvent: INotification
     {
-        protected BaseEvent()
+        protected DomainEvent()
         {
             DateOccurred = DateTimeOffset.UtcNow;
         }

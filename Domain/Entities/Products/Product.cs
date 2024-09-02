@@ -8,10 +8,10 @@ namespace Domain.Entities.Products
         public string? Description { get; set; }
         public double PriceBase { get; set; }
         public double Price { get; set; } 
-        public int? BrandId { get; set; }
-        public int? AvailabilityId { get; set; } = 1;
-        public int? CategoryId { get; set; }
-        public int? QuantityTypeId { get; set; }
+        public Guid BrandId { get; set; }
+        public Guid AvailabilityId { get; set; }
+        public Guid CategoryId { get; set; }
+        public Guid QuantityTypeId { get; set; }
         public string? Warranty { get; set; } = "1 año";
         public int Weight { get; set; }
         public int Review { get; set; } = 0;

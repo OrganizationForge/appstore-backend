@@ -1,19 +1,11 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Mailing;
-using Application.DTOs;
-using Application.Features.Language.Commands.CreateLanguageCommand;
 using Domain.Common;
-using Domain.Entities.Library;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Authenticate.Commands.RegisterCommand
 {
-    public class RegisterCommandEvent : BaseEvent
+    public class RegisterCommandEvent : DomainEvent
     {
         public MailRequest Request { get; set; }
         public RegisterCommandEvent(MailRequest request)

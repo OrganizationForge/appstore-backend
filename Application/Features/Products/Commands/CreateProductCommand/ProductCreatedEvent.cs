@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Application.Features.Products.Commands.CreateProductCommand
 {
-    public class ProductCreatedEvent : BaseEvent
+    public class ProductCreatedEvent : DomainEvent
     {
         public Product Product { get; }
         public ICollection<FileUpload> FormFiles { get; }

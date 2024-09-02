@@ -5,73 +5,6 @@ namespace Persistence.Seeds
 {
     public static class ProductSeed
     {
-        public static async Task SeedCategoryAsync(ApplicationDbContext context)
-        {
-            if (!context.Categories.Any())
-            {
-                context.Categories.AddRange(new List<Category>
-                {
-                    new Category
-                    {
-                        Description = "Clothing",
-                    },
-                    new Category
-                    {
-                        Description = "Blazers & Suits",
-                    },
-                    new Category
-                    {
-                        Description = "Blouse",
-                        ParentId = 1,
-                    },
-                    new Category
-                    {
-                        Description = "Cardigans & Jumpers",
-                        ParentId = 1
-                    },
-                    new Category
-                    {
-                        Description = "Dresses",
-                        ParentId = 1
-                    },
-                    new Category
-                    {
-                        Description = "Hoodie & Sweatshirts",
-                        ParentId = 1
-                    },
-                    new Category
-                    {
-                        Description = "Shoes",
-                    },
-                    new Category
-                    {
-                        Description = "Pumps & High Heels",
-                    },
-                    new Category
-                    {
-                        Description = "Ballerinas & Flats",
-                        ParentId = 2,
-                    },
-                    new Category
-                    {
-                        Description = "Sandals",
-                        ParentId = 2
-                    },
-                    new Category
-                    {
-                        Description = "Sneakers",
-                        ParentId = 2
-                    },
-                    new Category
-                    {
-                        Description = "Boots",
-                        ParentId = 2
-                    },
-                });
-
-                await context.SaveChangesAsync();
-            }
-        }
         public static async Task SeedBrandAsync(ApplicationDbContext context)
         {
             if (!context.Brands.Any())
@@ -127,7 +60,6 @@ namespace Persistence.Seeds
                 await context.SaveChangesAsync();
             }
         }
-
         public static async Task SeedQuantityTypesyAsync(ApplicationDbContext context)
         {
             if (!context.QuantityTypes.Any())
@@ -147,32 +79,99 @@ namespace Persistence.Seeds
                 await context.SaveChangesAsync();
             }
         }
+        public static async Task SeedCategoryAsync(ApplicationDbContext context)
+        {
+            //if (!context.Categories.Any())
+            //{
+            //    context.Categories.AddRange(new List<Category>
+            //    {
+            //        new Category
+            //        {
+            //            Description = "Clothing",
+            //        },
+            //        new Category
+            //        {
+            //            Description = "Blazers & Suits",
+            //        },
+            //        new Category
+            //        {
+            //            Description = "Blouse",
+            //            ParentId = 1,
+            //        },
+            //        new Category
+            //        {
+            //            Description = "Cardigans & Jumpers",
+            //            ParentId = 1
+            //        },
+            //        new Category
+            //        {
+            //            Description = "Dresses",
+            //            ParentId = 1
+            //        },
+            //        new Category
+            //        {
+            //            Description = "Hoodie & Sweatshirts",
+            //            ParentId = 1
+            //        },
+            //        new Category
+            //        {
+            //            Description = "Shoes",
+            //        },
+            //        new Category
+            //        {
+            //            Description = "Pumps & High Heels",
+            //        },
+            //        new Category
+            //        {
+            //            Description = "Ballerinas & Flats",
+            //            ParentId = 2,
+            //        },
+            //        new Category
+            //        {
+            //            Description = "Sandals",
+            //            ParentId = 2
+            //        },
+            //        new Category
+            //        {
+            //            Description = "Sneakers",
+            //            ParentId = 2
+            //        },
+            //        new Category
+            //        {
+            //            Description = "Boots",
+            //            ParentId = 2
+            //        },
+            //    });
+
+            //    await context.SaveChangesAsync();
+            //}
+        }
         public static async Task SeedSpecsyAsync(ApplicationDbContext context)
         {
-            if (!context.Specs.Any())
-            {
-                context.Specs.AddRange(new List<Spec>
-                {
-                    new Spec
-                    {
-                        Name = "Grupo1",
-                        Type = "Object",
-                        CategoryId = 4
-                    },
-                    new Spec
-                    {
-                        Name = "Nombre",
-                        Type = "input",
-                        Format = "text",
-                        CategoryId = 4,
-                        Required = true,
-                        ParentId = 1
-                    },
+            //if (!context.Specs.Any())
+            //{
+            //    context.Specs.AddRange(new List<Spec>
+            //    {
+            //        new Spec
+            //        {
+            //            Name = "Grupo1",
+            //            Type = "Object",
+            //            CategoryId = 4
+            //        },
+            //        new Spec
+            //        {
+            //            Name = "Nombre",
+            //            Type = "input",
+            //            Format = "text",
+            //            CategoryId = 4,
+            //            Required = true,
+            //            ParentId = 1
+            //        },
 
-                });
+            //    });
 
-                await context.SaveChangesAsync();
-            }
+            //    await context.SaveChangesAsync();
+            //}
         }
         //public static async Task SeedProductAsync(ApplicationDbContext context)
         //{
