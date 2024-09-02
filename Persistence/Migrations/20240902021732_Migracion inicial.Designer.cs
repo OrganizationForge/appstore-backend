@@ -12,8 +12,8 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240902010620_Cambio a guids")]
-    partial class Cambioaguids
+    [Migration("20240902021732_Migracion inicial")]
+    partial class Migracioninicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -111,7 +111,7 @@ namespace Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ParentId")
+                    b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UrlImage")
@@ -391,8 +391,7 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Entities.Category", "ParentCategory")
                         .WithMany("Childrens")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("ParentCategory");
                 });

@@ -13,7 +13,9 @@ namespace Persistence.Contexts
         private readonly IDateTimeService _datetime;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDateTimeService datetime, IDomainEventDispatcher domainEventDispatcher) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, 
+            IDateTimeService datetime, 
+            IDomainEventDispatcher domainEventDispatcher) : base(options)
         {
             //agregamos para poder seguir los cambios y que Entity se de cuenta cuando hace un SaveAsync
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;

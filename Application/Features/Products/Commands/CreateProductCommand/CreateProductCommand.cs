@@ -32,11 +32,13 @@ namespace Application.Features.Products.Commands.CreateProductCommand
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IFileService _fileService;
 
-        public CreateProductCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateProductCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IFileService fileService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _fileService = fileService;
         }
 
         public async Task<Response<Guid>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -45,7 +47,21 @@ namespace Application.Features.Products.Commands.CreateProductCommand
 
             await _unitOfWork.Repository<Product>().AddAsync(newProduct);
 
-            newProduct.AddDomainEvent(new ProductCreatedEvent(newProduct, request.ProductFiles!));
+            List<ProductFile> productFiles = new List<ProductFile>();
+
+            foreach (var file in request.ProductFiles!)
+            {
+                var newFile = new ProductFile
+                {
+                    NameImage = file.Name,
+                    UrlImage = _fileService.UploadFile(file, @"Images\" + newProduct.Id),
+                    ProductId = newProduct.Id
+                };
+
+                await _unitOfWork.Repository<ProductFile>().AddAsync(newFile);
+            }
+
+            //newProduct.AddDomainEvent(new ProductCreatedEvent(newProduct, request.ProductFiles!));
 
             await _unitOfWork.Save(cancellationToken);
 

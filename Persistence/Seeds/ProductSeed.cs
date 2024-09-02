@@ -13,29 +13,20 @@ namespace Persistence.Seeds
                 {
                     new Brand
                     {
-                        Description = "Adidas",
+                        Description = "Brooks Brothers",
                     },
                      new Brand
                     {
-                        Description = "Puma",
+                        Description = "Ralph Lauren",
                     },
                     new Brand
                     {
-                        Description = "Nike",
+                        Description = "Tom Ford",
                     },
                     new Brand
                     {
-                        Description = "Brooks",
+                        Description = "Brunello Cucinelli",
                     },
-                    new Brand
-                    {
-                        Description = "Fila",
-                    },
-                    new Brand
-                    {
-                        Description = "Dior",
-                    },
-
                 });
 
                 await context.SaveChangesAsync();
@@ -81,70 +72,53 @@ namespace Persistence.Seeds
         }
         public static async Task SeedCategoryAsync(ApplicationDbContext context)
         {
-            //if (!context.Categories.Any())
-            //{
-            //    context.Categories.AddRange(new List<Category>
-            //    {
-            //        new Category
-            //        {
-            //            Description = "Clothing",
-            //        },
-            //        new Category
-            //        {
-            //            Description = "Blazers & Suits",
-            //        },
-            //        new Category
-            //        {
-            //            Description = "Blouse",
-            //            ParentId = 1,
-            //        },
-            //        new Category
-            //        {
-            //            Description = "Cardigans & Jumpers",
-            //            ParentId = 1
-            //        },
-            //        new Category
-            //        {
-            //            Description = "Dresses",
-            //            ParentId = 1
-            //        },
-            //        new Category
-            //        {
-            //            Description = "Hoodie & Sweatshirts",
-            //            ParentId = 1
-            //        },
-            //        new Category
-            //        {
-            //            Description = "Shoes",
-            //        },
-            //        new Category
-            //        {
-            //            Description = "Pumps & High Heels",
-            //        },
-            //        new Category
-            //        {
-            //            Description = "Ballerinas & Flats",
-            //            ParentId = 2,
-            //        },
-            //        new Category
-            //        {
-            //            Description = "Sandals",
-            //            ParentId = 2
-            //        },
-            //        new Category
-            //        {
-            //            Description = "Sneakers",
-            //            ParentId = 2
-            //        },
-            //        new Category
-            //        {
-            //            Description = "Boots",
-            //            ParentId = 2
-            //        },
-            //    });
+            if (!context.Categories.Any())
+            {
 
-            //    await context.SaveChangesAsync();
-            //}
+                Category trajesCategory = new Category
+                {
+                    Description = "Trajes",
+                };
+
+                context.Categories.Add(trajesCategory);
+
+                context.Categories.AddRange(new List<Category>
+                {
+                    new Category { Description = "Trajes completos", ParentId = trajesCategory.Id },
+                    new Category { Description = "Chaquetas", ParentId = trajesCategory.Id },
+                    new Category { Description = "Formal", ParentId = trajesCategory.Id },
+                    new Category { Description = "Business", ParentId = trajesCategory.Id },
+                });
+
+                Category camisasCategory = new Category
+                {
+                    Description = "Camisas",
+                };
+
+                context.Categories.Add(camisasCategory);
+
+                context.Categories.AddRange(new List<Category>
+                {
+                    new Category { Description = "Formales", ParentId = camisasCategory.Id },
+                    new Category { Description = "Casuales", ParentId = camisasCategory.Id },
+                });
+
+                Category pantalonesCategory = new Category
+                {
+                    Description = "Pantalones",
+                };
+
+                context.Categories.Add(pantalonesCategory);
+
+                context.Categories.AddRange(new List<Category>
+                {
+                    new Category { Description = "Vestir", ParentId = pantalonesCategory.Id },
+                    new Category { Description = "Chinos", ParentId = pantalonesCategory.Id },
+                    new Category { Description = "Jeans", ParentId = pantalonesCategory.Id }
+                });
+
+                await context.SaveChangesAsync();
+            }
         }
         public static async Task SeedSpecsyAsync(ApplicationDbContext context)
         {

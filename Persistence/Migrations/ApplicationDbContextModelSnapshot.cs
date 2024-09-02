@@ -108,7 +108,7 @@ namespace Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ParentId")
+                    b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UrlImage")
@@ -388,8 +388,7 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Entities.Category", "ParentCategory")
                         .WithMany("Childrens")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("ParentCategory");
                 });
