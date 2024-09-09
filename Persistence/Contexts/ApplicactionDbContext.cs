@@ -2,7 +2,6 @@
 using Domain.Common;
 using Domain.Common.Interfaces;
 using Domain.Entities;
-using Domain.Entities.Library;
 using Domain.Entities.Products;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -14,7 +13,9 @@ namespace Persistence.Contexts
         private readonly IDateTimeService _datetime;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDateTimeService datetime, IDomainEventDispatcher domainEventDispatcher) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, 
+            IDateTimeService datetime, 
+            IDomainEventDispatcher domainEventDispatcher) : base(options)
         {
             //agregamos para poder seguir los cambios y que Entity se de cuenta cuando hace un SaveAsync
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
@@ -22,10 +23,8 @@ namespace Persistence.Contexts
             _domainEventDispatcher = domainEventDispatcher;
         }
         public DbSet<Availability> Availabilities { get; set; }
-        public DbSet<Book> Books { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Idiom> Languages { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<QuantityType> QuantityTypes { get; set; }
         public DbSet<ProductFile> ProductFiles { get; set; }

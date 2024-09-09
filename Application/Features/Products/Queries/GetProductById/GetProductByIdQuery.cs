@@ -10,7 +10,7 @@ namespace Application.Features.Products.Queries.GetProductById
 {
     public class GetProductByIdQuery : IRequest<Response<ProductDTO>>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
     }
 
     public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, Response<ProductDTO>>

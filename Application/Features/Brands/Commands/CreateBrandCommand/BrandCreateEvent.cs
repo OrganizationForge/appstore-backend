@@ -1,19 +1,12 @@
 ﻿using Application.Common.Interfaces;
 using Application.DTOs;
-using Application.Features.Language.Commands.CreateLanguageCommand;
 using Domain.Common;
 using Domain.Entities;
-using Domain.Entities.Library;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Brands.Commands.CreateBrandCommand
 {
-    public class BrandCreateEvent : BaseEvent
+    public class BrandCreateEvent : DomainEvent
     {
         public Brand Brand { get; set; }
         public BrandCreateEvent(Brand brand)
@@ -40,7 +33,7 @@ namespace Application.Features.Brands.Commands.CreateBrandCommand
                 From = "1994elmaty@gmail.com"
             };
 
-            await _emailService.SendAsync(emailRequest);
+            //await _emailService.SendAsync(emailRequest);
         }
     }
 }

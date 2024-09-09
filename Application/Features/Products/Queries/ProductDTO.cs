@@ -7,7 +7,7 @@ namespace Application.Features.Products.Queries
 {
     public class ProductDTO
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string? ProductName { get; set; }
         public string? Description { get; set; }
         public double PriceBase { get; set; }

@@ -1,6 +1,4 @@
-﻿using Application.DTOs;
-using Application.Features.Language.Queries.GetLanguageById;
-using Application.Features.ProductComments.Commands.CreateCommentCommand;
+﻿using Application.Features.ProductComments.Commands.CreateCommentCommand;
 using Application.Features.Products.Commands.CreateProductCommand;
 using Application.Features.Products.Queries.GetAllProducts;
 using Application.Features.Products.Queries.GetProductById;
@@ -29,8 +27,8 @@ namespace WebApi.Controllers.v1
             }));
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetAsync(int id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAsync(Guid id)
         {
             return Ok(await Mediator.Send(new GetProductByIdQuery { Id = id }));
         }

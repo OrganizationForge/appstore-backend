@@ -2,6 +2,7 @@ using Application;
 using HealthChecks.UI.Client;
 using HealthChecks.UI.Configuration;
 using Identity;
+using Identity.Context;
 using Identity.Models;
 using Identity.Seeds;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -30,7 +31,7 @@ Log.Logger = new LoggerConfiguration()
 
 /***** INSTANCIAMOS CAPAS *****/
 //Aca Agrego el servicio de la capa de aplicacion
-builder.Services.AddApplicationLayer();
+builder.Services.AddApplicationLayer(builder.Configuration);
 
 //Agrego el service de JWT
 builder.Services.AddIdentityInfrastructureLayer(builder.Configuration);
@@ -178,16 +179,14 @@ async Task CargarSeeds()
 
     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var identityContext = services.GetRequiredService<IdentityContext>();
+    identityContext.Database.EnsureCreated();
 
-    await DefaultRoles.SeedAsync(userManager, roleManager);
-    await DefaultAdminUser.SeedAsync(userManager, roleManager);
-    await DefaultBasicUser.SeedAsync(userManager, roleManager);
+    await DefaultRoles.SeedAsync(userManager, roleManager, identityContext);
+    await DefaultUsers.SeedAsync(userManager, roleManager, identityContext);
 
     var context = services.GetRequiredService<ApplicationDbContext>();
     context.Database.EnsureCreated();
-
-    //await BookSeed.SeedLanguagesAsync(context);
-    //await BookSeed.SeedBooksAsync(context);
 
     await ProductSeed.SeedAvailabilityAsync(context);
     await ProductSeed.SeedBrandAsync(context);
