@@ -8,12 +8,12 @@ using MediatR;
 
 namespace Application.Features.Brands.Commands.CreateBrandCommand
 {
-    public class CreateBrandCommand : IRequest<Response<int>>
+    public class CreateBrandCommand : IRequest<Response<Guid>>
     {
         public string? Description { get; set; }
     }
 
-    public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, Response<int>>
+    public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, Response<Guid>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -24,7 +24,7 @@ namespace Application.Features.Brands.Commands.CreateBrandCommand
             _mapper = mapper;
         }
 
-        public async Task<Response<int>> Handle(CreateBrandCommand command, CancellationToken cancellationToken)
+        public async Task<Response<Guid>> Handle(CreateBrandCommand command, CancellationToken cancellationToken)
         {
             var newBrand = _mapper.Map<Brand>(command);
 
@@ -34,7 +34,7 @@ namespace Application.Features.Brands.Commands.CreateBrandCommand
 
             await _unitOfWork.Save(cancellationToken);
 
-            return new Response<int>(newBrand.Id);
+            return new Response<Guid>(newBrand.Id);
         }
     }
 

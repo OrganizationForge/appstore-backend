@@ -21,8 +21,8 @@ namespace WebApi.Controllers.v1
             }));
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> Get(Guid id)
         {
             return Ok(await Mediator.Send(new GetIdiomByIdQuery { Id = id }));
         }

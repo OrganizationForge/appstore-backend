@@ -28,8 +28,8 @@ namespace WebApi.Controllers.v1
             }));
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetAsync(int id)
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetAsync(Guid id)
         {
             return Ok(await Mediator.Send(new GetProductByIdQuery { Id = id }));
         }

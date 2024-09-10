@@ -2,6 +2,7 @@
 using Domain.Common;
 using Domain.Common.Interfaces;
 using Domain.Entities;
+using Domain.Entities.Checkout;
 using Domain.Entities.Library;
 using Domain.Entities.Products;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,9 @@ namespace Persistence.Contexts
         public DbSet<QuantityType> QuantityTypes { get; set; }
         public DbSet<ProductFile> ProductFiles { get; set; }
         public DbSet<Spec> Specs { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
 
         //Sobrescribimos SaveAsync

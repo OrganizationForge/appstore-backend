@@ -6,13 +6,13 @@ using MediatR;
 
 namespace Application.Features.Language.Commands.CreateLanguageCommand
 {
-    public class CreateIdiomCommand : IRequest<Response<int>>
+    public class CreateIdiomCommand : IRequest<Response<Guid>>
     {
         public string? Code { get; set; }
         public string? Description { get; set; }
     }
 
-    public class CreateIdiomCommandHandler : IRequestHandler<CreateIdiomCommand, Response<int>>
+    public class CreateIdiomCommandHandler : IRequestHandler<CreateIdiomCommand, Response<Guid>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ namespace Application.Features.Language.Commands.CreateLanguageCommand
             _mapper = mapper;
         }
 
-        public async Task<Response<int>> Handle(CreateIdiomCommand request, CancellationToken cancellationToken)
+        public async Task<Response<Guid>> Handle(CreateIdiomCommand request, CancellationToken cancellationToken)
         {
             var newLanguage = _mapper.Map<Idiom>(request);
 
@@ -36,7 +36,7 @@ namespace Application.Features.Language.Commands.CreateLanguageCommand
 
             await _unitOfWork.Save(cancellationToken);
 
-            return new Response<int>(newLanguage.Id);
+            return new Response<Guid>(newLanguage.Id);
         }
     }
 }

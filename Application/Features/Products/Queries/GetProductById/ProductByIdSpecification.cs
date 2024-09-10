@@ -5,7 +5,7 @@ namespace Application.Features.Products.Queries.GetProductById
 {
     public class ProductByIdSpecification : Specification<Product>, ISingleResultSpecification<Product>
     {
-        public ProductByIdSpecification(int id)
+        public ProductByIdSpecification(Guid id)
         {
 
             Query.Where(p => p.Id == id)

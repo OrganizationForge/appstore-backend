@@ -8,16 +8,16 @@ using Microsoft.AspNetCore.Http;
 
 namespace Application.Features.Products.Commands.CreateProductCommand
 {
-    public class CreateProductCommand : IRequest<Response<int>>
+    public class CreateProductCommand : IRequest<Response<Guid>>
     {
         public string? ProductName { get; set; }
         public string? Description { get; set; }
         public double PriceBase { get; set; }
         public double Price { get; set; }
-        public int BrandId { get; set; }
-        public int AvailabilityId { get; set; }
-        public int CategoryId { get; set; }
-        public int? QuantityTypeId { get; set; }
+        public Guid BrandId { get; set; }
+        public Guid AvailabilityId { get; set; }
+        public Guid CategoryId { get; set; }
+        public Guid? QuantityTypeId { get; set; }
         public string? Warranty { get; set; } = "1 año";
         public int Weight { get; set; }
         public int Review { get; set; } = 0;
@@ -27,7 +27,7 @@ namespace Application.Features.Products.Commands.CreateProductCommand
         public List<FileUpload>? ProductFiles { get; set; }
     }
 
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Response<int>>
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Response<Guid>>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -39,7 +39,7 @@ namespace Application.Features.Products.Commands.CreateProductCommand
             _mapper = mapper;
         }
 
-        public async Task<Response<int>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<Response<Guid>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var newProduct = _mapper.Map<Product>(request);
 
@@ -49,7 +49,7 @@ namespace Application.Features.Products.Commands.CreateProductCommand
 
             await _unitOfWork.Save(cancellationToken);
 
-            return new Response<int>(newProduct.Id);
+            return new Response<Guid>(newProduct.Id);
         }
     }
 }

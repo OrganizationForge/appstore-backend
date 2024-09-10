@@ -9,7 +9,7 @@ namespace Domain.Common
         [JsonIgnore]
         private readonly List<BaseEvent> _domainEvents = new();
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [NotMapped]
         public IReadOnlyCollection<BaseEvent> DomainEvents => _domainEvents.AsReadOnly();

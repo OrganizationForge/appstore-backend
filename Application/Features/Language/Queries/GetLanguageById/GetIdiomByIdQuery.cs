@@ -9,7 +9,7 @@ namespace Application.Features.Language.Queries.GetLanguageById
 {
     public class GetIdiomByIdQuery : IRequest<Response<IdiomDTO>>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
     }
 
     public class GetIdiomByIdQueryHandler : IRequestHandler<GetIdiomByIdQuery, Response<IdiomDTO>>
