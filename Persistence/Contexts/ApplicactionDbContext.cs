@@ -3,7 +3,6 @@ using Domain.Common;
 using Domain.Common.Interfaces;
 using Domain.Entities;
 using Domain.Entities.Checkout;
-using Domain.Entities.Library;
 using Domain.Entities.Products;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
