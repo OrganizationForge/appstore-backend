@@ -120,6 +120,32 @@ namespace Persistence.Seeds
                 await context.SaveChangesAsync();
             }
         }
+
+        public static async Task SeedShippingMethodAsync(ApplicationDbContext context)
+        {
+            if (!context.ShippingMethods.Any())
+            {
+                context.ShippingMethods.AddRange(new List<ShippingMethod>
+                {
+                    new ShippingMethod
+                    {
+                        Title = "Retiro en el local",
+                        Description = "Rivadavia 456, CABA",
+                        DeliveryTime = "",
+                        Price = 0
+                    },
+                    new ShippingMethod
+                    {
+                        Title = "Envío a domicilio",
+                        Description = "",
+                        DeliveryTime = "4 a 7 días",
+                        Price = 2000
+                    },
+                });
+
+                await context.SaveChangesAsync();
+            }
+        }
         public static async Task SeedSpecsyAsync(ApplicationDbContext context)
         {
             //if (!context.Specs.Any())

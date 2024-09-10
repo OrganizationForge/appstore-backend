@@ -19,6 +19,7 @@ namespace Application.Features.Brands.Queries
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
         async Task<Response<List<BrandDTO>>> IRequestHandler<GetAllBrandsQuery, Response<List<BrandDTO>>>.Handle(GetAllBrandsQuery request, CancellationToken cancellationToken)
         {
             var listBrands = await _unitOfWork.Repository<Brand>().ListAsync(cancellationToken);
