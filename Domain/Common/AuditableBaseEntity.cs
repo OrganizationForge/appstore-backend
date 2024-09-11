@@ -1,4 +1,5 @@
 ﻿using Domain.Common.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Common
 {
@@ -13,8 +14,12 @@ namespace Domain.Common
 
     public abstract class AuditableBaseEntity<T> : BaseEntity<T>, IAuditableBaseEntity
     {
+        [Required]
+        [MaxLength(50)]
         public string? CreatedBy { get; set; }
+        [Required]
         public DateTime Created { get; set; }
+        [MaxLength(50)]
         public string? ModifiedBy { get; set; }
         public DateTime? Modified { get; set; }
     }

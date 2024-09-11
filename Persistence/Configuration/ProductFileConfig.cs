@@ -27,12 +27,6 @@ namespace Persistence.Configuration
 
             builder.Property(p => p.ProductId)
                 .IsRequired();
-
-            builder.Property(p => p.CreatedBy)
-               .HasMaxLength(50);
-
-            builder.Property(p => p.ModifiedBy)
-                .HasMaxLength(50);
         }
     }
 }

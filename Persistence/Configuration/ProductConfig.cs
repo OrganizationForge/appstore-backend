@@ -25,12 +25,6 @@ namespace Persistence.Configuration
             builder.Property(p => p.Warranty)
                 .HasMaxLength(254);
 
-            builder.Property(p => p.CreatedBy)
-               .HasMaxLength(50);
-
-            builder.Property(p => p.ModifiedBy)
-                .HasMaxLength(50);
-
             builder.HasOne(p => p.Category)
             .WithMany(b => b.Products)
             .HasForeignKey(p => p.CategoryId);

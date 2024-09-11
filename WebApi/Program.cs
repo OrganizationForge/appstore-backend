@@ -193,5 +193,6 @@ async Task CargarSeeds()
     await ProductSeed.SeedCategoryAsync(context);
     await ProductSeed.SeedQuantityTypesyAsync(context);
     await ProductSeed.SeedSpecsyAsync(context);
+    await ProductSeed.SeedShippingMethodAsync(context);
     //await ProductSeed.SeedProductAsync(context);
 }

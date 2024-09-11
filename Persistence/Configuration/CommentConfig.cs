@@ -30,12 +30,6 @@ namespace Persistence.Configuration
                 .IsRequired()
                 .HasMaxLength(253);
 
-            builder.Property(c => c.CreatedBy)
-                .HasMaxLength(50);
-
-            builder.Property(c => c.ModifiedBy)
-                .HasMaxLength(50);
-
             builder.HasOne(c => c.Product)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.ProductId);
