@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Common;
 
 namespace Domain.Entities.Checkout
 {
-    internal class Shipping
+    public class Shipping : AuditableBaseEntity
     {
+        public string? ShippingAddress { get; set; }
+        public DateTime DateShipped { get; set; }
+        public Guid ShippingMethodId { get; set; }
+
+        public virtual ShippingMethod? ShippingMethod { get; set; }
+        public virtual Order? Order { get; set; }
+
     }
 }

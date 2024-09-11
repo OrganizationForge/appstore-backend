@@ -6,5 +6,7 @@ namespace Domain.Entities.Checkout
     {
         public string? Description { get; set; }
 
+        public virtual ICollection<Payment>? Payments { get; set; }
+
     }
 }

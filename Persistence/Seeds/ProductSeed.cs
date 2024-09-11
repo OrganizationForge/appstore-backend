@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Entities.Checkout;
 using Domain.Entities.Products;
 using Persistence.Contexts;
 namespace Persistence.Seeds
@@ -14,18 +15,22 @@ namespace Persistence.Seeds
                     new Brand
                     {
                         Description = "Brooks Brothers",
+                        Created = new DateTime(), CreatedBy = "Append",
                     },
                      new Brand
                     {
                         Description = "Ralph Lauren",
+                        Created = new DateTime(), CreatedBy = "Append",
                     },
                     new Brand
                     {
                         Description = "Tom Ford",
+                        Created = new DateTime(), CreatedBy = "Append",
                     },
                     new Brand
                     {
                         Description = "Brunello Cucinelli",
+                        Created = new DateTime(), CreatedBy = "Append",
                     },
                 });
 
@@ -40,11 +45,13 @@ namespace Persistence.Seeds
                 {
                     new Availability
                     {
-                        Description = "Available"
+                        Description = "Available",
+                        Created = new DateTime(), CreatedBy = "Append",
                     },
                      new Availability
                     {
-                        Description = "Out of Stock"
+                        Description = "Out of Stock",
+                        Created = new DateTime(), CreatedBy = "Append",
                     },
                 });
 
@@ -59,11 +66,13 @@ namespace Persistence.Seeds
                 {
                     new QuantityType
                     {
-                        Description = "Unidad"
+                        Description = "Unidad",
+                        Created = new DateTime(), CreatedBy = "Append",
                     },
                      new QuantityType
                     {
-                        Description = "Fracción"
+                        Description = "Fracción",
+                        Created = new DateTime(), CreatedBy = "Append",
                     },
                 });
 
@@ -78,43 +87,49 @@ namespace Persistence.Seeds
                 Category trajesCategory = new Category
                 {
                     Description = "Trajes",
+                    Created = new DateTime(),
+                    CreatedBy = "Append",
                 };
 
                 context.Categories.Add(trajesCategory);
 
                 context.Categories.AddRange(new List<Category>
                 {
-                    new Category { Description = "Trajes completos", ParentId = trajesCategory.Id },
-                    new Category { Description = "Chaquetas", ParentId = trajesCategory.Id },
-                    new Category { Description = "Formal", ParentId = trajesCategory.Id },
-                    new Category { Description = "Business", ParentId = trajesCategory.Id },
+                    new Category { Description = "Trajes completos", ParentId = trajesCategory.Id, Created = new DateTime(), CreatedBy = "Append", },
+                    new Category { Description = "Chaquetas", ParentId = trajesCategory.Id, Created = new DateTime(), CreatedBy = "Append", },
+                    new Category { Description = "Formal", ParentId = trajesCategory.Id, Created = new DateTime(), CreatedBy = "Append", },
+                    new Category { Description = "Business", ParentId = trajesCategory.Id, Created = new DateTime(), CreatedBy = "Append", },
                 });
 
                 Category camisasCategory = new Category
                 {
                     Description = "Camisas",
+                    Created = new DateTime(),
+                    CreatedBy = "Append",
                 };
 
                 context.Categories.Add(camisasCategory);
 
                 context.Categories.AddRange(new List<Category>
                 {
-                    new Category { Description = "Formales", ParentId = camisasCategory.Id },
-                    new Category { Description = "Casuales", ParentId = camisasCategory.Id },
+                    new Category { Description = "Formales", ParentId = camisasCategory.Id, Created = new DateTime(), CreatedBy = "Append", },
+                    new Category { Description = "Casuales", ParentId = camisasCategory.Id, Created = new DateTime(), CreatedBy = "Append", },
                 });
 
                 Category pantalonesCategory = new Category
                 {
                     Description = "Pantalones",
+                    Created = new DateTime(),
+                    CreatedBy = "Append",
                 };
 
                 context.Categories.Add(pantalonesCategory);
 
                 context.Categories.AddRange(new List<Category>
                 {
-                    new Category { Description = "Vestir", ParentId = pantalonesCategory.Id },
-                    new Category { Description = "Chinos", ParentId = pantalonesCategory.Id },
-                    new Category { Description = "Jeans", ParentId = pantalonesCategory.Id }
+                    new Category { Description = "Vestir", ParentId = pantalonesCategory.Id, Created = new DateTime(), CreatedBy = "Append", },
+                    new Category { Description = "Chinos", ParentId = pantalonesCategory.Id, Created = new DateTime(), CreatedBy = "Append", },
+                    new Category { Description = "Jeans", ParentId = pantalonesCategory.Id, Created = new DateTime(), CreatedBy = "Append", }
                 });
 
                 await context.SaveChangesAsync();
@@ -132,14 +147,16 @@ namespace Persistence.Seeds
                         Title = "Retiro en el local",
                         Description = "Rivadavia 456, CABA",
                         DeliveryTime = "",
-                        Price = 0
+                        Price = 0,
+                        Created = new DateTime(), CreatedBy = "Append",
                     },
                     new ShippingMethod
                     {
                         Title = "Envío a domicilio",
                         Description = "",
                         DeliveryTime = "4 a 7 días",
-                        Price = 2000
+                        Price = 2000,
+                        Created = new DateTime(), CreatedBy = "Append",
                     },
                 });
 

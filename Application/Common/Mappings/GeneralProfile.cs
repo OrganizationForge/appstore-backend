@@ -9,6 +9,7 @@ using Application.Features.Shipping.Commands.CreateShippingMethod;
 using Application.Features.Shipping.Queries;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.Checkout;
 using Domain.Entities.Products;
 
 namespace Application.Common.Mappings

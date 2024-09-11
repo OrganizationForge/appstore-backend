@@ -1,7 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
 using AutoMapper;
-using Domain.Entities;
+using Domain.Entities.Checkout;
 using MediatR;
 
 namespace Application.Features.Shipping.Queries.GetAllShippingMethods

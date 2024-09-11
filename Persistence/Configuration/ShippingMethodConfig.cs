@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Domain.Entities.Checkout;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -23,13 +23,8 @@ namespace Persistence.Configuration
                 .HasMaxLength(80);
 
             builder.Property(p => p.Price)
+                .HasColumnType("decimal(18,2)")
                 .IsRequired();
-
-            builder.Property(p => p.CreatedBy)
-                .HasMaxLength(50);
-
-            builder.Property(p => p.ModifiedBy)
-                .HasMaxLength(50);
         }
     }
 }

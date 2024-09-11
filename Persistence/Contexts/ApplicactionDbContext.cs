@@ -33,7 +33,9 @@ namespace Persistence.Contexts
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Payment> PaymentMethods { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Shipping> Shippings { get; set; }
         public DbSet<ShippingMethod> ShippingMethods { get; set; }
 
 
