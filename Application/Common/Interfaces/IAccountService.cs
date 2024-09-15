@@ -8,5 +8,6 @@ namespace Application.Common.Interfaces
         Task<Response<AuthenticationResponse>> AuthenticateAsync(AuthenticationRequest request, string ipAddress);
         Task<Response<string>> RegisterAsync(RegisterRequest request, string origin);
         Task<Response<AuthenticationResponse>> RefreshTokenAsync(string accessToken, string refreshToken, string ipAddress);
+        Task<Response<AuthenticationResponse>> GetUser();
     }
 }

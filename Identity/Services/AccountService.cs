@@ -13,6 +13,7 @@ using Identity.Common;
 using Identity.Context;
 using Identity.Helpers;
 using Identity.Models;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 
 namespace Identity.Services
 {
@@ -35,6 +37,7 @@ namespace Identity.Services
         private readonly IdentityContext _identityContext;
         private readonly IEmailTemplateService _templateService;
         private readonly SecuritySettings _securitySettings;
+        private readonly CurrentUser _user;
 
         public AccountService(UserManager<ApplicationUser> userManager, 
             RoleManager<IdentityRole> roleManager, 
@@ -43,6 +46,7 @@ namespace Identity.Services
             IDateTimeService dateTimeService, 
             IdentityContext identityContext,
             IOptions<SecuritySettings> securitySettings,
+            ICurrentUserService currentUserService,
             IEmailTemplateService templateService)
         {
             _userManager = userManager;
@@ -53,6 +57,7 @@ namespace Identity.Services
             _identityContext = identityContext;
             _templateService = templateService;
             _securitySettings = securitySettings.Value;
+            _user = currentUserService.User;
         }
 
 
@@ -76,6 +81,9 @@ namespace Identity.Services
             response.JWToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             response.Email = usuario.Email;
             response.UserName = usuario.UserName;
+            response.Apellido = usuario.Apellido;
+            response.Nombre = usuario.Nombre;
+            response.UrlImage = "";
 
             var rolesList = await _userManager.GetRolesAsync(usuario).ConfigureAwait(false);
             response.Roles = rolesList.ToList();
@@ -85,6 +93,37 @@ namespace Identity.Services
             //response.RefreshToken = refreshToken.Token;
             response.RefreshToken = await GenerateRefreshToken(ipAddress, usuario.Id);
             return new Response<AuthenticationResponse>(response, $"Usuario {usuario.UserName} autenticado");
+        }
+
+        public async Task<Response<AuthenticationResponse>> GetUser()
+        {
+
+            var user = await _userManager.Users
+            .AsNoTracking()
+            .Where(u => u.Id == _user.Id)
+            .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ApiException($"Usuario no encontrado");
+            }
+
+            JwtSecurityToken jwtSecurityToken = await GenerateJwyToken(user);
+            AuthenticationResponse response = new AuthenticationResponse();
+            response.Id = user.Id;
+            response.JWToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            response.Email = user.Email;
+            response.UserName = user.UserName;
+            response.Apellido = user.Apellido;
+            response.Nombre = user.Nombre;
+            response.UrlImage = "";
+
+            var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+            response.Roles = rolesList.ToList();
+            response.IsVerified = user.EmailConfirmed;
+
+            return new Response<AuthenticationResponse>(response);
+
         }
 
         public async Task<Response<string>> RegisterAsync(RegisterRequest request, string origin)
