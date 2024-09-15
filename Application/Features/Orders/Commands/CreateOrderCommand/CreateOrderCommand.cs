@@ -17,7 +17,6 @@ namespace Application.Features.Orders.Commands.CreateOrderCommand
 
     public class CreateOrderCommand : IRequest<Response<Guid>>
     {
-        public Guid UserId { get; set; }
         public ShippingDTO? Shipping { get; set; }
         public List<OrderItemDTO>? OrderItems { get; set; }
 
@@ -41,14 +40,12 @@ namespace Application.Features.Orders.Commands.CreateOrderCommand
             {
                 var product = await _unitOfWork.Repository<Product>().GetByIdAsync(orderItem.ProductId);
 
-                if (orderItem.Price is null || orderItem.Price == 0) orderItem.Price = product.Price;
+                if (orderItem.Price is null || orderItem.Price == 0) orderItem.Price = product!.Price;
 
 
             }
 
             var newOrder= _mapper.Map<Order>(command);
-
-            
 
             await _unitOfWork.Repository<Order>().AddAsync(newOrder);
 

@@ -9,7 +9,7 @@ namespace Application.Features.Orders
     public class OrderItemDTO
     {
         public int Quantity { get; set; }
-        public double? Price { get; set; } 
+        public decimal? Price { get; set; } 
         public Guid ProductId { get; set; }
 
     }

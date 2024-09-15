@@ -42,10 +42,9 @@ namespace Application.Common.Mappings
             CreateMap<CreateCommentCommand, Comment>();
             CreateMap<CreateShippingMethodCommand, ShippingMethod>();
             CreateMap<CreateOrderCommand, Order>()
-                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.UserId))
-                .ForMember(dest => dest.Created, opt => opt.MapFrom(x => DateTime.Now))
                 .ForMember(dest => dest.Shipping, opt => opt.MapFrom(x => x.Shipping))
-                .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(x => x.OrderItems));
+                .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(x => x.OrderItems))
+                .ForMember(dest =>  dest.Status, opt => opt.MapFrom(x => OrderStatus.New));
             #endregion
         }
     }
