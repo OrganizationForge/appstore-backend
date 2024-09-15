@@ -1,6 +1,8 @@
-﻿using Application.Features.Authenticate.Commands.AuthenticateCommand;
+﻿using Application.Common.Interfaces;
+using Application.Features.Authenticate.Commands.AuthenticateCommand;
 using Application.Features.Authenticate.Commands.RefreshTokenCommand;
 using Application.Features.Authenticate.Commands.RegisterCommand;
+using Application.Features.Authenticate.Queries;
 using Application.Features.Authenticate.User;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +12,7 @@ namespace WebApi.Controllers.Identity
     [ApiVersion("1.0")]
     public class AccountController : BaseApiController
     {
+
         [HttpGet]
         public async Task<IActionResult> GetListAsync(CancellationToken cancellationToken)
         //public Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken)
@@ -137,6 +140,19 @@ namespace WebApi.Controllers.Identity
                 IpAddress = GenerateIpAddress()
             }));
         }
+
+        [HttpGet("current")]
+        public async Task<IActionResult> GetCurrent()
+        {
+            return Ok(await Mediator.Send(new GetUserByIdQuery()));
+        }
+
+      //  [HttpGet]
+      //  public Task<UserEnvelope> GetCurrent(CancellationToken cancellationToken) =>
+      //mediator.Send(
+      //    new Details.Query(currentUserAccessor.GetCurrentUsername() ?? "<unknown>"),
+      //    cancellationToken
+      //);
 
         private string GetOriginFromRequest() => $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
         private string GenerateIpAddress()

@@ -13,15 +13,18 @@ namespace Persistence.Contexts
     {
         private readonly IDateTimeService _datetime;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
+        private readonly CurrentUser _user;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, 
             IDateTimeService datetime, 
-            IDomainEventDispatcher domainEventDispatcher) : base(options)
+            IDomainEventDispatcher domainEventDispatcher,
+            ICurrentUserService currentUserService) : base(options)
         {
             //agregamos para poder seguir los cambios y que Entity se de cuenta cuando hace un SaveAsync
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             this._datetime = datetime;
             _domainEventDispatcher = domainEventDispatcher;
+            _user = currentUserService.User;
         }
         public DbSet<Availability> Availabilities { get; set; }
         public DbSet<Brand> Brands { get; set; }
@@ -48,9 +51,13 @@ namespace Persistence.Contexts
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.Created = _datetime.NowUtc; break;
+                        entry.Entity.CreatedBy = _user.Id;
+                        entry.Entity.Created = _datetime.NowUtc; 
+                        break;
                     case EntityState.Modified:
-                        entry.Entity.Modified = _datetime.NowUtc; break;
+                        entry.Entity.ModifiedBy = _user.Id;
+                        entry.Entity.Modified = _datetime.NowUtc; 
+                        break;
                 }
             }
             //return base.SaveChangesAsync();
