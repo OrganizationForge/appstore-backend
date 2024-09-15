@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <Folder Include="Features\Categories\Commands\" />
+    <Folder Include="Features\Orders\Queries\" />
     <Folder Include="Features\Payments\Queries\" />
   </ItemGroup>
 

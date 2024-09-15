@@ -1,4 +1,5 @@
-﻿using Application.Features.Payments.Commands.CreatePaymentCommand;
+﻿using Application.Features.Orders.Commands.CreateOrderCommand;
+using Application.Features.Payments.Commands.CreatePaymentCommand;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,5 +17,17 @@ namespace WebApi.Controllers.v1
         }
 
 
+        [HttpPost]
+        [Route("Orders")]
+
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command)
+        { 
+            return Ok(await Mediator.Send(command));
+        }
+
+
+
     }
+
+
 }

@@ -1,6 +1,8 @@
-﻿using Domain.Entities;
+﻿using Application.Features.Brands.Queries;
+using Domain.Entities;
 using Domain.Entities.Checkout;
 using Domain.Entities.Products;
+using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
 namespace Persistence.Seeds
 {
@@ -190,289 +192,133 @@ namespace Persistence.Seeds
             //    await context.SaveChangesAsync();
             //}
         }
-        //public static async Task SeedProductAsync(ApplicationDbContext context)
-        //{
-        //    if (!context.Products.Any())
-        //    {
-        //        context.Products.AddRange(new List<Product>
-        //        {
-        //            new Product
-        //            {
-        //                ProductName = "Women Colorblock Sneakers",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 154,
-        //                Price = 154,
-        //                UrlImage = "assets/img/shop/catalog/01.jpg",
-        //                BrandId = 1,
-        //                AvailabilityId = 1,
-        //                CategoryId = 11,
-        //                Warranty = "Garantia por 3 años",
-        //                Review = 75,
-        //                Rating = 3.5,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //            new Product
-        //            {
-        //                ProductName = "Cotton Lace Blouse",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 38.50,
-        //                Price = 28.50,
-        //                UrlImage = "assets/img/shop/catalog/02.jpg",
-        //                BrandId = 2,
-        //                AvailabilityId = 1,
-        //                CategoryId = 6,
-        //                Warranty = "Garantia por 1 años",
-        //                Review = 50,
-        //                Rating = 3,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //             new Product
-        //            {
-        //                ProductName = "Mom High Waist Shorts",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 39.50,
-        //                Price = 28.50,
-        //                UrlImage = "assets/img/shop/catalog/03.jpg",
-        //                BrandId = 2,
-        //                AvailabilityId = 2,
-        //                CategoryId = 6,
-        //                Warranty = "Garantia por 1 años",
-        //                Review = 20,
-        //                Rating = 5,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //               new Product
-        //            {
-        //                ProductName = "Women Sports Jacket",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 68.40,
-        //                Price = 68.40,
-        //                UrlImage = "assets/img/shop/catalog/04.jpg",
-        //                BrandId = 6,
-        //                AvailabilityId = 2,
-        //                CategoryId = 3,
-        //                Warranty = "Garantia por 1 años",
-        //                Review = 70,
-        //                Rating = 4,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //               new Product
-        //            {
-        //                ProductName = "Women Colorblock Sneakers",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 154,
-        //                Price = 154,
-        //                UrlImage = "assets/img/shop/catalog/01.jpg",
-        //                BrandId = 1,
-        //                AvailabilityId = 1,
-        //                CategoryId = 11,
-        //                Warranty = "Garantia por 3 años",
-        //                Review = 75,
-        //                Rating = 3.5,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //            new Product
-        //            {
-        //                ProductName = "Cotton Lace Blouse",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 38.50,
-        //                Price = 28.50,
-        //                UrlImage = "assets/img/shop/catalog/02.jpg",
-        //                BrandId = 2,
-        //                AvailabilityId = 1,
-        //                CategoryId = 6,
-        //                Warranty = "Garantia por 1 años",
-        //                Review = 50,
-        //                Rating = 3,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //             new Product
-        //            {
-        //                ProductName = "Mom High Waist Shorts",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 39.50,
-        //                Price = 28.50,
-        //                UrlImage = "assets/img/shop/catalog/03.jpg",
-        //                BrandId = 2,
-        //                AvailabilityId = 2,
-        //                CategoryId = 6,
-        //                Warranty = "Garantia por 1 años",
-        //                Review = 20,
-        //                Rating = 5,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //               new Product
-        //            {
-        //                ProductName = "Women Sports Jacket",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 68.40,
-        //                Price = 68.40,
-        //                UrlImage = "assets/img/shop/catalog/04.jpg",
-        //                BrandId = 6,
-        //                AvailabilityId = 2,
-        //                CategoryId = 3,
-        //                Warranty = "Garantia por 1 años",
-        //                Review = 70,
-        //                Rating = 4,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //               new Product
-        //            {
-        //                ProductName = "Women Colorblock Sneakers",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 154,
-        //                Price = 154,
-        //                UrlImage = "assets/img/shop/catalog/01.jpg",
-        //                BrandId = 1,
-        //                AvailabilityId = 1,
-        //                CategoryId = 11,
-        //                Warranty = "Garantia por 3 años",
-        //                Review = 75,
-        //                Rating = 3.5,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //            new Product
-        //            {
-        //                ProductName = "Cotton Lace Blouse",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 38.50,
-        //                Price = 28.50,
-        //                UrlImage = "assets/img/shop/catalog/02.jpg",
-        //                BrandId = 2,
-        //                AvailabilityId = 1,
-        //                CategoryId = 6,
-        //                Warranty = "Garantia por 1 años",
-        //                Review = 50,
-        //                Rating = 3,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //             new Product
-        //            {
-        //                ProductName = "Mom High Waist Shorts",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 39.50,
-        //                Price = 28.50,
-        //                UrlImage = "assets/img/shop/catalog/03.jpg",
-        //                BrandId = 2,
-        //                AvailabilityId = 2,
-        //                CategoryId = 6,
-        //                Warranty = "Garantia por 1 años",
-        //                Review = 20,
-        //                Rating = 5,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //               new Product
-        //            {
-        //                ProductName = "Women Sports Jacket",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 68.40,
-        //                Price = 68.40,
-        //                UrlImage = "assets/img/shop/catalog/04.jpg",
-        //                BrandId = 6,
-        //                AvailabilityId = 2,
-        //                CategoryId = 3,
-        //                Warranty = "Garantia por 1 años",
-        //                Review = 70,
-        //                Rating = 4,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //               new Product
-        //            {
-        //                ProductName = "Women Colorblock Sneakers",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 154,
-        //                Price = 154,
-        //                UrlImage = "assets/img/shop/catalog/01.jpg",
-        //                BrandId = 1,
-        //                AvailabilityId = 1,
-        //                CategoryId = 11,
-        //                Warranty = "Garantia por 3 años",
-        //                Review = 75,
-        //                Rating = 3.5,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //            new Product
-        //            {
-        //                ProductName = "Cotton Lace Blouse",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 38.50,
-        //                Price = 28.50,
-        //                UrlImage = "assets/img/shop/catalog/02.jpg",
-        //                BrandId = 2,
-        //                AvailabilityId = 1,
-        //                CategoryId = 6,
-        //                Warranty = "Garantia por 1 años",
-        //                Review = 50,
-        //                Rating = 3,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //             new Product
-        //            {
-        //                ProductName = "Mom High Waist Shorts",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 39.50,
-        //                Price = 28.50,
-        //                UrlImage = "assets/img/shop/catalog/03.jpg",
-        //                BrandId = 2,
-        //                AvailabilityId = 2,
-        //                CategoryId = 6,
-        //                Warranty = "Garantia por 1 años",
-        //                Review = 20,
-        //                Rating = 5,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //               new Product
-        //            {
-        //                ProductName = "Women Sports Jacket",
-        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-        //                PriceBase = 68.40,
-        //                Price = 68.40,
-        //                UrlImage = "assets/img/shop/catalog/04.jpg",
-        //                BrandId = 6,
-        //                AvailabilityId = 2,
-        //                CategoryId = 3,
-        //                Warranty = "Garantia por 1 años",
-        //                Review = 70,
-        //                Rating = 4,
-        //                QuantityTypeId=1,
-        //                BarCode= "123123123123213123123132",
-        //                Stock = 10
-        //            },
-        //        });
+        public static async Task SeedProductAsync(ApplicationDbContext context)
+        {
+            var brand = await context.Brands.FirstOrDefaultAsync();
+            var availability = await context.Availabilities.FirstOrDefaultAsync();
+            var category = await context.Categories.FirstOrDefaultAsync();
+            var quantity = await context.QuantityTypes.FirstOrDefaultAsync();
 
-        //        await context.SaveChangesAsync();
-        //    }
-        //}
+            var newGuid = Guid.NewGuid().ToString();
+
+
+            if (!context.Products.Any())
+            {
+                context.Products.AddRange(new List<Product>
+                {
+                    new Product
+                    {
+                        ProductName = "Women Colorblock Sneakers",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
+                        PriceBase = 154,
+                        Price = 154,
+                        BrandId = brand!.Id,
+                        AvailabilityId = availability!.Id,
+                        CategoryId = category!.Id,
+                        Warranty = "Garantia por 3 años",
+                        Review = 75,
+                        Rating = 3.5,
+                        QuantityTypeId = quantity!.Id,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10,
+                        Created = DateTime.Now,
+                        CreatedBy = Guid.NewGuid().ToString()
+                    },
+                    new Product
+                    {
+                        ProductName = "Cotton Lace Blouse",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
+                        PriceBase = 38.50,
+                        Price = 28.50,
+                        BrandId = brand!.Id,
+                        AvailabilityId = availability!.Id,
+                        CategoryId = category!.Id,
+                        Warranty = "Garantia por 1 años",
+                        Review = 50,
+                        Rating = 3,
+                        QuantityTypeId = quantity!.Id,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10,
+                        Created = DateTime.Now,
+                        CreatedBy = Guid.NewGuid().ToString()
+                    },
+                     new Product
+                    {
+                        ProductName = "Mom High Waist Shorts",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
+                        PriceBase = 39.50,
+                        Price = 28.50,
+                        BrandId = brand!.Id,
+                        AvailabilityId = availability!.Id,
+                        CategoryId = category!.Id,
+                        Warranty = "Garantia por 1 años",
+                        Review = 20,
+                        Rating = 5,
+                        QuantityTypeId = quantity!.Id,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10,
+                        Created = DateTime.Now,
+                        CreatedBy = Guid.NewGuid().ToString()
+                    },
+                       new Product
+                    {
+                        ProductName = "Women Sports Jacket",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
+                        PriceBase = 68.40,
+                        Price = 68.40,
+                        BrandId = brand!.Id,
+                        AvailabilityId = availability!.Id,
+                        CategoryId = category!.Id,
+                        Warranty = "Garantia por 1 años",
+                        Review = 70,
+                        Rating = 4,
+                        QuantityTypeId = quantity!.Id,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10,
+                        Created = DateTime.Now,
+                        CreatedBy = Guid.NewGuid().ToString()
+                    },
+                       new Product
+                    {
+                        ProductName = "Women Colorblock Sneakers",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
+                        PriceBase = 154,
+                        Price = 154,
+                        BrandId = brand!.Id,
+                        AvailabilityId = availability!.Id,
+                        CategoryId = category!.Id,
+                        Warranty = "Garantia por 3 años",
+                        Review = 75,
+                        Rating = 3.5,
+                        QuantityTypeId = quantity!.Id,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10,
+                        Created = DateTime.Now,
+                        CreatedBy = Guid.NewGuid().ToString()
+                    },
+                    new Product
+                    {
+                        ProductName = "Cotton Lace Blouse",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
+                        PriceBase = 38.50,
+                        Price = 28.50,
+                        BrandId = brand!.Id,
+                        AvailabilityId = availability!.Id,
+                        CategoryId = category!.Id,
+                        Warranty = "Garantia por 1 años",
+                        Review = 50,
+                        Rating = 3,
+                        QuantityTypeId = quantity!.Id,
+                        BarCode= "123123123123213123123132",
+                        Stock = 10,
+                        Created = DateTime.Now,
+                        CreatedBy = Guid.NewGuid().ToString()
+                    }
+                });
+
+                await context.SaveChangesAsync();
+            }
+        }
 
     }
 }

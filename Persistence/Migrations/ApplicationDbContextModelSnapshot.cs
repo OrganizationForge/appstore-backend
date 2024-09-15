@@ -147,10 +147,10 @@ namespace Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<Guid>("PaymentId")
+                    b.Property<Guid?>("PaymentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ShippingId")
+                    b.Property<Guid?>("ShippingId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
@@ -162,10 +162,12 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PaymentId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[PaymentId] IS NOT NULL");
 
                     b.HasIndex("ShippingId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ShippingId] IS NOT NULL");
 
                     b.ToTable("Orders", (string)null);
                 });
@@ -297,7 +299,7 @@ namespace Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("DateShipped")
+                    b.Property<DateTime?>("DateShipped")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("Modified")
@@ -646,15 +648,11 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Entities.Checkout.Payment", "Payment")
                         .WithOne("Order")
-                        .HasForeignKey("Domain.Entities.Checkout.Order", "PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Domain.Entities.Checkout.Order", "PaymentId");
 
                     b.HasOne("Domain.Entities.Checkout.Shipping", "Shipping")
                         .WithOne("Order")
-                        .HasForeignKey("Domain.Entities.Checkout.Order", "ShippingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Domain.Entities.Checkout.Order", "ShippingId");
 
                     b.Navigation("Payment");
 

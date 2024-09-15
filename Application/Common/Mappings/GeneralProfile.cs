@@ -1,6 +1,8 @@
 ﻿using Application.Features.Brands.Commands.CreateBrandCommand;
 using Application.Features.Brands.Queries;
 using Application.Features.Categories.Queries;
+using Application.Features.Orders;
+using Application.Features.Orders.Commands.CreateOrderCommand;
 using Application.Features.ProductComments.Commands.CreateCommentCommand;
 using Application.Features.ProductComments.Queries;
 using Application.Features.Products.Commands.CreateProductCommand;
@@ -25,7 +27,10 @@ namespace Application.Common.Mappings
             CreateMap<ProductFile, ProductFileDTO>();
             CreateMap<Comment, CommentDTO>();
             CreateMap<ShippingMethod, ShippingMethodDTO>();
-
+            CreateMap<ShippingDTO, Shipping>()
+                .ReverseMap();
+            CreateMap<OrderItemDTO, OrderItem>()
+                .ReverseMap();
 
 
             #endregion
@@ -36,7 +41,11 @@ namespace Application.Common.Mappings
             CreateMap<CreateBrandCommand, Brand>();
             CreateMap<CreateCommentCommand, Comment>();
             CreateMap<CreateShippingMethodCommand, ShippingMethod>();
-
+            CreateMap<CreateOrderCommand, Order>()
+                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.UserId))
+                .ForMember(dest => dest.Created, opt => opt.MapFrom(x => DateTime.Now))
+                .ForMember(dest => dest.Shipping, opt => opt.MapFrom(x => x.Shipping))
+                .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(x => x.OrderItems));
             #endregion
         }
     }

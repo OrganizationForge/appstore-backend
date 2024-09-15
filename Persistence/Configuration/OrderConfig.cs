@@ -17,13 +17,11 @@ namespace Persistence.Configuration
 
             builder.HasOne(p => p.Shipping)
                 .WithOne(s => s.Order)
-                .HasForeignKey<Order>(p => p.ShippingId)
-                .IsRequired();
+                .HasForeignKey<Order>(p => p.ShippingId);
 
             builder.HasOne(p => p.Payment)
                 .WithOne(s => s.Order)
-                .HasForeignKey<Order>(p => p.PaymentId)
-                .IsRequired();
+                .HasForeignKey<Order>(p => p.PaymentId);
 
             
         }       
