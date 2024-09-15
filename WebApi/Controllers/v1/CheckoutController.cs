@@ -24,7 +24,13 @@ namespace WebApi.Controllers.v1
         { 
             return Ok(await Mediator.Send(command));
         }
+        [HttpPut]
+        [Route("Orders")]
 
+        public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderCommand command)
+        {
+            return Ok(await Mediator.Send(command));
+        }
 
 
     }

@@ -10,6 +10,5 @@ namespace Application.Features.Orders
     {
         public string? ShippingAddress { get; set; }
         public Guid ShippingMethodId { get; set; }
-
     }
 }
