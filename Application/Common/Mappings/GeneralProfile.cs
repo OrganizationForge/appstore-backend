@@ -3,6 +3,7 @@ using Application.Features.Brands.Queries;
 using Application.Features.Categories.Queries;
 using Application.Features.Orders;
 using Application.Features.Orders.Commands.CreateOrderCommand;
+using Application.Features.Orders.Queries;
 using Application.Features.ProductComments.Commands.CreateCommentCommand;
 using Application.Features.ProductComments.Queries;
 using Application.Features.Products.Commands.CreateProductCommand;
@@ -31,6 +32,7 @@ namespace Application.Common.Mappings
                 .ReverseMap();
             CreateMap<OrderItemDTO, OrderItem>()
                 .ReverseMap();
+            CreateMap<Order, OrderDTO>();
 
 
             #endregion

@@ -1,5 +1,8 @@
 ﻿using Application.Features.Orders.Commands.CreateOrderCommand;
+using Application.Features.Orders.Commands.UpdateOrderCommand;
+using Application.Features.Orders.Queries.GetOrderById;
 using Application.Features.Payments.Commands.CreatePaymentCommand;
+using Application.Features.Products.Queries.GetProductById;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +17,13 @@ namespace WebApi.Controllers.v1
         public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentCommand command)
         {
             return Ok(await Mediator.Send(command));
+        }
+
+        [HttpGet]
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetAsync(Guid id)
+        {
+            return Ok(await Mediator.Send(new GetOrderByIdQuery { Id = id }));
         }
 
 

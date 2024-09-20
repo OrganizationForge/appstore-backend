@@ -1,15 +1,8 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
-using Application.Features.Orders.Commands.CreateOrderCommand;
 using AutoMapper;
 using Domain.Entities.Checkout;
-using Domain.Entities.Products;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Orders.Commands.UpdateOrderCommand
 {
@@ -42,13 +35,51 @@ namespace Application.Features.Orders.Commands.UpdateOrderCommand
             }
 
 
-            
-            //var newOrder = _mapper.Map<Order>(command);
+            if (command.Shipping != null)
+            {
+                if (order.Shipping != null)
+                {
+                    // Mapear los cambios del Shipping si existe
+                    _mapper.Map(command.Shipping, order.Shipping);
+                }
+            }
 
-            //await _unitOfWork.Repository<Order>().AddAsync(newOrder);
+            // 2. Manejar OrderItems (actualizar, agregar o eliminar)
+            if (command.OrderItems != null && command.OrderItems.Any())
+            {
+                // Obtener los IDs de los OrderItems que se reciben
+                var receivedItemIds = command.OrderItems.Select(oi => oi.Id).ToList();
 
-            //newOrder.AddDomainEvent(new OrderCreateEvent(newOrder));
+                // Eliminar los OrderItems que no están
+                var itemsToRemove = order.OrderItems
+                    .Where(oi => !receivedItemIds.Contains(oi.Id))
+                    .ToList();
 
+                foreach (var itemToRemove in itemsToRemove)
+                {
+                    order.OrderItems.Remove(itemToRemove);
+                    await _unitOfWork.Repository<OrderItem>().DeleteAsync(itemToRemove);
+                }
+
+                // Actualizar o agregar los OrderItems que se reciben
+                foreach (var receivedItem in command.OrderItems)
+                {
+                    var existingItem = order.OrderItems.FirstOrDefault(oi => oi.Id == receivedItem.Id);
+
+                    if (existingItem != null)
+                    {
+                        // Si el OrderItem existe, actualizarlo
+                        _mapper.Map(receivedItem, existingItem);
+                    }
+                    else
+                    {
+                        var newItem = _mapper.Map<OrderItem>(receivedItem);
+                        order.OrderItems.Add(newItem);
+                    }
+                }
+            }
+
+   
             await _unitOfWork.Save(cancellationToken);
 
             return new Response<string>("Successfully updated");
