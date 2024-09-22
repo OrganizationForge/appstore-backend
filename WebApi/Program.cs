@@ -43,7 +43,7 @@ builder.Services.AddSharedLayer(builder.Configuration);
 builder.Services.AddPersistenceLayer(builder.Configuration);
 
 //Configuro Health Ckeck
-builder.Services.ConfigureHealthChecks(builder.Configuration);
+//builder.Services.ConfigureHealthChecks(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddControllers()
@@ -108,17 +108,17 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1")
 app.UseHttpsRedirection();
 
 //HealthCheck Middleware
-app.MapHealthChecks("/api/health", new HealthCheckOptions()
-{
-    Predicate = _ => true,
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
-app.UseHealthChecksUI(delegate (Options options)
-{
-    options.UIPath = "/healthcheck-ui";
-    options.AddCustomStylesheet("./Extensions/HealthCheck/healthcheck.css");
+//app.MapHealthChecks("/api/health", new HealthCheckOptions()
+//{
+//    Predicate = _ => true,
+//    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+//});
+//app.UseHealthChecksUI(delegate (Options options)
+//{
+//    options.UIPath = "/healthcheck-ui";
+//    options.AddCustomStylesheet("./Extensions/HealthCheck/healthcheck.css");
 
-});
+//});
 
 app.UseCors("AllowAll");
 

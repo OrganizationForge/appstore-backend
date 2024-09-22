@@ -3,14 +3,17 @@ using Application.Features.Products.Commands.CreateProductCommand;
 using Application.Features.Products.Queries.GetAllProducts;
 using Application.Features.Products.Queries.GetProductById;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.v1
 {
     [ApiVersion("1.0")]
+    [Authorize]
     public class ProductsController : BaseApiController
     {
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllAsync([FromQuery] PaginationProductParameters filter)
         {
             return Ok(await Mediator.Send(new GetAllProductsQuery
@@ -28,6 +31,8 @@ namespace WebApi.Controllers.v1
         }
 
         [HttpGet("{id:Guid}")]
+        [AllowAnonymous]
+
         public async Task<IActionResult> GetAsync(Guid id)
         {
             return Ok(await Mediator.Send(new GetProductByIdQuery { Id = id }));

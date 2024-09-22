@@ -1,10 +1,12 @@
-﻿using Application.Features.Brands.Commands.CreateBrandCommand;
+﻿using Application.Features.Availavilities.Queries;
+using Application.Features.Brands.Commands.CreateBrandCommand;
 using Application.Features.Brands.Queries;
 using Application.Features.Categories.Queries;
 using Application.Features.ProductComments.Commands.CreateCommentCommand;
 using Application.Features.ProductComments.Queries;
 using Application.Features.Products.Commands.CreateProductCommand;
 using Application.Features.Products.Queries;
+using Application.Features.QuantityTypes.Queries;
 using Application.Features.Shipping.Commands.CreateShippingMethod;
 using Application.Features.Shipping.Queries;
 using AutoMapper;
@@ -25,6 +27,8 @@ namespace Application.Common.Mappings
             CreateMap<ProductFile, ProductFileDTO>();
             CreateMap<Comment, CommentDTO>();
             CreateMap<ShippingMethod, ShippingMethodDTO>();
+            CreateMap<QuantityType, QuantityTypeDTO>();
+            CreateMap<Availability, AvailavilityDTO>();
 
 
 
