@@ -20,8 +20,7 @@ namespace Persistence.Configuration
             builder.Property(p => p.ShippingAddress)
                .HasMaxLength(254);
 
-            builder.Property(p => p.DateShipped)
-               .IsRequired();
+            builder.Property(p => p.DateShipped);
 
             builder.HasOne(p => p.ShippingMethod)
                 .WithMany(sm => sm.Shippings)
