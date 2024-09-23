@@ -21,6 +21,7 @@ namespace Application.Features.Products.Queries
         public int Weight { get; set; }
         public int Review { get; set; }
         public double Rating { get; set; }
+
     }
 
     public class ProductFileDTO

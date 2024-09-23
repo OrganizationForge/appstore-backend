@@ -16,9 +16,6 @@ namespace Persistence.Configuration
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.Property(p => p.Description)
-                .HasMaxLength(500);
-
             builder.Property(p => p.Price)
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();

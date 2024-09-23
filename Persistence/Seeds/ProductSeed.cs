@@ -192,133 +192,133 @@ namespace Persistence.Seeds
             //    await context.SaveChangesAsync();
             //}
         }
-        public static async Task SeedProductAsync(ApplicationDbContext context)
-        {
-            var brand = await context.Brands.FirstOrDefaultAsync();
-            var availability = await context.Availabilities.FirstOrDefaultAsync();
-            var category = await context.Categories.FirstOrDefaultAsync();
-            var quantity = await context.QuantityTypes.FirstOrDefaultAsync();
+        //public static async Task SeedProductAsync(ApplicationDbContext context)
+        //{
+        //    var brand = await context.Brands.FirstOrDefaultAsync();
+        //    var availability = await context.Availabilities.FirstOrDefaultAsync();
+        //    var category = await context.Categories.FirstOrDefaultAsync();
+        //    var quantity = await context.QuantityTypes.FirstOrDefaultAsync();
 
-            var newGuid = Guid.NewGuid().ToString();
+        //    var newGuid = Guid.NewGuid().ToString();
 
 
-            if (!context.Products.Any())
-            {
-                context.Products.AddRange(new List<Product>
-                {
-                    new Product
-                    {
-                        ProductName = "Women Colorblock Sneakers",
-                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-                        PriceBase = 154,
-                        Price = 154,
-                        BrandId = brand!.Id,
-                        AvailabilityId = availability!.Id,
-                        CategoryId = category!.Id,
-                        Warranty = "Garantia por 3 años",
-                        Review = 75,
-                        Rating = 3.5M,
-                        QuantityTypeId = quantity!.Id,
-                        BarCode= "123123123123213123123132",
-                        Stock = 10,
-                        Created = DateTime.Now,
-                        CreatedBy = Guid.NewGuid().ToString()
-                    },
-                    new Product
-                    {
-                        ProductName = "Cotton Lace Blouse",
-                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-                        PriceBase = 38.50M,
-                        Price = 28.50M,
-                        BrandId = brand!.Id,
-                        AvailabilityId = availability!.Id,
-                        CategoryId = category!.Id,
-                        Warranty = "Garantia por 1 años",
-                        Review = 50,
-                        Rating = 3,
-                        QuantityTypeId = quantity!.Id,
-                        BarCode= "123123123123213123123132",
-                        Stock = 10,
-                        Created = DateTime.Now,
-                        CreatedBy = Guid.NewGuid().ToString()
-                    },
-                     new Product
-                    {
-                        ProductName = "Mom High Waist Shorts",
-                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-                        PriceBase = 39.50M,
-                        Price = 28.50M,
-                        BrandId = brand!.Id,
-                        AvailabilityId = availability!.Id,
-                        CategoryId = category!.Id,
-                        Warranty = "Garantia por 1 años",
-                        Review = 20,
-                        Rating = 5,
-                        QuantityTypeId = quantity!.Id,
-                        BarCode= "123123123123213123123132",
-                        Stock = 10,
-                        Created = DateTime.Now,
-                        CreatedBy = Guid.NewGuid().ToString()
-                    },
-                       new Product
-                    {
-                        ProductName = "Women Sports Jacket",
-                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-                        PriceBase = 68.40M,
-                        Price = 68.40M,
-                        BrandId = brand!.Id,
-                        AvailabilityId = availability!.Id,
-                        CategoryId = category!.Id,
-                        Warranty = "Garantia por 1 años",
-                        Review = 70,
-                        Rating = 4,
-                        QuantityTypeId = quantity!.Id,
-                        BarCode= "123123123123213123123132",
-                        Stock = 10,
-                        Created = DateTime.Now,
-                        CreatedBy = Guid.NewGuid().ToString()
-                    },
-                       new Product
-                    {
-                        ProductName = "Women Colorblock Sneakers",
-                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-                        PriceBase = 154,
-                        Price = 154,
-                        BrandId = brand!.Id,
-                        AvailabilityId = availability!.Id,
-                        CategoryId = category!.Id,
-                        Warranty = "Garantia por 3 años",
-                        Review = 75,
-                        Rating = 3.5M,
-                        QuantityTypeId = quantity!.Id,
-                        BarCode= "123123123123213123123132",
-                        Stock = 10,
-                        Created = DateTime.Now,
-                        CreatedBy = Guid.NewGuid().ToString()
-                    },
-                    new Product
-                    {
-                        ProductName = "Cotton Lace Blouse",
-                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
-                        PriceBase = 38.50M,
-                        Price = 28.50M,
-                        BrandId = brand!.Id,
-                        AvailabilityId = availability!.Id,
-                        CategoryId = category!.Id,
-                        Warranty = "Garantia por 1 años",
-                        Review = 50,
-                        Rating = 3,
-                        QuantityTypeId = quantity!.Id,
-                        BarCode= "123123123123213123123132",
-                        Stock = 10,
-                        Created = DateTime.Now,
-                        CreatedBy = Guid.NewGuid().ToString()
-                    }
-                });
+        //    if (!context.Products.Any())
+        //    {
+        //        context.Products.AddRange(new List<Product>
+        //        {
+        //            new Product
+        //            {
+        //                ProductName = "Women Colorblock Sneakers",
+        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
+        //                PriceBase = 154,
+        //                Price = 154,
+        //                BrandId = brand!.Id,
+        //                AvailabilityId = availability!.Id,
+        //                CategoryId = category!.Id,
+        //                Warranty = "Garantia por 3 años",
+        //                Review = 75,
+        //                Rating = 3.5M,
+        //                QuantityTypeId = quantity!.Id,
+        //                BarCode= "123123123123213123123132",
+        //                Stock = 10,
+        //                Created = DateTime.Now,
+        //                CreatedBy = Guid.NewGuid().ToString()
+        //            },
+        //            new Product
+        //            {
+        //                ProductName = "Cotton Lace Blouse",
+        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
+        //                PriceBase = 38.50M,
+        //                Price = 28.50M,
+        //                BrandId = brand!.Id,
+        //                AvailabilityId = availability!.Id,
+        //                CategoryId = category!.Id,
+        //                Warranty = "Garantia por 1 años",
+        //                Review = 50,
+        //                Rating = 3,
+        //                QuantityTypeId = quantity!.Id,
+        //                BarCode= "123123123123213123123132",
+        //                Stock = 10,
+        //                Created = DateTime.Now,
+        //                CreatedBy = Guid.NewGuid().ToString()
+        //            },
+        //             new Product
+        //            {
+        //                ProductName = "Mom High Waist Shorts",
+        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
+        //                PriceBase = 39.50M,
+        //                Price = 28.50M,
+        //                BrandId = brand!.Id,
+        //                AvailabilityId = availability!.Id,
+        //                CategoryId = category!.Id,
+        //                Warranty = "Garantia por 1 años",
+        //                Review = 20,
+        //                Rating = 5,
+        //                QuantityTypeId = quantity!.Id,
+        //                BarCode= "123123123123213123123132",
+        //                Stock = 10,
+        //                Created = DateTime.Now,
+        //                CreatedBy = Guid.NewGuid().ToString()
+        //            },
+        //               new Product
+        //            {
+        //                ProductName = "Women Sports Jacket",
+        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
+        //                PriceBase = 68.40M,
+        //                Price = 68.40M,
+        //                BrandId = brand!.Id,
+        //                AvailabilityId = availability!.Id,
+        //                CategoryId = category!.Id,
+        //                Warranty = "Garantia por 1 años",
+        //                Review = 70,
+        //                Rating = 4,
+        //                QuantityTypeId = quantity!.Id,
+        //                BarCode= "123123123123213123123132",
+        //                Stock = 10,
+        //                Created = DateTime.Now,
+        //                CreatedBy = Guid.NewGuid().ToString()
+        //            },
+        //               new Product
+        //            {
+        //                ProductName = "Women Colorblock Sneakers",
+        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
+        //                PriceBase = 154,
+        //                Price = 154,
+        //                BrandId = brand!.Id,
+        //                AvailabilityId = availability!.Id,
+        //                CategoryId = category!.Id,
+        //                Warranty = "Garantia por 3 años",
+        //                Review = 75,
+        //                Rating = 3.5M,
+        //                QuantityTypeId = quantity!.Id,
+        //                BarCode= "123123123123213123123132",
+        //                Stock = 10,
+        //                Created = DateTime.Now,
+        //                CreatedBy = Guid.NewGuid().ToString()
+        //            },
+        //            new Product
+        //            {
+        //                ProductName = "Cotton Lace Blouse",
+        //                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.",
+        //                PriceBase = 38.50M,
+        //                Price = 28.50M,
+        //                BrandId = brand!.Id,
+        //                AvailabilityId = availability!.Id,
+        //                CategoryId = category!.Id,
+        //                Warranty = "Garantia por 1 años",
+        //                Review = 50,
+        //                Rating = 3,
+        //                QuantityTypeId = quantity!.Id,
+        //                BarCode= "123123123123213123123132",
+        //                Stock = 10,
+        //                Created = DateTime.Now,
+        //                CreatedBy = Guid.NewGuid().ToString()
+        //            }
+        //        });
 
-                await context.SaveChangesAsync();
-            }
-        }
+        //        await context.SaveChangesAsync();
+        //    }
+        //}
 
     }
 }

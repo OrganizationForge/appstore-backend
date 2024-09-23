@@ -454,8 +454,7 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Modified")
                         .HasColumnType("datetime2");

@@ -12,8 +12,8 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240915154505_Initial")]
-    partial class Initial
+    [Migration("20240922143229_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -457,8 +457,7 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Modified")
                         .HasColumnType("datetime2");
@@ -467,11 +466,11 @@ namespace Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("PriceBase")
-                        .HasColumnType("float");
+                    b.Property<decimal>("PriceBase")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
@@ -481,14 +480,14 @@ namespace Persistence.Migrations
                     b.Property<Guid>("QuantityTypeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Rating")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Review")
                         .HasColumnType("int");
 
-                    b.Property<double>("Stock")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Stock")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Warranty")
                         .HasMaxLength(254)

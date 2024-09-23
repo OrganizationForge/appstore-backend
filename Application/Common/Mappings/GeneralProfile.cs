@@ -24,7 +24,10 @@ namespace Application.Common.Mappings
         public GeneralProfile()
         {
             #region DTOs
-            CreateMap<Product, ProductDTO>();
+            CreateMap<Product, ProductDTO>()
+                     .ForMember(dest => dest.Review, opt => opt.MapFrom(x => x.Comments.Count))
+                     .ForMember(dest => dest.Rating, opt => opt.MapFrom(x => x.Comments.Average(c => c.Rating)));
+
             CreateMap<Category, CategoryDTO>();
             CreateMap<Brand, BrandDTO>();
             CreateMap<ProductFile, ProductFileDTO>();

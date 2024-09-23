@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -185,9 +185,9 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProductName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    PriceBase = table.Column<double>(type: "float", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PriceBase = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BrandId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AvailabilityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -195,9 +195,9 @@ namespace Persistence.Migrations
                     Warranty = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: true),
                     Weight = table.Column<int>(type: "int", nullable: false),
                     Review = table.Column<int>(type: "int", nullable: false),
-                    Rating = table.Column<double>(type: "float", nullable: false),
+                    Rating = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BarCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Stock = table.Column<double>(type: "float", nullable: false),
+                    Stock = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
