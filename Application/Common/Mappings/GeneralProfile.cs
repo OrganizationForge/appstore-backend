@@ -25,8 +25,8 @@ namespace Application.Common.Mappings
         {
             #region DTOs
             CreateMap<Product, ProductDTO>()
-                     .ForMember(dest => dest.Review, opt => opt.MapFrom(x => x.Comments.Count))
-                     .ForMember(dest => dest.Rating, opt => opt.MapFrom(x => x.Comments.Average(c => c.Rating)));
+                     .ForMember(dest => dest.Review, opt => opt.MapFrom(x => x.Comments.Count > 0 ? x.Comments.Count : 0))
+                     .ForMember(dest => dest.Rating, opt => opt.MapFrom(x => x.Comments.Count > 0 ? x.Comments.Average(c => c.Rating) : 0.0));
 
             CreateMap<Category, CategoryDTO>();
             CreateMap<Brand, BrandDTO>();
