@@ -16,20 +16,24 @@ namespace Persistence.Configuration
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.Property(p => p.Description)
-                .HasMaxLength(500);
+            builder.Property(p => p.Price)
+                .HasColumnType("decimal(18,2)")
+                .IsRequired();
 
             builder.Property(p => p.PriceBase)
+                .HasColumnType("decimal(18,2)")
                 .IsRequired();
 
             builder.Property(p => p.Warranty)
                 .HasMaxLength(254);
 
-            builder.Property(p => p.CreatedBy)
-               .HasMaxLength(50);
+            builder.Property(p => p.Rating)
+                .HasColumnType("decimal(18,2)")
+                .IsRequired();
 
-            builder.Property(p => p.ModifiedBy)
-                .HasMaxLength(50);
+            builder.Property(p => p.Stock)
+                .HasColumnType("decimal(18,2)")
+                .IsRequired();
 
             builder.HasOne(p => p.Category)
             .WithMany(b => b.Products)
@@ -46,6 +50,8 @@ namespace Persistence.Configuration
             builder.HasMany(p => p.ProductFiles)
                 .WithOne(b => b.Product)
                 .HasForeignKey(p => p.ProductId);
+
+
 
         }
     }

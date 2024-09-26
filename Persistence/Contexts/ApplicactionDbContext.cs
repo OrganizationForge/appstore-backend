@@ -2,7 +2,7 @@
 using Domain.Common;
 using Domain.Common.Interfaces;
 using Domain.Entities;
-using Domain.Entities.Library;
+using Domain.Entities.Checkout;
 using Domain.Entities.Products;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -13,23 +13,33 @@ namespace Persistence.Contexts
     {
         private readonly IDateTimeService _datetime;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
+        private readonly CurrentUser _user;
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDateTimeService datetime, IDomainEventDispatcher domainEventDispatcher) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, 
+            IDateTimeService datetime, 
+            IDomainEventDispatcher domainEventDispatcher,
+            ICurrentUserService currentUserService) : base(options)
         {
             //agregamos para poder seguir los cambios y que Entity se de cuenta cuando hace un SaveAsync
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             this._datetime = datetime;
             _domainEventDispatcher = domainEventDispatcher;
+            _user = currentUserService.User;
         }
         public DbSet<Availability> Availabilities { get; set; }
-        public DbSet<Book> Books { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Idiom> Languages { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<QuantityType> QuantityTypes { get; set; }
         public DbSet<ProductFile> ProductFiles { get; set; }
         public DbSet<Spec> Specs { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Payment> PaymentMethods { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Shipping> Shippings { get; set; }
+        public DbSet<ShippingMethod> ShippingMethods { get; set; }
 
 
         //Sobrescribimos SaveAsync
@@ -41,9 +51,13 @@ namespace Persistence.Contexts
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.Created = _datetime.NowUtc; break;
+                        entry.Entity.CreatedBy = _user.Id;
+                        entry.Entity.Created = _datetime.NowUtc; 
+                        break;
                     case EntityState.Modified:
-                        entry.Entity.Modified = _datetime.NowUtc; break;
+                        entry.Entity.ModifiedBy = _user.Id;
+                        entry.Entity.Modified = _datetime.NowUtc; 
+                        break;
                 }
             }
             //return base.SaveChangesAsync();

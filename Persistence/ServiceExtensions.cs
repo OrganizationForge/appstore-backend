@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Contexts;
 using Persistence.Repositories;
+using Shared.Services;
 
 namespace Persistence
 {
@@ -25,7 +26,8 @@ namespace Persistence
             #region Repositories
             services
                 .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))
-                .AddTransient(typeof(IRepositoryAsync<>), typeof(RepositoryAsync<>));
+                .AddTransient(typeof(IRepositoryAsync<>), typeof(RepositoryAsync<>))
+                .AddTransient(typeof(ICurrentUserService), typeof(CurrentUserService));
 
             #endregion
 

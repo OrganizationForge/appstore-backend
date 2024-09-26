@@ -2,6 +2,7 @@ using Application;
 using HealthChecks.UI.Client;
 using HealthChecks.UI.Configuration;
 using Identity;
+using Identity.Context;
 using Identity.Models;
 using Identity.Seeds;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -30,7 +31,7 @@ Log.Logger = new LoggerConfiguration()
 
 /***** INSTANCIAMOS CAPAS *****/
 //Aca Agrego el servicio de la capa de aplicacion
-builder.Services.AddApplicationLayer();
+builder.Services.AddApplicationLayer(builder.Configuration);
 
 //Agrego el service de JWT
 builder.Services.AddIdentityInfrastructureLayer(builder.Configuration);
@@ -42,7 +43,7 @@ builder.Services.AddSharedLayer(builder.Configuration);
 builder.Services.AddPersistenceLayer(builder.Configuration);
 
 //Configuro Health Ckeck
-builder.Services.ConfigureHealthChecks(builder.Configuration);
+//builder.Services.ConfigureHealthChecks(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddControllers()
@@ -107,26 +108,36 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1")
 app.UseHttpsRedirection();
 
 //HealthCheck Middleware
-app.MapHealthChecks("/api/health", new HealthCheckOptions()
-{
-    Predicate = _ => true,
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
-app.UseHealthChecksUI(delegate (Options options)
-{
-    options.UIPath = "/healthcheck-ui";
-    options.AddCustomStylesheet("./Extensions/HealthCheck/healthcheck.css");
+//app.MapHealthChecks("/api/health", new HealthCheckOptions()
+//{
+//    Predicate = _ => true,
+//    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+//});
+//app.UseHealthChecksUI(delegate (Options options)
+//{
+//    options.UIPath = "/healthcheck-ui";
+//    options.AddCustomStylesheet("./Extensions/HealthCheck/healthcheck.css");
 
-});
+//});
 
 app.UseCors("AllowAll");
 
 app.UseStaticFiles();
-app.UseStaticFiles(new StaticFileOptions()
-{
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
-    RequestPath = new PathString("/Resources")
-});
+
+// Access volume mount path from environment variable
+//var resourcesPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
+////var resourcesPath = Environment.GetEnvironmentVariable("IMAGE_FOLDER_PATH");
+//var resourcesPath = $"{Directory.GetCurrentDirectory()}/Resources";
+
+//if (Directory.Exists(resourcesPath) && Directory.EnumerateFiles(resourcesPath, "*", SearchOption.AllDirectories).Any())
+//{
+//    app.UseStaticFiles(new StaticFileOptions()
+//    {
+//        FileProvider = new PhysicalFileProvider(resourcesPath),
+//        RequestPath = new PathString("/Resources")
+//    });
+//}
+
 
 app.UseRouting();
 
@@ -171,21 +182,20 @@ async Task CargarSeeds()
 
     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var identityContext = services.GetRequiredService<IdentityContext>();
+    identityContext.Database.EnsureCreated();
 
-    await DefaultRoles.SeedAsync(userManager, roleManager);
-    await DefaultAdminUser.SeedAsync(userManager, roleManager);
-    await DefaultBasicUser.SeedAsync(userManager, roleManager);
+    await DefaultRoles.SeedAsync(userManager, roleManager, identityContext);
+    await DefaultUsers.SeedAsync(userManager, roleManager, identityContext);
 
     var context = services.GetRequiredService<ApplicationDbContext>();
     context.Database.EnsureCreated();
-
-    //await BookSeed.SeedLanguagesAsync(context);
-    //await BookSeed.SeedBooksAsync(context);
 
     await ProductSeed.SeedAvailabilityAsync(context);
     await ProductSeed.SeedBrandAsync(context);
     await ProductSeed.SeedCategoryAsync(context);
     await ProductSeed.SeedQuantityTypesyAsync(context);
     await ProductSeed.SeedSpecsyAsync(context);
+    await ProductSeed.SeedShippingMethodAsync(context);
     //await ProductSeed.SeedProductAsync(context);
 }

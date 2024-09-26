@@ -1,16 +1,36 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
-WORKDIR /App
-EXPOSE 80
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-# Copy everything
-COPY . ./
-# Restore as distinct layers
-RUN dotnet restore
-# Build and publish a release
-RUN dotnet publish -c Release -o out
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+#VOLUME /app/images
+USER app
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+#ENV IMAGE_FOLDER_PATH "/app/images" 
+#ENV DB_CONNECTION_STRING = "Server=149.50.144.77;Database=ProductDb;Persist Security Info=True;User ID=SA;Password=sqlk0Dx4q3ZZaC281t;MultipleActiveResultSets=True; TrustServerCertificate=True"
 
-# Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
-WORKDIR /App
-COPY --from=build-env /App/out .
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["WebApi/WebApi.csproj", "WebApi/"]
+COPY ["Application/Application.csproj", "Application/"]
+COPY ["Domain/Domain.csproj", "Domain/"]
+COPY ["Identity/Identity.csproj", "Identity/"]
+COPY ["Persistence/Persistence.csproj", "Persistence/"]
+COPY ["Shared/Shared.csproj", "Shared/"]
+RUN dotnet restore "./WebApi/WebApi.csproj"
+COPY . .
+WORKDIR "/src/WebApi"
+RUN dotnet build "./WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+
+# RUN mkdir /resources/image
+
 ENTRYPOINT ["dotnet", "WebApi.dll"]

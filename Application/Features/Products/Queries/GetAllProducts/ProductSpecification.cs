@@ -29,6 +29,7 @@ namespace Application.Features.Products.Queries.GetAllProducts
                 .Include(x => x.Category)
                 .Include(x => x.Brand)
                 .Include(x => x.Availability)
+                .Include(x => x.Comments)
                 .Include(x => x.ProductFiles);
         }
     }

@@ -16,11 +16,7 @@ namespace Persistence.Configuration
                 .IsRequired()
                 .HasMaxLength(80);
 
-            builder.Property(p => p.CreatedBy)
-                .HasMaxLength(50);
-
-            builder.Property(p => p.ModifiedBy)
-                .HasMaxLength(50);
+     
         }
     }
 }

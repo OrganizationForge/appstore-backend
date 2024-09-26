@@ -1,14 +1,21 @@
 ﻿using Application.Common.Enums;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Mailing;
 using Application.Common.Wrappers;
+using Application.Features.Authenticate.Commands.RegisterCommand;
 using Application.Features.Authenticate.User;
+using Application.Features.Products.Commands.CreateProductCommand;
+using AutoMapper.Internal;
 using Azure.Core;
 using Domain.Settings;
+using Identity.Common;
 using Identity.Context;
 using Identity.Helpers;
 using Identity.Models;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -16,6 +23,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 
 namespace Identity.Services
 {
@@ -27,8 +35,19 @@ namespace Identity.Services
         private readonly JWTSettings _jwtSettings;
         private readonly IDateTimeService _dateTimeService;
         private readonly IdentityContext _identityContext;
+        private readonly IEmailTemplateService _templateService;
+        private readonly SecuritySettings _securitySettings;
+        private readonly CurrentUser _user;
 
-        public AccountService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager, IOptions<JWTSettings> jwtSettings, IDateTimeService dateTimeService, IdentityContext identityContext)
+        public AccountService(UserManager<ApplicationUser> userManager, 
+            RoleManager<IdentityRole> roleManager, 
+            SignInManager<ApplicationUser> signInManager, 
+            IOptions<JWTSettings> jwtSettings, 
+            IDateTimeService dateTimeService, 
+            IdentityContext identityContext,
+            IOptions<SecuritySettings> securitySettings,
+            ICurrentUserService currentUserService,
+            IEmailTemplateService templateService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -36,6 +55,9 @@ namespace Identity.Services
             _jwtSettings = jwtSettings.Value;
             _dateTimeService = dateTimeService;
             _identityContext = identityContext;
+            _templateService = templateService;
+            _securitySettings = securitySettings.Value;
+            _user = currentUserService.User;
         }
 
 
@@ -59,6 +81,9 @@ namespace Identity.Services
             response.JWToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             response.Email = usuario.Email;
             response.UserName = usuario.UserName;
+            response.Apellido = usuario.Apellido;
+            response.Nombre = usuario.Nombre;
+            response.UrlImage = "";
 
             var rolesList = await _userManager.GetRolesAsync(usuario).ConfigureAwait(false);
             response.Roles = rolesList.ToList();
@@ -68,6 +93,37 @@ namespace Identity.Services
             //response.RefreshToken = refreshToken.Token;
             response.RefreshToken = await GenerateRefreshToken(ipAddress, usuario.Id);
             return new Response<AuthenticationResponse>(response, $"Usuario {usuario.UserName} autenticado");
+        }
+
+        public async Task<Response<AuthenticationResponse>> GetUser()
+        {
+
+            var user = await _userManager.Users
+            .AsNoTracking()
+            .Where(u => u.Id == _user.Id)
+            .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ApiException($"Usuario no encontrado");
+            }
+
+            JwtSecurityToken jwtSecurityToken = await GenerateJwyToken(user);
+            AuthenticationResponse response = new AuthenticationResponse();
+            response.Id = user.Id;
+            response.JWToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            response.Email = user.Email;
+            response.UserName = user.UserName;
+            response.Apellido = user.Apellido;
+            response.Nombre = user.Nombre;
+            response.UrlImage = "";
+
+            var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+            response.Roles = rolesList.ToList();
+            response.IsVerified = user.EmailConfirmed;
+
+            return new Response<AuthenticationResponse>(response);
+
         }
 
         public async Task<Response<string>> RegisterAsync(RegisterRequest request, string origin)
@@ -91,17 +147,37 @@ namespace Identity.Services
             {
                 throw new ApiException($"El mail {request.Email} ya fue registrado previamente");
             }
-            else
+
+
+
+            if (_securitySettings.RequireConfirmedAccount && !string.IsNullOrEmpty(usuario.Email))
             {
-                var result = await _userManager.CreateAsync(usuario, request.Password);
-                if (result.Succeeded)
+                // send verification email
+                string emailVerificationUri = await GetEmailVerificationUriAsync(usuario, origin);
+                RegisterUserEmail eMailModel = new RegisterUserEmail()
                 {
-                    await _userManager.AddToRoleAsync(usuario, Roles.Basic.ToString());
-                    return new Response<string>(usuario.Id, message: $"Usuario {request.UserName} registrado correctamente");
-                }
-                else
-                    throw new ApiException($"{result.Errors}");
+                    Email = usuario.Email,
+                    UserName = usuario.UserName,
+                    Url = emailVerificationUri
+                };
+
+                var mailRequest = new MailRequest(
+                    new List<string> { usuario.Email },
+                    "Confirm Registration",
+                    _templateService.GenerateEmailTemplate("email-confirmation", eMailModel)
+                 );
+                usuario.AddDomainEvent(new RegisterCommandEvent(mailRequest));
+                //_jobService.Enqueue(() => _mailService.SendAsync(mailRequest, CancellationToken.None));
             }
+
+
+            var result = await _userManager.CreateAsync(usuario, request.Password);
+            if (!result.Succeeded)
+                throw new ApiException($"{result.Errors}");
+
+            await _userManager.AddToRoleAsync(usuario, Roles.Basic.ToString());
+
+            return new Response<string>(usuario.Id, message: $"Usuario {usuario.UserName} registrado correctamente. Por favor chequear en {usuario.Email} para verificar tu cuenta!");
         }
         public async Task<Response<AuthenticationResponse>> RefreshTokenAsync(string accessToken, string refreshToken, string ipAddress)
         {
@@ -156,6 +232,20 @@ namespace Identity.Services
 
             response.RefreshToken = await GenerateRefreshToken(ipAddress, user.Id);
             return new Response<AuthenticationResponse>(response, $"Usuario {user.UserName} autenticado");
+        }
+
+        private async Task<string> GetEmailVerificationUriAsync(ApplicationUser user, string origin)
+        {
+            //EnsureValidTenant();
+
+            string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            const string route = "api/users/confirm-email/";
+            var endpointUri = new Uri(string.Concat($"{origin}/", route));
+            string verificationUri = QueryHelpers.AddQueryString(endpointUri.ToString(), QueryStringKeys.UserId, user.Id);
+            verificationUri = QueryHelpers.AddQueryString(verificationUri, QueryStringKeys.Code, code);
+            //verificationUri = QueryHelpers.AddQueryString(verificationUri, MultitenancyConstants.TenantIdName, _currentTenant.Id!);
+            return verificationUri;
         }
 
         private async Task<JwtSecurityToken> GenerateJwyToken(ApplicationUser usuario)
