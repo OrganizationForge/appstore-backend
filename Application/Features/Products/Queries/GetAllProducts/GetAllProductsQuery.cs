@@ -37,7 +37,8 @@ namespace Application.Features.Products.Queries.GetAllProducts
             var totalRecords = await _unitOfWork.Repository<Product>().CountAsync();
             var result = _mapper.Map<List<ProductDTO>>(listAllProducts);
 
-            var baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host.Value}";
+            var baseUrl = "http://149.50.144.77:81";
+            // var baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host.Value}";
 
             // Agregar la URL base a cada imagen
             foreach (var product in result)

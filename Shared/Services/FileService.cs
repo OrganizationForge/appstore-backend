@@ -14,9 +14,7 @@ namespace Shared.Services
     {
         public string UploadFile(FileUpload file, string route)
         {
-            var folderName = Path.Combine("Resources", route);
-            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-
+            var pathToSave = Path.Combine("/app/resources/images", route);
             string fileRoute = "";
 
             if (!Directory.Exists(pathToSave))
@@ -35,7 +33,8 @@ namespace Shared.Services
 
                         // Write the byte array to the stream to create the image file
                         stream.Write(imageBytes, 0, imageBytes.Length);
-                        fileRoute = Path.Combine(folderName, fileName);
+                        fileRoute = Path.Combine(route, fileName);
+                        //fileRoute = Path.Combine(folderName, fileName);
                     }
                 }
             }

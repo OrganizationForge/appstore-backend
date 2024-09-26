@@ -124,16 +124,19 @@ app.UseCors("AllowAll");
 
 app.UseStaticFiles();
 
-var resourcesPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
+// Access volume mount path from environment variable
+//var resourcesPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
+////var resourcesPath = Environment.GetEnvironmentVariable("IMAGE_FOLDER_PATH");
+//var resourcesPath = $"{Directory.GetCurrentDirectory()}/Resources";
 
-if (Directory.Exists(resourcesPath) && Directory.EnumerateFiles(resourcesPath, "*", SearchOption.AllDirectories).Any())
-{
-    app.UseStaticFiles(new StaticFileOptions()
-    {
-        FileProvider = new PhysicalFileProvider(resourcesPath),
-        RequestPath = new PathString("/Resources")
-    });
-}
+//if (Directory.Exists(resourcesPath) && Directory.EnumerateFiles(resourcesPath, "*", SearchOption.AllDirectories).Any())
+//{
+//    app.UseStaticFiles(new StaticFileOptions()
+//    {
+//        FileProvider = new PhysicalFileProvider(resourcesPath),
+//        RequestPath = new PathString("/Resources")
+//    });
+//}
 
 
 app.UseRouting();
