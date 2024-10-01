@@ -1,16 +1,10 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
-using Application.Features.Brands.Commands.CreateBrandCommand;
+using Application.Features.Shipping.Queries;
 using AutoMapper;
-using Domain.Entities;
 using Domain.Entities.Checkout;
 using Domain.Entities.Products;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Orders.Commands.CreateOrderCommand
 {
@@ -45,7 +39,7 @@ namespace Application.Features.Orders.Commands.CreateOrderCommand
 
             }
 
-            var newOrder= _mapper.Map<Order>(command);
+            var newOrder = _mapper.Map<Order>(command);
 
             await _unitOfWork.Repository<Order>().AddAsync(newOrder);
 

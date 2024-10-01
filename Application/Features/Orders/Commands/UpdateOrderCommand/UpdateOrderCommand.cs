@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
+using Application.Features.Shipping.Queries;
 using AutoMapper;
 using Domain.Entities.Checkout;
 using MediatR;
@@ -79,7 +80,7 @@ namespace Application.Features.Orders.Commands.UpdateOrderCommand
                 }
             }
 
-   
+
             await _unitOfWork.Save(cancellationToken);
 
             return new Response<string>("Successfully updated");

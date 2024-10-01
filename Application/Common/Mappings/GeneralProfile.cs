@@ -5,6 +5,7 @@ using Application.Features.Categories.Queries;
 using Application.Features.Orders;
 using Application.Features.Orders.Commands.CreateOrderCommand;
 using Application.Features.Orders.Queries;
+using Application.Features.Payments.Queries;
 using Application.Features.ProductComments.Commands.CreateCommentCommand;
 using Application.Features.ProductComments.Queries;
 using Application.Features.Products.Commands.CreateProductCommand;
@@ -40,6 +41,8 @@ namespace Application.Common.Mappings
             CreateMap<Order, OrderDTO>();
             CreateMap<QuantityType, QuantityTypeDTO>();
             CreateMap<Availability, AvailavilityDTO>();
+            CreateMap<Payment, PaymentDTO>();
+            CreateMap<PaymentMethod, PaymentMethodDTO>();
 
 
 

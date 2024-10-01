@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Orders
+namespace Application.Features.Shipping.Queries
 {
     public class ShippingDTO
     {
         public string? ShippingAddress { get; set; }
-        public Guid ShippingMethodId { get; set; }
+        public Guid? ShippingMethodId { get; set; }
     }
 }

@@ -15,7 +15,9 @@ namespace Application.Features.Orders.Queries.GetOrderById
         {
 
             Query.Where(p => p.Id == id)
-                .Include(p => p.UserId);
+                .Include(p => p.Payment)
+                .Include(p => p.Shipping)
+                .Include(p => p.OrderItems);
         }
     }
 }

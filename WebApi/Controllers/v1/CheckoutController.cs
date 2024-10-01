@@ -19,8 +19,8 @@ namespace WebApi.Controllers.v1
             return Ok(await Mediator.Send(command));
         }
 
-        [HttpGet]
-        [HttpGet("{id:Guid}")]
+       
+        [HttpGet("Orders/{id:Guid}")]
         public async Task<IActionResult> GetAsync(Guid id)
         {
             return Ok(await Mediator.Send(new GetOrderByIdQuery { Id = id }));
@@ -34,9 +34,10 @@ namespace WebApi.Controllers.v1
         { 
             return Ok(await Mediator.Send(command));
         }
+
+
         [HttpPut]
         [Route("Orders")]
-
         public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderCommand command)
         {
             return Ok(await Mediator.Send(command));
