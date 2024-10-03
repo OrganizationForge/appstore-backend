@@ -2,7 +2,6 @@
 using Application.Features.Orders.Commands.UpdateOrderCommand;
 using Application.Features.Orders.Queries.GetOrderById;
 using Application.Features.Payments.Commands.CreatePaymentCommand;
-using Application.Features.Products.Queries.GetProductById;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +18,7 @@ namespace WebApi.Controllers.v1
             return Ok(await Mediator.Send(command));
         }
 
-       
+
         [HttpGet("Orders/{id:Guid}")]
         public async Task<IActionResult> GetAsync(Guid id)
         {
@@ -31,7 +30,7 @@ namespace WebApi.Controllers.v1
         [Route("Orders")]
 
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command)
-        { 
+        {
             return Ok(await Mediator.Send(command));
         }
 
@@ -42,8 +41,6 @@ namespace WebApi.Controllers.v1
         {
             return Ok(await Mediator.Send(command));
         }
-
-
     }
 
 
