@@ -5,25 +5,19 @@ using Application.Common.Mailing;
 using Application.Common.Wrappers;
 using Application.Features.Authenticate.Commands.RegisterCommand;
 using Application.Features.Authenticate.User;
-using Application.Features.Products.Commands.CreateProductCommand;
-using AutoMapper.Internal;
-using Azure.Core;
 using Domain.Settings;
 using Identity.Common;
 using Identity.Context;
 using Identity.Helpers;
 using Identity.Models;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using System.Security.Claims;
 using System.Text;
-using System.Threading;
 
 namespace Identity.Services
 {
@@ -89,9 +83,11 @@ namespace Identity.Services
             response.Roles = rolesList.ToList();
             response.IsVerified = usuario.EmailConfirmed;
 
-            //var refreshToken = GenerateRefreshToken(ipAddress, usuario.Id);
-            //response.RefreshToken = refreshToken.Token;
-            response.RefreshToken = await GenerateRefreshToken(ipAddress, usuario.Id);
+            var newRT = await GenerateRefreshToken(ipAddress, usuario.Id);
+
+            response.RefreshToken = newRT.Token;
+            response.RefreshTokenExpiration = newRT.Expires;
+            //response.RefreshToken = await GenerateRefreshToken(ipAddress, usuario.Id);
             return new Response<AuthenticationResponse>(response, $"Usuario {usuario.UserName} autenticado");
         }
 
@@ -179,7 +175,7 @@ namespace Identity.Services
 
             return new Response<string>(usuario.Id, message: $"Usuario {usuario.UserName} registrado correctamente. Por favor chequear en {usuario.Email} para verificar tu cuenta!");
         }
-        public async Task<Response<AuthenticationResponse>> RefreshTokenAsync(string accessToken, string refreshToken, string ipAddress)
+        public async Task<Response<AuthenticationResponse>> RefreshTokenAsync(string refreshToken, string ipAddress)
         {
             var oldToken = await _identityContext.RefreshTokens.FirstOrDefaultAsync(q => q.Token == refreshToken);
 
@@ -230,8 +226,53 @@ namespace Identity.Services
             response.Roles = rolesList.ToList();
             response.IsVerified = user.EmailConfirmed;
 
-            response.RefreshToken = await GenerateRefreshToken(ipAddress, user.Id);
+            var newRT = await GenerateRefreshToken(ipAddress, user.Id);
+
+            response.RefreshToken = newRT.Token;
+            response.RefreshTokenExpiration = newRT.Expires;
+
             return new Response<AuthenticationResponse>(response, $"Usuario {user.UserName} autenticado");
+        }
+
+        public async Task<Response<bool>> RevokeTokenAsync(string refreshToken, string ipAddress)
+        {
+
+            var oldToken = await _identityContext.RefreshTokens.FirstOrDefaultAsync(q => q.Token == refreshToken);
+
+            // Refresh token no existe, expiró o fue revocado manualmente
+            // (Pensando que el usuario puede dar click en "Cerrar Sesión en todos lados" o similar)
+            if (oldToken is null || oldToken.Expires <= DateTime.UtcNow)
+            {
+                throw new ApiException("RefreshToken inactivo");
+            }
+
+            // Se está intentando usar un Refresh Token que ya fue usado anteriormente,
+            // puede significar que este refresh token fue robado.
+            if (!oldToken.IsActive)
+            {
+                //_logger.LogWarning("El refresh token del {UserId} ya fue usado. RT={RefreshToken}", refreshToken.UserId, refreshToken.RefreshTokenValue);
+
+                var refreshTokens = await _identityContext.RefreshTokens
+                    .Where(q => q.IsActive && q.UserId == oldToken.UserId).ToListAsync();
+
+                foreach (var rt in refreshTokens)
+                {
+                    rt.Revoked = DateTime.Now;
+                }
+
+                await _identityContext.SaveChangesAsync();
+
+                throw new ApiException("Se ha intentado usar un RefreshToken inactivo");
+            }
+
+            // TODO: Podríamos validar que el Access Token sí corresponde al mismo usuario
+            oldToken.Revoked = DateTime.Now;
+
+            var res = await _identityContext.SaveChangesAsync();
+
+
+            return new Response<bool>(true);
+
         }
 
         private async Task<string> GetEmailVerificationUriAsync(ApplicationUser user, string origin)
@@ -287,23 +328,23 @@ namespace Identity.Services
             return jwtSecutiryToken;
         }
 
-        private async Task<string> GenerateRefreshToken(string ipAddress, string idUser)
+        private async Task<RefreshToken> GenerateRefreshToken(string ipAddress, string idUser)
         {
 
-            var newAccessToken = new RefreshToken
+            var newRefreshToken = new RefreshToken
             {
                 Token = Guid.NewGuid().ToString("N"),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationDays),
                 Created = DateTime.Now,
                 CreatedByIp = ipAddress,
                 UserId = idUser
             };
 
-            _identityContext.RefreshTokens.Add(newAccessToken);
+            _identityContext.RefreshTokens.Add(newRefreshToken);
 
             await _identityContext.SaveChangesAsync();
 
-            return newAccessToken.Token;
+            return newRefreshToken;
         }
     }
 }

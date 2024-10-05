@@ -1,7 +1,9 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Common.Exceptions;
+using Application.Common.Interfaces;
 using Application.Features.Authenticate.Commands.AuthenticateCommand;
 using Application.Features.Authenticate.Commands.RefreshTokenCommand;
 using Application.Features.Authenticate.Commands.RegisterCommand;
+using Application.Features.Authenticate.Commands.RevokeTokenCommand;
 using Application.Features.Authenticate.Queries;
 using Application.Features.Authenticate.User;
 using Asp.Versioning;
@@ -122,24 +124,48 @@ namespace WebApi.Controllers.Identity
         [HttpPost("authenticate")]
         public async Task<IActionResult> AuthenticateAsync(AuthenticationRequest request)
         {
-            return Ok(await Mediator.Send(new AuthenticateCommand
+            var result = await Mediator.Send(new AuthenticateCommand
             {
                 Email = request.Email,
                 Password = request.Password,
                 IpAddress = GenerateIpAddress()
-            }));
+            });
+            SetRefreshTokenInCookie(result.Data.RefreshToken, (DateTime)result.Data.RefreshTokenExpiration);
+            return Ok(result);
         }
 
         [HttpPost("refresh")]
-        public async Task<IActionResult> RefreshToken(RefreshTokenRequest request)
+        public async Task<IActionResult> RefreshToken()
         {
-            return Ok(await Mediator.Send(new RefreshTokenCommand
+            var result = await Mediator.Send(new RefreshTokenCommand
             {
-                AccessToken = request.AccessToken,
-                RefreshToken = request.RefreshToken,
+                RefreshToken = RecuperarRefreshToken(),
                 IpAddress = GenerateIpAddress()
-            }));
+            });
+            SetRefreshTokenInCookie(result.Data.RefreshToken, (DateTime)result.Data.RefreshTokenExpiration);
+            return Ok(result);
+            //return Ok(await Mediator.Send(new RefreshTokenCommand
+            //{
+            //    AccessToken = request.AccessToken,
+            //    RefreshToken = request.RefreshToken,
+            //    IpAddress = GenerateIpAddress()
+            //}));
         }
+
+        [HttpPost]
+        [Route("revoke-token")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> RevokeToken()
+        {
+            var result = await Mediator.Send(new RevokeRefreshtokenCommand
+            {
+                RefreshToken = RecuperarRefreshToken(),
+                IpAddress = GenerateIpAddress()
+            });
+            return Ok(result);
+        }
+
 
         [HttpGet("current")]
         public async Task<IActionResult> GetCurrent()
@@ -161,6 +187,31 @@ namespace WebApi.Controllers.Identity
                 return Request.Headers["X-Forwarded-For"];
             else
                 return HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+        }
+
+        private void SetRefreshTokenInCookie(string refreshToken, DateTime expiration)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                Expires = expiration,
+                HttpOnly = true,
+                Secure = true,
+                Path = "/; SameSite=None"
+            };
+            Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
+        }
+
+        private string RecuperarRefreshToken()
+        {
+            //recupero el refresh token de la cookie
+            string cookiesHeader = Request.Headers["Cookie"];
+            Request.Cookies.TryGetValue("refreshToken", out string refreshToken);
+
+            if (refreshToken == null)
+                throw new ApiException("Token no encontrado");
+
+            //refreshToken = request ?? refreshToken;
+            return refreshToken;
         }
     }
 }
