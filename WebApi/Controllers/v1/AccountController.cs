@@ -152,10 +152,8 @@ namespace WebApi.Controllers.Identity
             //}));
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("revoke-token")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RevokeToken()
         {
             var result = await Mediator.Send(new RevokeRefreshtokenCommand
@@ -196,7 +194,8 @@ namespace WebApi.Controllers.Identity
                 Expires = expiration,
                 HttpOnly = true,
                 Secure = true,
-                Path = "/; SameSite=None"
+                Path = "/",
+                SameSite = SameSiteMode.Lax
             };
             Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
         }
