@@ -1,13 +1,9 @@
 using Application;
-using HealthChecks.UI.Client;
-using HealthChecks.UI.Configuration;
 using Identity;
 using Identity.Context;
 using Identity.Models;
 using Identity.Seeds;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using Persistence.Contexts;
@@ -17,7 +13,6 @@ using Serilog.Events;
 using Shared;
 using System.Text.Json.Serialization;
 using WebApi.Extensions;
-using WebApi.Extensions.HealthCheck;
 
 var builder = WebApplication.CreateBuilder(args);
 

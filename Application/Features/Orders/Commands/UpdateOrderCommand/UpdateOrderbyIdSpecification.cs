@@ -1,23 +1,24 @@
 ﻿using Ardalis.Specification;
 using Domain.Entities.Checkout;
-using Domain.Entities.Products;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Orders.Queries.GetOrderById
+namespace Application.Features.Orders.Commands.UpdateOrderCommand
 {
-    public class OrderByIdSpecification : Specification<Order>, ISingleResultSpecification<Order>
+    public class UpdateOrderbyIdSpecification : Specification<Order>, ISingleResultSpecification<Order>
     {
-        public OrderByIdSpecification(Guid id)
+        public UpdateOrderbyIdSpecification(Guid id)
         {
 
             Query.Where(p => p.Id == id)
                 .Include(p => p.Payment)
                 .Include(p => p.Shipping)
-                .Include(p => p.OrderItems.Where(oi => oi.DeletedDate == null));
+                .Include(p => p.OrderItems);
         }
     }
 }
+
