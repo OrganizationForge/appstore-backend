@@ -4,6 +4,7 @@ using Application.Features.Brands.Queries;
 using Application.Features.Categories.Queries;
 using Application.Features.Orders;
 using Application.Features.Orders.Commands.CreateOrderCommand;
+using Application.Features.Orders.Commands.UpdateOrderCommand;
 using Application.Features.Orders.Queries;
 using Application.Features.Payments.Queries;
 using Application.Features.ProductComments.Commands.CreateCommentCommand;
@@ -58,6 +59,9 @@ namespace Application.Common.Mappings
                 .ForMember(dest => dest.Shipping, opt => opt.MapFrom(x => x.Shipping))
                 .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(x => x.OrderItems))
                 .ForMember(dest =>  dest.Status, opt => opt.MapFrom(x => OrderStatus.New));
+            CreateMap<UpdateOrderCommand, Order>()
+                .ForMember(dest => dest.Shipping, opt => opt.MapFrom(x => x.Shipping))
+                .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(x => x.OrderItems));
             #endregion
         }
     }
