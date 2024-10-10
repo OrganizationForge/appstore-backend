@@ -1,8 +1,10 @@
 ﻿using Application.Features.ProductComments.Commands.CreateCommentCommand;
 using Application.Features.Products.Commands.CreateProductCommand;
+using Application.Features.Products.Commands.ExportProductCommand;
 using Application.Features.Products.Queries.GetAllProducts;
 using Application.Features.Products.Queries.GetProductById;
 using Asp.Versioning;
+using Fractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,6 +65,14 @@ namespace WebApi.Controllers.v1
         public async Task<IActionResult> PostComment([FromBody] CreateCommentCommand command)
         {
             return Ok(await Mediator.Send(command));
+        }
+
+        [HttpPost]
+        [Route("export")]
+        public async Task<FileResult> ExportAsync([FromBody] ExportProductCommand command)
+        {
+            var result = await Mediator.Send(command);
+            return File(result, "application/octet-stream", "ProductExports");
         }
 
     }
