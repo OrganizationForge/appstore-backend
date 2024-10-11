@@ -42,7 +42,8 @@ namespace Application.Common.Mappings
                 .ReverseMap();
             CreateMap<OrderItemDTO, OrderItem>()
                 .ReverseMap();
-            CreateMap<Order, OrderDTO>();
+            CreateMap<Order, OrderDTO>()
+                .ForMember(dest => dest.Total, opt => opt.MapFrom(x => x.OrderItems.Sum(orderItem => orderItem.Price * orderItem.Quantity)));
             CreateMap<QuantityType, QuantityTypeDTO>();
             CreateMap<Availability, AvailavilityDTO>();
             CreateMap<Payment, PaymentDTO>();
