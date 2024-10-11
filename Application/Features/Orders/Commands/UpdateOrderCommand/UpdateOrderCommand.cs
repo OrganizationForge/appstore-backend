@@ -74,7 +74,7 @@ namespace Application.Features.Orders.Commands.UpdateOrderCommand
                 // Actualizar o agregar los OrderItems que se reciben
                 foreach (var receivedItem in command.OrderItems)
                 {
-                    // Si el item tiene un Id autogenerado, detecta si es nuevo por su GUID por defecto
+                
                     if (receivedItem.Id == Guid.Empty)
                     {
                         // Este es un nuevo item, se debe agregar

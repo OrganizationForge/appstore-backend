@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Orders.Commands.UpdateOrderCommand
 {
-    public class UpdateOrderbyIdSpecification : Specification<Order>, ISingleResultSpecification<Order>
+    public class UpdateOrderSpecification : Specification<Order>, ISingleResultSpecification<Order>
     {
-        public UpdateOrderbyIdSpecification(Guid id)
+        public UpdateOrderSpecification(Guid id)
         {
 
             Query.Where(p => p.Id == id)
