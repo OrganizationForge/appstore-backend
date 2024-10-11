@@ -1,20 +1,8 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
-using Application.Features.Orders;
-using Application.Features.Orders.Commands.UpdateOrderCommand;
-using Application.Features.Orders.Queries.GetOrderById;
-using Application.Features.Products.Queries.GetProductById;
-using Application.Features.Shipping.Queries;
 using AutoMapper;
-using Domain.Entities;
-using Domain.Entities.Checkout;
 using Domain.Entities.Products;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Products.Commands.UpdateProductCommand
 {
@@ -55,7 +43,8 @@ namespace Application.Features.Products.Commands.UpdateProductCommand
 
             var product = await _unitOfWork.Repository<Product>().FirstOrDefaultAsync(new UpdateProductSpecification(command.ProductId), cancellationToken);
 
-            if (product is null) {
+            if (product is null)
+            {
 
                 return new Response<string>("Producto no encontrado");
             }
@@ -64,7 +53,7 @@ namespace Application.Features.Products.Commands.UpdateProductCommand
 
             _mapper.Map(command, product);
 
-            product.ModifiedBy = _currentUserService.User.Id; 
+            product.ModifiedBy = _currentUserService.User.Id;
             product.ModifiedDate = fechaActual;
 
 

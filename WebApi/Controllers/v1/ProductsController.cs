@@ -5,7 +5,6 @@ using Application.Features.Products.Commands.UpdateProductCommand;
 using Application.Features.Products.Queries.GetAllProducts;
 using Application.Features.Products.Queries.GetProductById;
 using Asp.Versioning;
-using Fractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
