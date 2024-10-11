@@ -35,8 +35,6 @@ namespace Application.Features.Orders.Commands.CreateOrderCommand
                 var product = await _unitOfWork.Repository<Product>().GetByIdAsync(orderItem.ProductId);
 
                 if (orderItem.Price is null || orderItem.Price == 0) orderItem.Price = product!.Price;
-
-
             }
 
             var newOrder = _mapper.Map<Order>(command);
