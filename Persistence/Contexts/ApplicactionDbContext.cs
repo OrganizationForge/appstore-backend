@@ -58,6 +58,11 @@ namespace Persistence.Contexts
                         entry.Entity.ModifiedBy = _user.Id;
                         entry.Entity.ModifiedDate = _datetime.NowUtc; 
                         break;
+                    case EntityState.Deleted:
+                        entry.State = EntityState.Modified;
+                        entry.Entity.DeletedBy = _user.Id;
+                        entry.Entity.DeletedDate = _datetime.NowUtc;
+                        break;
                 }
             }
             //return base.SaveChangesAsync();
