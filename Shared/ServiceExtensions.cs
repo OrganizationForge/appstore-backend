@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Mailing;
 using Shared.Services;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace Shared
 {
@@ -23,7 +22,8 @@ namespace Shared
             .AddTransient<IEmailService, EmailService>()
             .AddTransient<IFileService, FileService>()
             .AddTransient<IPaymentService, MercadoPagoService>()
-            .AddTransient<IEmailTemplateService, EmailTemplateService>();
+            .AddTransient<IEmailTemplateService, EmailTemplateService>()
+            .AddTransient<IExcelWriterService, ExcelWriterService>();
         }
     }
 }
