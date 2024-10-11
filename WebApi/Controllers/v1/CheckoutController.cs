@@ -1,11 +1,10 @@
 ﻿using Application.Features.Orders.Commands.CreateOrderCommand;
 using Application.Features.Orders.Commands.UpdateOrderCommand;
+using Application.Features.Orders.Commands.UpdateOrderStatusCommand;
 using Application.Features.Orders.Queries.GetAllOrders;
 using Application.Features.Orders.Queries.GetOrderById;
 using Application.Features.Payments.Commands.CreatePaymentCommand;
-using Application.Features.Products.Queries.GetAllProducts;
 using Asp.Versioning;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.v1
@@ -59,6 +58,12 @@ namespace WebApi.Controllers.v1
         [HttpPut]
         [Route("Orders")]
         public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderCommand command)
+        {
+            return Ok(await Mediator.Send(command));
+        }
+        [HttpPut]
+        [Route("Orders/status")]
+        public async Task<IActionResult> UpdateOrderStatus([FromBody] UpdateOrderStatusCommand command)
         {
             return Ok(await Mediator.Send(command));
         }

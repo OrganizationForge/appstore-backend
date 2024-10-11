@@ -7,6 +7,7 @@ using Application.Features.Categories.Queries;
 using Application.Features.Orders;
 using Application.Features.Orders.Commands.CreateOrderCommand;
 using Application.Features.Orders.Commands.UpdateOrderCommand;
+using Application.Features.Orders.Commands.UpdateOrderStatusCommand;
 using Application.Features.Orders.Queries;
 using Application.Features.Payments.Queries;
 using Application.Features.ProductComments.Commands.CreateCommentCommand;
@@ -69,7 +70,7 @@ namespace Application.Common.Mappings
             CreateMap<UpdateProductCommand, Product>();
             CreateMap<CreateCategoryCommand, Category>();
             CreateMap<DeleteCategoryByIdCommand, Category>();
-
+            CreateMap<UpdateOrderStatusCommand, Order>();
 
             #endregion
         }
