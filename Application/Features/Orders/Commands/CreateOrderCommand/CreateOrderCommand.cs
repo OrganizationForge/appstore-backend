@@ -32,9 +32,15 @@ namespace Application.Features.Orders.Commands.CreateOrderCommand
 
             foreach (var orderItem in command.OrderItems!)
             {
-                var product = await _unitOfWork.Repository<Product>().GetByIdAsync(orderItem.ProductId);
 
-                if (orderItem.Price is null || orderItem.Price == 0) orderItem.Price = product!.Price;
+
+                if (orderItem.Price is null || orderItem.Price == 0) {
+                    var product = await _unitOfWork.Repository<Product>().GetByIdAsync(orderItem.ProductId);
+                    orderItem.Price = product!.Price;
+                }
+                    
+
+
             }
 
             var newOrder = _mapper.Map<Order>(command);

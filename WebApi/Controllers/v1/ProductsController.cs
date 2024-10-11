@@ -1,10 +1,10 @@
 ﻿using Application.Features.ProductComments.Commands.CreateCommentCommand;
 using Application.Features.Products.Commands.CreateProductCommand;
 using Application.Features.Products.Commands.ExportProductCommand;
+using Application.Features.Products.Commands.UpdateProductCommand;
 using Application.Features.Products.Queries.GetAllProducts;
 using Application.Features.Products.Queries.GetProductById;
 using Asp.Versioning;
-using Fractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,7 +55,7 @@ namespace WebApi.Controllers.v1
         //}
 
         [HttpPost]
-        public async Task<IActionResult> Post( [FromBody]CreateProductCommand command)
+        public async Task<IActionResult> Post([FromBody] CreateProductCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
@@ -63,6 +63,11 @@ namespace WebApi.Controllers.v1
         [HttpPost]
         [Route("comments")]
         public async Task<IActionResult> PostComment([FromBody] CreateCommentCommand command)
+        {
+            return Ok(await Mediator.Send(command));
+        }
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateProductCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
