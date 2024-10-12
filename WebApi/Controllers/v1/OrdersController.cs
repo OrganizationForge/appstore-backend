@@ -10,24 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers.v1
 {
     [ApiVersion("1.0")]
-    public class CheckoutController : BaseApiController
+    public class OrdersController : BaseApiController
     {
 
-        [HttpPost]
-        [Route("Payments")]
-        public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentCommand command)
-        {
-            return Ok(await Mediator.Send(command));
-        }
-
-
-        //[HttpGet("Orders")]
-        //public async Task<IActionResult> GetOrdersAsync(Guid id)
-        //{
-        //    return Ok(await Mediator.Send(new GetOrderByIdQuery { Id = id }));
-        //}
-
-        [HttpGet("Orders")]
+        [HttpGet]
         public async Task<IActionResult> GetAllAsync([FromQuery] PaginationOrdersParameters filter)
         {
             return Ok(await Mediator.Send(new GetAllOrdersQuery
@@ -39,7 +25,7 @@ namespace WebApi.Controllers.v1
         }
 
 
-        [HttpGet("Orders/{id:Guid}")]
+        [HttpGet("{id:Guid}")]
         public async Task<IActionResult> GetOrderbyIdAsync(Guid id)
         {
             return Ok(await Mediator.Send(new GetOrderByIdQuery { Id = id }));
@@ -47,7 +33,6 @@ namespace WebApi.Controllers.v1
 
 
         [HttpPost]
-        [Route("Orders")]
 
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command)
         {
@@ -56,13 +41,13 @@ namespace WebApi.Controllers.v1
 
 
         [HttpPut]
-        [Route("Orders")]
         public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
+
         [HttpPut]
-        [Route("Orders/status")]
+        [Route("status")]
         public async Task<IActionResult> UpdateOrderStatus([FromBody] UpdateOrderStatusCommand command)
         {
             return Ok(await Mediator.Send(command));
