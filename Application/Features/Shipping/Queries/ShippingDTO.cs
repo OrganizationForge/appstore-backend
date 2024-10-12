@@ -9,6 +9,6 @@ namespace Application.Features.Shipping.Queries
     public class ShippingDTO
     {
         public string? ShippingAddress { get; set; }
-        public Guid? ShippingMethodId { get; set; }
+        public virtual ShippingMethodDTO? ShippingMethod { get; set; }
     }
 }

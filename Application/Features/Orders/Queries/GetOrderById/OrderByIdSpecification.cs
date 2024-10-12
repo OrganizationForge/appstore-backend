@@ -16,8 +16,11 @@ namespace Application.Features.Orders.Queries.GetOrderById
 
             Query.Where(p => p.Id == id)
                 .Include(p => p.Payment)
+                    .ThenInclude(p => p.PaymentMethod)
                 .Include(p => p.Shipping)
-                .Include(p => p.OrderItems.Where(oi => oi.DeletedDate == null));
+                 .ThenInclude(s => s!.ShippingMethod)
+                .Include(p => p.OrderItems.Where(oi => oi.DeletedDate == null))
+                 .ThenInclude(oi => oi.Product);
         }
     }
 }

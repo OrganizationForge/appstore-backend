@@ -11,7 +11,7 @@ namespace Application.Features.Payments.Queries
         public Guid Id { get; set; }
         public decimal Amount { get; set; }
         public string? Status { get; set; }
-        public PaymentMethodDTO? PaymentMethod { get; set; }
+        public virtual PaymentMethodDTO? PaymentMethod { get; set; }
 
     }
 }

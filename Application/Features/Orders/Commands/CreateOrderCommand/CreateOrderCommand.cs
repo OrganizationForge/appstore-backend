@@ -30,18 +30,18 @@ namespace Application.Features.Orders.Commands.CreateOrderCommand
         public async Task<Response<Guid>> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
         {
 
-            foreach (var orderItem in command.OrderItems!)
-            {
+            //foreach (var orderItem in command.OrderItems!)
+            //{
 
 
-                if (orderItem.Price is null || orderItem.Price == 0) {
-                    var product = await _unitOfWork.Repository<Product>().GetByIdAsync(orderItem.ProductId);
-                    orderItem.Price = product!.Price;
-                }
+            //    if (orderItem.Price is null || orderItem.Price == 0) {
+            //        var product = await _unitOfWork.Repository<Product>().GetByIdAsync(orderItem.Product!.Id);
+            //        orderItem.Price = product!.Price;
+            //    }
                     
 
 
-            }
+            //}
 
             var newOrder = _mapper.Map<Order>(command);
 

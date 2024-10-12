@@ -39,10 +39,9 @@ namespace Application.Common.Mappings
             CreateMap<ProductFile, ProductFileDTO>();
             CreateMap<Comment, CommentDTO>();
             CreateMap<ShippingMethod, ShippingMethodDTO>();
-            CreateMap<ShippingDTO, Shipping>()
-                .ReverseMap();
-            CreateMap<OrderItemDTO, OrderItem>()
-                .ReverseMap();
+            CreateMap<Shipping, ShippingDTO>();
+            CreateMap<OrderItem, OrderItemDTO>();
+               
             CreateMap<Order, OrderDTO>()
                 .ForMember(dest => dest.Total, opt => opt.MapFrom(x => x.OrderItems.Sum(orderItem => orderItem.Price * orderItem.Quantity)));
             CreateMap<QuantityType, QuantityTypeDTO>();
