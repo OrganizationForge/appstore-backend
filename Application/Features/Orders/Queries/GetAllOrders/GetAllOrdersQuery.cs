@@ -26,7 +26,7 @@ namespace Application.Features.Orders.Queries.GetAllOrders
         public async Task<PagedResponse<List<OrderDTO>>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
         {
             var listAllProducts = await _unitOfWork.Repository<Order>().ListAsync(new OrderSpecification(request), cancellationToken);
-            var totalRecords = await _unitOfWork.Repository<Order>().CountAsync();
+            var totalRecords = await _unitOfWork.Repository<Order>().CountAsync(new OrderSpecification(request), cancellationToken);
             var result = _mapper.Map<List<OrderDTO>>(listAllProducts);
 
             return new PagedResponse<List<OrderDTO>>(result, request.PageNumber, request.PageSize, totalRecords);

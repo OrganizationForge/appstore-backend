@@ -10,7 +10,7 @@ namespace Application.Features.Orders.Queries.GetAllOrders
             Query.Skip((parameters.PageNumber - 1) * parameters.PageSize)
                 .Take(parameters.PageSize);
 
-            if (parameters.Status != null)
+            if (parameters.Status != null & parameters.Status != 0)
                 Query.Where(x => x.Status == (OrderStatus)parameters.Status);
 
             Query
