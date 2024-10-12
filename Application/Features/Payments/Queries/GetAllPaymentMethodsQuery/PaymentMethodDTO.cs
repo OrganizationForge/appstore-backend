@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Payments.Queries
+namespace Application.Features.Payments.Queries.GetAllPaymentMethodsQuery
 {
     public class PaymentMethodDTO
     {

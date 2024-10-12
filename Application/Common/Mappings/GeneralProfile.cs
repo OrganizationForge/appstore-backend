@@ -11,6 +11,7 @@ using Application.Features.Orders.Commands.UpdateOrderStatusCommand;
 using Application.Features.Orders.Queries;
 using Application.Features.Payments.Commands.CreatePaymentMethodCommand;
 using Application.Features.Payments.Queries;
+using Application.Features.Payments.Queries.GetAllPaymentMethodsQuery;
 using Application.Features.ProductComments.Commands.CreateCommentCommand;
 using Application.Features.ProductComments.Queries;
 using Application.Features.Products.Commands.CreateProductCommand;
