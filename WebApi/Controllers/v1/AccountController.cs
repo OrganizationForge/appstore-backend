@@ -195,7 +195,7 @@ namespace WebApi.Controllers.Identity
                 HttpOnly = true,
                 Secure = true,
                 Path = "/",
-                SameSite = SameSiteMode.None
+                SameSite = SameSiteMode.Lax
                 //SameSite = SameSiteMode.Lax
             };
             Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
