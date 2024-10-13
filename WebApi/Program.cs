@@ -84,9 +84,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll",
        builder =>
        {
-           builder.AllowAnyOrigin()
+           builder
+           //.AllowAnyOrigin()
+           .WithOrigins("http://localhost:4200, http://append.store")
                   .AllowAnyHeader()
-                  .AllowAnyMethod();
+                  .AllowAnyMethod()
+                  .AllowCredentials();
        });
 });
 
