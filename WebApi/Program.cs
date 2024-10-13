@@ -86,7 +86,7 @@ builder.Services.AddCors(options =>
        {
            builder
            //.AllowAnyOrigin()
-           .WithOrigins("http://localhost:4200, http://append.store")
+           .WithOrigins("http://localhost:4200", "http://append.store")
                   .AllowAnyHeader()
                   .AllowAnyMethod()
                   .AllowCredentials();
