@@ -3,6 +3,7 @@ using Application.Features.Orders.Commands.UpdateOrderCommand;
 using Application.Features.Orders.Commands.UpdateOrderStatusCommand;
 using Application.Features.Orders.Queries.GetAllOrders;
 using Application.Features.Orders.Queries.GetOrderById;
+using Application.Features.Orders.Queries.GetOrderPdfQuery;
 using Application.Features.Payments.Commands.CreatePaymentCommand;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +52,15 @@ namespace WebApi.Controllers.v1
         public async Task<IActionResult> UpdateOrderStatus([FromBody] UpdateOrderStatusCommand command)
         {
             return Ok(await Mediator.Send(command));
+        }
+
+        [HttpGet]
+        [Route("pdf")]
+        public async Task<IActionResult> DownloadOrderPdf(Guid id)
+        {
+            var pdf = await Mediator.Send(new GetOrderPdfQuery { Id = id });
+
+            return File(pdf, "application/pdf", $"order_{id}.pdf");
         }
     }
 

@@ -29,4 +29,8 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Orders\Queries\GetOrderPdfQuery\Template\" />
+  </ItemGroup>
+
 </Project>

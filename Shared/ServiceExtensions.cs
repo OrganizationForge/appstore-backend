@@ -23,7 +23,8 @@ namespace Shared
             .AddTransient<IFileService, FileService>()
             .AddTransient<IPaymentService, MercadoPagoService>()
             .AddTransient<IEmailTemplateService, EmailTemplateService>()
-            .AddTransient<IExcelWriterService, ExcelWriterService>();
+            .AddTransient<IExcelWriterService, ExcelWriterService>()
+            .AddTransient<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
         }
     }
 }
