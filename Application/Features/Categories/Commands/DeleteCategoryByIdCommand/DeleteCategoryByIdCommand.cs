@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
+using Application.Features.Categories.Queries;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Entities.Products;
@@ -27,16 +28,25 @@ namespace Application.Features.Categories.Commands.DeleteCategoryByIdCommand
 
         public async Task<Response<string>> Handle(DeleteCategoryByIdCommand command, CancellationToken cancellationToken)
         {
-            var category = await _unitOfWork.Repository<Category>().GetByIdAsync(command.Id); 
+            var category = await _unitOfWork.Repository<Category>().GetByIdAsync(command.Id);
 
             if (category is null)
             {
                 return new Response<string>("Categoria no encontrada.");
             }
 
+            var childCategories = await _unitOfWork.Repository<Category>()
+            .ListAsync(new ChildrenCategorySpecification(category.Id), cancellationToken);
 
 
-           // category.DeletedBy = _currentUserService.User.Id;
+            if (childCategories.Count > 0)
+            {
+
+                foreach (var childCategory in childCategories)
+                {
+                    await _unitOfWork.Repository<Category>().DeleteAsync(childCategory);
+                }
+            }
 
             await _unitOfWork.Repository<Category>().DeleteAsync(category);
 

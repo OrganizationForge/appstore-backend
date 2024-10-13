@@ -3,11 +3,11 @@ using Domain.Entities;
 
 namespace Application.Features.Categories.Queries
 {
-    public class CategorySpecification : Specification<Category>
+    public class ChildrenCategorySpecification : Specification<Category>
     {
-        public CategorySpecification()
+        public ChildrenCategorySpecification(Guid id)
         {
-            Query.Where(x => x.ParentId == null && x.DeletedDate == null)
+            Query.Where(x => x.ParentId == id && x.DeletedDate == null)
             .Include(x => x.Childrens).Where(oi => oi.DeletedDate == null)
             .Include(x => x.Specs);
         }
