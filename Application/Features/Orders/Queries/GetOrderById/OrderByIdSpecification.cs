@@ -20,7 +20,9 @@ namespace Application.Features.Orders.Queries.GetOrderById
                 .Include(p => p.Shipping)
                  .ThenInclude(s => s!.ShippingMethod)
                 .Include(p => p.OrderItems.Where(oi => oi.DeletedDate == null))
-                 .ThenInclude(oi => oi.Product);
+                 .ThenInclude(oi => oi.Product)
+                    .ThenInclude(product => product.Brand);
+            ;
         }
     }
 }

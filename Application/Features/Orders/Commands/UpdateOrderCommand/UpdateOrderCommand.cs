@@ -1,7 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
 using Application.Features.Orders.Queries.GetOrderById;
-using Application.Features.Shipping.Queries;
+using Application.Features.Shippings.Queries;
 using AutoMapper;
 using Domain.Entities.Checkout;
 using MediatR;

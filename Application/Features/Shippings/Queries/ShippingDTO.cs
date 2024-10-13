@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Shipping.Queries
+namespace Application.Features.Shippings.Queries
 {
     public class ShippingDTO
     {

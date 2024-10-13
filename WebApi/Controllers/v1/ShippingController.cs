@@ -1,5 +1,5 @@
-﻿using Application.Features.Shipping.Commands.CreateShippingMethod;
-using Application.Features.Shipping.Queries.GetAllShippingMethods;
+﻿using Application.Features.Shippings.Commands.CreateShippingMethod;
+using Application.Features.Shippings.Queries.GetAllShippingMethods;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 

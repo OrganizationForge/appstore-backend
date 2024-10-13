@@ -4,7 +4,7 @@ using AutoMapper;
 using Domain.Entities.Checkout;
 using MediatR;
 
-namespace Application.Features.Shipping.Commands.CreateShippingMethod
+namespace Application.Features.Shippings.Commands.CreateShippingMethod
 {
     public class CreateShippingMethodCommand : IRequest<Response<Guid>>
     {

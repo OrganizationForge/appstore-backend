@@ -1,5 +1,5 @@
 ﻿using Application.Features.Payments.Queries;
-using Application.Features.Shipping.Queries;
+using Application.Features.Shippings.Queries;
 
 namespace Application.Features.Orders.Queries
 {
