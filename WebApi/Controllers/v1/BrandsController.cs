@@ -12,6 +12,7 @@ namespace WebApi.Controllers.v1
     public class BrandsController : BaseApiController
     {
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
             return Ok(await Mediator.Send(new GetAllBrandsQuery()));

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers.v1
 {
     [ApiVersion("1.0")]
-    //[Authorize]
+    [Authorize]
     public class ProductsController : BaseApiController
     {
         [HttpGet]
@@ -61,6 +61,7 @@ namespace WebApi.Controllers.v1
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("comments")]
         public async Task<IActionResult> PostComment([FromBody] CreateCommentCommand command)
         {
