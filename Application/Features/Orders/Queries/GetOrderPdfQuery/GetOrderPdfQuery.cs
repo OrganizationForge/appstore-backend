@@ -51,13 +51,13 @@ namespace Application.Features.Orders.Queries.GetOrderPdfQuery
             var viewModel = new OrderDTO
             {
                 Id = orderDTO.Id,
-                Status = orderDTO.Status,  // Asegúrate de que Status se puede convertir a string sin problemas
+                Status = orderDTO.Status,  
                 CreatedDate = orderDTO.CreatedDate,
                 Total = orderDTO.Total,
                 Payment = orderDTO.Payment != null ? new PaymentDTO
                 {
                     Amount = orderDTO.Payment.Amount,
-                    Status = orderDTO.Payment.Status?.ToString() ?? "N/A", // Usa null-coalescing para evitar errores
+                    Status = orderDTO.Payment.Status?.ToString() ?? "N/A",
                     PaymentMethod = orderDTO.Payment.PaymentMethod != null ? new PaymentMethodDTO
                     {
                         Description = orderDTO.Payment.PaymentMethod.Description ?? "No Description"
