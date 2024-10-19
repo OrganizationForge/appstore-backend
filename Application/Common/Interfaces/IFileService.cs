@@ -7,6 +7,6 @@ namespace Application.Common.Interfaces
     {
         string UploadFile(FileUpload file, string route);
         string UploadFile(IFormFile file, string route);
-        byte[] ConvertHtmlToPdf(string htmlContent);
+        Task<byte[]> ConvertHtmlToPdfAsync(string htmlContent);
     }
 }

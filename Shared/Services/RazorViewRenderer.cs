@@ -15,13 +15,13 @@ using System.Threading.Tasks;
 
 namespace Shared.Services
 {
-    public class RazorViewToStringRenderer : IRazorViewToStringRenderer
+    public class RazorViewRenderer : IRazorViewRenderer
     {
         private readonly ICompositeViewEngine _viewEngine;
         private readonly ITempDataProvider _tempDataProvider;
         private readonly IServiceProvider _serviceProvider;
 
-        public RazorViewToStringRenderer(ICompositeViewEngine viewEngine,
+        public RazorViewRenderer(ICompositeViewEngine viewEngine,
                                          ITempDataProvider tempDataProvider,
                                          IServiceProvider serviceProvider)
         {
@@ -30,7 +30,7 @@ namespace Shared.Services
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<string> RenderViewToStringAsync<TModel>(string viewName, TModel model)
+        public async Task<string> RenderViewAsync<TModel>(string viewName, TModel model)
         {
             var actionContext = new ActionContext(
                 new DefaultHttpContext { RequestServices = _serviceProvider },
@@ -40,7 +40,7 @@ namespace Shared.Services
 
             using (var sw = new StringWriter())
             {
-                var viewResult = _viewEngine.FindView(actionContext, viewName, false);
+                var viewResult = _viewEngine.GetView(viewName, viewName, false);
 
                 if (viewResult.View == null)
                 {

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Application.Common.Interfaces
 {
-    public interface IRazorViewToStringRenderer
+    public interface IRazorViewRenderer
     {
-        Task<string> RenderViewToStringAsync<TModel>(string viewName, TModel model);
+        Task<string> RenderViewAsync<TModel>(string viewName, TModel model);
     }
 }

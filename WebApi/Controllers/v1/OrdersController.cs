@@ -54,14 +54,30 @@ namespace WebApi.Controllers.v1
             return Ok(await Mediator.Send(command));
         }
 
+        //[HttpGet]
+        //[Route("pdf")]
+        //public async Task<IActionResult> DownloadOrderPdf(Guid id)
+        //{
+        //    var pdf = await Mediator.Send(new GetOrderPdfQuery { Id = id });
+
+        //    return File(pdf, "application/pdf", $"order_{id}.pdf");
+        //}
         [HttpGet]
-        [Route("pdf")]
-        public async Task<IActionResult> DownloadOrderPdf(Guid id)
+        [Route("pdf/{id}")]
+        public async Task<IActionResult> DownloadOrderPdf([FromRoute] Guid id)
         {
             var pdf = await Mediator.Send(new GetOrderPdfQuery { Id = id });
 
-            return File(pdf, "application/pdf", $"order_{id}.pdf");
+            var contentDisposition = new System.Net.Mime.ContentDisposition
+            {
+                Inline = true,
+                FileName = $"order_{id}.pdf"
+            };
+
+            Response.Headers.Add("Content-Disposition", contentDisposition.ToString());
+            return File(pdf, "application/pdf");
         }
+
     }
 
 
