@@ -36,7 +36,7 @@ namespace WebApi.Controllers.v1
 
 
         [HttpPost]
-
+        [AllowAnonymous]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command)
         {
             return Ok(await Mediator.Send(command));
@@ -66,6 +66,7 @@ namespace WebApi.Controllers.v1
         //}
         [HttpGet]
         [Route("pdf/{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> DownloadOrderPdf([FromRoute] Guid id)
         {
             var pdf = await Mediator.Send(new GetOrderPdfQuery { Id = id });

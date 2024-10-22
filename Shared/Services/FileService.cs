@@ -4,6 +4,7 @@ using Domain.Common;
 using Microsoft.AspNetCore.Http;
 using PuppeteerSharp;
 using PuppeteerSharp.Media;
+using System.Drawing;
 using System.Text.RegularExpressions;
 
 namespace Shared.Services
@@ -19,20 +20,49 @@ namespace Shared.Services
                 Directory.CreateDirectory(pathToSave);
             try
             {
+                //if (file != null)
+                //{
+                //    var fileName = file.Name;
+                //    var fullPath = Path.Combine(pathToSave, fileName);
+                //    using (var stream = new FileStream(fullPath, FileMode.Create))
+                //    {
+                //        // Convert the base64 string to a byte array
+                //        string base64Data = Regex.Match(file.Data, "data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+                //        var imageBytes = Convert.FromBase64String(base64Data);
+
+                //        // Write the byte array to the stream to create the image file
+                //        stream.Write(imageBytes, 0, imageBytes.Length);
+                //        fileRoute = Path.Combine(route, fileName);
+                //        //fileRoute = Path.Combine(folderName, fileName);
+                //    }
+                //}
+
                 if (file != null)
                 {
                     var fileName = file.Name;
                     var fullPath = Path.Combine(pathToSave, fileName);
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        // Convert the base64 string to a byte array
-                        string base64Data = Regex.Match(file.Data, "data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
-                        var imageBytes = Convert.FromBase64String(base64Data);
 
-                        // Write the byte array to the stream to create the image file
-                        stream.Write(imageBytes, 0, imageBytes.Length);
-                        fileRoute = Path.Combine(route, fileName);
-                        //fileRoute = Path.Combine(folderName, fileName);
+                    // Convert the base64 string to a byte array
+                    string base64Data = Regex.Match(file.Data, "data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+                    var imageBytes = Convert.FromBase64String(base64Data);
+
+                    // Load the image from the byte array
+                    using (var ms = new MemoryStream(imageBytes))
+                    using (var img = System.Drawing.Image.FromStream(ms))
+                    {
+                        // Calculate new size while maintaining aspect ratio
+                        var newSize = CalculateNewSize(img.Width, img.Height, 518, 518);
+
+                        // Resize the image
+                        using (var resizedImg = new Bitmap(img, newSize))
+                        {
+                            using (var stream = new FileStream(fullPath, FileMode.Create))
+                            {
+                                // Save the resized image to the file stream
+                                resizedImg.Save(stream, img.RawFormat);
+                                fileRoute = Path.Combine(route, fileName);
+                            }
+                        }
                     }
                 }
             }
@@ -43,6 +73,19 @@ namespace Shared.Services
             }
 
             return fileRoute;
+        }
+
+        // Helper method to calculate the new image size while maintaining aspect ratio
+        private Size CalculateNewSize(int originalWidth, int originalHeight, int maxWidth, int maxHeight)
+        {
+            var ratioX = (double)maxWidth / originalWidth;
+            var ratioY = (double)maxHeight / originalHeight;
+            var ratio = Math.Min(ratioX, ratioY);
+
+            var newWidth = (int)(originalWidth * ratio);
+            var newHeight = (int)(originalHeight * ratio);
+
+            return new Size(newWidth, newHeight);
         }
 
         public string UploadFile(IFormFile file, string route)
