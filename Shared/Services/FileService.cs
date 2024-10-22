@@ -4,8 +4,14 @@ using Domain.Common;
 using Microsoft.AspNetCore.Http;
 using PuppeteerSharp;
 using PuppeteerSharp.Media;
-using System.Drawing;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp;
 using System.Text.RegularExpressions;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.PixelFormats;
+using Point = SixLabors.ImageSharp.Point;
 
 namespace Shared.Services
 {
@@ -13,6 +19,9 @@ namespace Shared.Services
     {
         public string UploadFile(FileUpload file, string route)
         {
+            const int targetWidth = 518;
+            const int targetHeight = 588;
+
             var pathToSave = Path.Combine("/app/resources/images", route);
             string fileRoute = "";
 
@@ -46,24 +55,86 @@ namespace Shared.Services
                     string base64Data = Regex.Match(file.Data, "data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
                     var imageBytes = Convert.FromBase64String(base64Data);
 
-                    // Load the image from the byte array
-                    using (var ms = new MemoryStream(imageBytes))
-                    using (var img = System.Drawing.Image.FromStream(ms))
-                    {
-                        // Calculate new size while maintaining aspect ratio
-                        var newSize = CalculateNewSize(img.Width, img.Height, 518, 518);
 
-                        // Resize the image
-                        using (var resizedImg = new Bitmap(img, newSize))
+                    // Load the image from the byte array using ImageSharp
+                    using (var ms = new MemoryStream(imageBytes))
+                    using (var img = SixLabors.ImageSharp.Image.Load(ms))
+                    {
+                        // Create a new image with the target dimensions and a white background
+                        using (var outputImage = new Image<Rgba32>(targetWidth, targetHeight, Color.White))
                         {
+                            // Resize the original image while maintaining the aspect ratio
+                            img.Mutate(x => x.Resize(new ResizeOptions
+                            {
+                                Mode = ResizeMode.Max, // Keeps aspect ratio
+                                Size = new SixLabors.ImageSharp.Size(targetWidth, targetHeight)
+                            }));
+
+                            // Center the resized image onto the white background
+                            outputImage.Mutate(x => x.DrawImage(img, new Point(
+                                (targetWidth - img.Width) / 2, // Center horizontally
+                                (targetHeight - img.Height) / 2), // Center vertically
+                                1f)); // Full opacity
+
+                            // Detect image format and choose the right encoder
+                            IImageEncoder encoder;
+                            if (file.Data.Contains("image/png"))
+                            {
+                                encoder = new PngEncoder();
+                            }
+                            else if (file.Data.Contains("image/jpeg") || file.Data.Contains("image/jpg"))
+                            {
+                                encoder = new JpegEncoder();
+                            }
+                            else
+                            {
+                                throw new NotSupportedException("Unsupported image format");
+                            }
+
+                            // Save the final image with the white padding to the output file
                             using (var stream = new FileStream(fullPath, FileMode.Create))
                             {
-                                // Save the resized image to the file stream
-                                resizedImg.Save(stream, img.RawFormat);
+                                outputImage.Save(stream, encoder);
                                 fileRoute = Path.Combine(route, fileName);
                             }
                         }
                     }
+
+                    //// Load the image from the byte array using ImageSharp
+                    //using (var ms = new MemoryStream(imageBytes))
+                    //using (var img = SixLabors.ImageSharp.Image.Load(ms))
+                    //{
+                    //    // Resize the image while maintaining the aspect ratio
+                    //    img.Mutate(x => x.Resize(new ResizeOptions
+                    //    {
+                    //        Mode = ResizeMode.Max,
+                    //        Size = new SixLabors.ImageSharp.Size(518, 588)
+                    //    }));
+
+                    //    // Detect image format and choose the right encoder
+                    //    IImageEncoder encoder;
+                    //    if (file.Data.Contains("image/png"))
+                    //    {
+                    //        encoder = new PngEncoder();
+                    //    }
+                    //    else if (file.Data.Contains("image/jpeg") || file.Data.Contains("image/jpg"))
+                    //    {
+                    //        encoder = new JpegEncoder();
+                    //    }
+                    //    else
+                    //    {
+                    //        throw new NotSupportedException("Unsupported image format");
+                    //    }
+
+                    //    // Save the resized image with the detected encoder
+                    //    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    //    {
+                    //        img.Save(stream, encoder);
+                    //        fileRoute = Path.Combine(route, fileName);
+                    //    }
+                    //}
+
+
                 }
             }
             catch (Exception ex)
