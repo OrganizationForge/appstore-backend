@@ -3,6 +3,7 @@ using Application.Features.Orders.Commands.UpdateOrderCommand;
 using Application.Features.Orders.Commands.UpdateOrderStatusCommand;
 using Application.Features.Orders.Queries.GetAllOrders;
 using Application.Features.Orders.Queries.GetOrderById;
+using Application.Features.Orders.Queries.GetOrderPdfQuery;
 using Application.Features.Payments.Commands.CreatePaymentCommand;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
@@ -54,6 +55,31 @@ namespace WebApi.Controllers.v1
         {
             return Ok(await Mediator.Send(command));
         }
+
+        //[HttpGet]
+        //[Route("pdf")]
+        //public async Task<IActionResult> DownloadOrderPdf(Guid id)
+        //{
+        //    var pdf = await Mediator.Send(new GetOrderPdfQuery { Id = id });
+
+        //    return File(pdf, "application/pdf", $"order_{id}.pdf");
+        //}
+        [HttpGet]
+        [Route("pdf/{id}")]
+        public async Task<IActionResult> DownloadOrderPdf([FromRoute] Guid id)
+        {
+            var pdf = await Mediator.Send(new GetOrderPdfQuery { Id = id });
+
+            var contentDisposition = new System.Net.Mime.ContentDisposition
+            {
+                Inline = true,
+                FileName = $"order_{id}.pdf"
+            };
+
+            Response.Headers.Add("Content-Disposition", contentDisposition.ToString());
+            return File(pdf, "application/pdf");
+        }
+
     }
 
 

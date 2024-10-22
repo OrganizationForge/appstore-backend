@@ -1,4 +1,5 @@
 using Application;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Identity;
 using Identity.Context;
 using Identity.Models;
@@ -36,6 +37,9 @@ builder.Services.AddSharedLayer(builder.Configuration);
 
 //Aca agrego capa de persistencia
 builder.Services.AddPersistenceLayer(builder.Configuration);
+
+builder.Services.AddControllersWithViews()
+    .AddRazorRuntimeCompilation();
 
 //Configuro Health Ckeck
 //builder.Services.ConfigureHealthChecks(builder.Configuration);
