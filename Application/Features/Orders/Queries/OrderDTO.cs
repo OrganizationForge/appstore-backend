@@ -6,6 +6,7 @@ namespace Application.Features.Orders.Queries
     public class OrderDTO
     {
         public Guid Id { get; set; }
+        public int OrderNumber { get; set; }    
         public int Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public decimal Total { get; set; }

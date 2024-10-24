@@ -5,6 +5,7 @@ namespace Domain.Entities.Checkout
     public class Order : AuditableBaseEntity
     {
         public Guid UserId { get; set; }
+        public int OrderNumber { get; set; }
         public OrderStatus Status { get; set; }
         public Guid? PaymentId { get; set; }
         public Guid? ShippingId { get; set; }

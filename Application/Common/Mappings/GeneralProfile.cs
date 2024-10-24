@@ -65,6 +65,10 @@ namespace Application.Common.Mappings
                 .ForMember(dest => dest.Shipping, opt => opt.MapFrom(x => x.Shipping))
                 .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(x => x.OrderItems))
                 .ForMember(dest =>  dest.Status, opt => opt.MapFrom(x => OrderStatus.New));
+            CreateMap<ShippingRequestDTO, Shipping>();
+            CreateMap<OrderItemRequestDTO, OrderItem>();
+
+
             CreateMap<UpdateOrderCommand, Order>()
                 .ForMember(dest => dest.Shipping, opt => opt.MapFrom(x => x.Shipping))
                 .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(x => x.OrderItems));
