@@ -29,39 +29,10 @@ namespace Application.Features.Orders.Commands.CreateOrderCommand
         public async Task<Response<Guid>> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
         {
 
-            var shipping = await _unitOfWork.Repository<Shipping>().AddAsync(new Shipping
-            {
-                ShippingAddress = command.Shipping.ShippingAddress,
-                ShippingMethodId = command.Shipping.shippingMethodId
-            });
-
-            Order newOrder = new Order();
-            newOrder.Status = OrderStatus.New; 
-            newOrder.ShippingId = shipping.Id;
-
+            var newOrder = _mapper.Map<Order>(command);
 
             var order = await _unitOfWork.Repository<Order>().AddAsync(newOrder);
 
-            if (order != null)
-            {
-                foreach (var orderItem in command.OrderItems!)
-                {
-                    var product = await _unitOfWork.Repository<Product>().GetByIdAsync(orderItem.ProductId);
-                    if (product != null)
-                    {
-                        await _unitOfWork.Repository<OrderItem>().AddAsync(new OrderItem
-                        {
-                            Quantity = orderItem.Quantity,
-                            Price = (decimal)orderItem.Price,
-                            OrderId = order.Id,
-                            ProductId = product.Id
-                        });
-                    }
-                }
-
-
-            }
-            //var newOrder = _mapper.Map<Order>(command);
             newOrder.AddDomainEvent(new OrderCreateEvent(newOrder));
 
             await _unitOfWork.Save(cancellationToken);
