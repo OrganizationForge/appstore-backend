@@ -51,6 +51,9 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
 
+// CORS
+builder.Services.AddCorsExtension(builder.Configuration);
+
 //Agrego instancia para versionado
 builder.Services.AddApiVersioningExtension();
 
@@ -83,19 +86,19 @@ builder.Services.AddSwaggerGen(c =>
   });
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll",
-       builder =>
-       {
-           builder
-           .AllowAnyOrigin()
-           //.WithOrigins("http://localhost:4200", "http://append.store")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-                  //.AllowCredentials();
-       });
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll",
+//       builder =>
+//       {
+//           builder
+//           .AllowAnyOrigin()
+//           //.WithOrigins("http://localhost:4200", "http://append.store")
+//                  .AllowAnyHeader()
+//                  .AllowAnyMethod();
+//                  //.AllowCredentials();
+//       });
+//});
 
 var app = builder.Build();
 
