@@ -193,7 +193,7 @@ namespace WebApi.Controllers.Identity
             {
                 Expires = expiration,
                 HttpOnly = true,
-                Secure = false,
+                Secure = true,
                 Path = "/",
                 SameSite = SameSiteMode.None
             };
