@@ -36,7 +36,7 @@ namespace Application.Features.Products.Queries.GetProductById
             else
             {
                 var result = _mapper.Map<ProductDTO>(product);
-                var baseUrl = "http://149.50.144.77:81";
+                var baseUrl = "https://append.store/images";
                 //var baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host.Value}";
 
                 if (result.ProductFiles != null)
