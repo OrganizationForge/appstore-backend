@@ -12,8 +12,13 @@ namespace Application.Features.Authenticate.User
         public List<string>? Roles { get; set; }
         public bool IsVerified { get; set; }
         public string? JWToken { get; set; }
-        public string? RefreshToken { get; set; }
         public string? UrlImage { get; set; }
+
+        [JsonIgnore] 
+        public string? RefreshToken { get; set; }
+
+        [JsonIgnore]
+        public DateTime? RefreshTokenExpiration { get; set; }
 
     }
 }

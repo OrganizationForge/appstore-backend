@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicial : Migration
+    public partial class OrderNumber : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,9 +18,11 @@ namespace Persistence.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -35,9 +37,11 @@ namespace Persistence.Migrations
                     Description = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
                     UrlImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,9 +57,11 @@ namespace Persistence.Migrations
                     UrlImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -75,9 +81,11 @@ namespace Persistence.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -91,9 +99,11 @@ namespace Persistence.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -110,9 +120,11 @@ namespace Persistence.Migrations
                     DeliveryTime = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -133,9 +145,11 @@ namespace Persistence.Migrations
                     ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -164,9 +178,11 @@ namespace Persistence.Migrations
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PaymentMethodId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -199,9 +215,11 @@ namespace Persistence.Migrations
                     BarCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Stock = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -241,9 +259,11 @@ namespace Persistence.Migrations
                     DateShipped = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ShippingMethodId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -271,9 +291,11 @@ namespace Persistence.Migrations
                     Dislikes = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -295,9 +317,11 @@ namespace Persistence.Migrations
                     UrlImage = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -316,13 +340,17 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrderNumber = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Status = table.Column<int>(type: "int", nullable: false),
                     PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ShippingId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -349,9 +377,11 @@ namespace Persistence.Migrations
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -1,13 +1,10 @@
 using Application;
-using HealthChecks.UI.Client;
-using HealthChecks.UI.Configuration;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Identity;
 using Identity.Context;
 using Identity.Models;
 using Identity.Seeds;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using Persistence.Contexts;
@@ -17,7 +14,6 @@ using Serilog.Events;
 using Shared;
 using System.Text.Json.Serialization;
 using WebApi.Extensions;
-using WebApi.Extensions.HealthCheck;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +38,9 @@ builder.Services.AddSharedLayer(builder.Configuration);
 //Aca agrego capa de persistencia
 builder.Services.AddPersistenceLayer(builder.Configuration);
 
+builder.Services.AddControllersWithViews()
+    .AddRazorRuntimeCompilation();
+
 //Configuro Health Ckeck
 //builder.Services.ConfigureHealthChecks(builder.Configuration);
 
@@ -51,6 +50,9 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
+
+// CORS
+builder.Services.AddCorsExtension(builder.Configuration);
 
 //Agrego instancia para versionado
 builder.Services.AddApiVersioningExtension();
@@ -84,16 +86,19 @@ builder.Services.AddSwaggerGen(c =>
   });
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll",
-       builder =>
-       {
-           builder.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-       });
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll",
+//       builder =>
+//       {
+//           builder
+//           .AllowAnyOrigin()
+//           //.WithOrigins("http://localhost:4200", "http://append.store")
+//                  .AllowAnyHeader()
+//                  .AllowAnyMethod();
+//                  //.AllowCredentials();
+//       });
+//});
 
 var app = builder.Build();
 

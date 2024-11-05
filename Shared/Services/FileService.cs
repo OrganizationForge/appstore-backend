@@ -1,12 +1,17 @@
 ﻿using Application.Common.Interfaces;
 using Application.DTOs;
 using Domain.Common;
-using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.VisualBasic.FileIO;
-using System.Net.Http.Headers;
-using System.Runtime.InteropServices;
+using PuppeteerSharp;
+using PuppeteerSharp.Media;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp;
 using System.Text.RegularExpressions;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.PixelFormats;
+using Point = SixLabors.ImageSharp.Point;
 
 namespace Shared.Services
 {
@@ -14,6 +19,9 @@ namespace Shared.Services
     {
         public string UploadFile(FileUpload file, string route)
         {
+            const int targetWidth = 518;
+            const int targetHeight = 588;
+
             var pathToSave = Path.Combine("/app/resources/images", route);
             string fileRoute = "";
 
@@ -21,21 +29,112 @@ namespace Shared.Services
                 Directory.CreateDirectory(pathToSave);
             try
             {
+                //if (file != null)
+                //{
+                //    var fileName = file.Name;
+                //    var fullPath = Path.Combine(pathToSave, fileName);
+                //    using (var stream = new FileStream(fullPath, FileMode.Create))
+                //    {
+                //        // Convert the base64 string to a byte array
+                //        string base64Data = Regex.Match(file.Data, "data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+                //        var imageBytes = Convert.FromBase64String(base64Data);
+
+                //        // Write the byte array to the stream to create the image file
+                //        stream.Write(imageBytes, 0, imageBytes.Length);
+                //        fileRoute = Path.Combine(route, fileName);
+                //        //fileRoute = Path.Combine(folderName, fileName);
+                //    }
+                //}
+
                 if (file != null)
                 {
                     var fileName = file.Name;
                     var fullPath = Path.Combine(pathToSave, fileName);
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        // Convert the base64 string to a byte array
-                        string base64Data = Regex.Match(file.Data, "data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
-                        var imageBytes = Convert.FromBase64String(base64Data);
 
-                        // Write the byte array to the stream to create the image file
-                        stream.Write(imageBytes, 0, imageBytes.Length);
-                        fileRoute = Path.Combine(route, fileName);
-                        //fileRoute = Path.Combine(folderName, fileName);
+                    // Convert the base64 string to a byte array
+                    string base64Data = Regex.Match(file.Data, "data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+                    var imageBytes = Convert.FromBase64String(base64Data);
+
+
+                    // Load the image from the byte array using ImageSharp
+                    using (var ms = new MemoryStream(imageBytes))
+                    using (var img = SixLabors.ImageSharp.Image.Load(ms))
+                    {
+                        // Create a new image with the target dimensions and a white background
+                        using (var outputImage = new Image<Rgba32>(targetWidth, targetHeight, Color.White))
+                        {
+                            // Resize the original image while maintaining the aspect ratio
+                            img.Mutate(x => x.Resize(new ResizeOptions
+                            {
+                                Mode = ResizeMode.Max, // Keeps aspect ratio
+                                Size = new SixLabors.ImageSharp.Size(targetWidth, targetHeight)
+                            }));
+
+                            // Center the resized image onto the white background
+                            outputImage.Mutate(x => x.DrawImage(img, new Point(
+                                (targetWidth - img.Width) / 2, // Center horizontally
+                                (targetHeight - img.Height) / 2), // Center vertically
+                                1f)); // Full opacity
+
+                            // Detect image format and choose the right encoder
+                            IImageEncoder encoder;
+                            if (file.Data.Contains("image/png"))
+                            {
+                                encoder = new PngEncoder();
+                            }
+                            else if (file.Data.Contains("image/jpeg") || file.Data.Contains("image/jpg"))
+                            {
+                                encoder = new JpegEncoder();
+                            }
+                            else
+                            {
+                                throw new NotSupportedException("Unsupported image format");
+                            }
+
+                            // Save the final image with the white padding to the output file
+                            using (var stream = new FileStream(fullPath, FileMode.Create))
+                            {
+                                outputImage.Save(stream, encoder);
+                                fileRoute = Path.Combine(route, fileName);
+                            }
+                        }
                     }
+
+                    //// Load the image from the byte array using ImageSharp
+                    //using (var ms = new MemoryStream(imageBytes))
+                    //using (var img = SixLabors.ImageSharp.Image.Load(ms))
+                    //{
+                    //    // Resize the image while maintaining the aspect ratio
+                    //    img.Mutate(x => x.Resize(new ResizeOptions
+                    //    {
+                    //        Mode = ResizeMode.Max,
+                    //        Size = new SixLabors.ImageSharp.Size(518, 588)
+                    //    }));
+
+                    //    // Detect image format and choose the right encoder
+                    //    IImageEncoder encoder;
+                    //    if (file.Data.Contains("image/png"))
+                    //    {
+                    //        encoder = new PngEncoder();
+                    //    }
+                    //    else if (file.Data.Contains("image/jpeg") || file.Data.Contains("image/jpg"))
+                    //    {
+                    //        encoder = new JpegEncoder();
+                    //    }
+                    //    else
+                    //    {
+                    //        throw new NotSupportedException("Unsupported image format");
+                    //    }
+
+                    //    // Save the resized image with the detected encoder
+                    //    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    //    {
+                    //        img.Save(stream, encoder);
+                    //        fileRoute = Path.Combine(route, fileName);
+                    //    }
+                    //}
+
+
                 }
             }
             catch (Exception ex)
@@ -47,11 +146,24 @@ namespace Shared.Services
             return fileRoute;
         }
 
+        // Helper method to calculate the new image size while maintaining aspect ratio
+        private Size CalculateNewSize(int originalWidth, int originalHeight, int maxWidth, int maxHeight)
+        {
+            var ratioX = (double)maxWidth / originalWidth;
+            var ratioY = (double)maxHeight / originalHeight;
+            var ratio = Math.Min(ratioX, ratioY);
+
+            var newWidth = (int)(originalWidth * ratio);
+            var newHeight = (int)(originalHeight * ratio);
+
+            return new Size(newWidth, newHeight);
+        }
+
         public string UploadFile(IFormFile file, string route)
         {
 
             var folderName = Path.Combine("Resources", route);
-            var pathToSave = Path.Combine(Directory .GetCurrentDirectory(), folderName);
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
 
             string fileRoute = "";
 
@@ -194,6 +306,39 @@ namespace Shared.Services
             }
 
             return string.Format(pattern, max);
+        }
+
+
+        public async Task<byte[]> ConvertHtmlToPdfAsync(string htmlContent)
+        {
+           
+            var browserFetcher = new BrowserFetcher();
+            await browserFetcher.DownloadAsync();
+
+           
+            await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true });
+            await using var page = await browser.NewPageAsync();
+
+          
+            await page.SetContentAsync(htmlContent);
+
+            var pdfOptions = new PdfOptions
+            {
+                Format = PaperFormat.A4,
+                DisplayHeaderFooter = true,
+                MarginOptions = new MarginOptions
+                {
+                    Top = "20px",
+                    Right = "20px",
+                    Bottom = "40px",
+                    Left = "20px"
+                },
+                //HeaderTemplate = "<div style='font-size:10px !important; color:#808080; text-align:right; margin-right:10px;'>Página [page] de [toPage]</div>",
+                FooterTemplate = "<div style='font-size:10px !important; color:#808080; text-align:center; margin-left: 20px;'>Generated by Append</div>"
+            };
+
+            var pdfContent = await page.PdfDataAsync(pdfOptions);
+            return pdfContent;
         }
     }
 }

@@ -53,6 +53,16 @@ namespace WebApi.Controllers.v1
             return Ok();
         }
 
+        [HttpGet("roles")]
+        public async Task<ActionResult<List<string>>> GetRolesAsync(CancellationToken cancellationToken)
+        {
+            //return User.GetUserId() is not { } userId || string.IsNullOrEmpty(userId)
+            //    ? Unauthorized()
+            //    : Ok(await _userService.GetPermissionsAsync(userId, cancellationToken));
+
+            return Ok();
+        }
+
         [HttpGet("logs")]
         public async Task<IActionResult> GetLogsAsync()
         //public Task<List<AuditDto>> GetLogsAsync()

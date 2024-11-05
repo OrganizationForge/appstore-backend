@@ -1,0 +1,106 @@
+﻿@model Application.Features.Orders.Queries.OrderDTO
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orden de Compra</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #007BFF;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .order-details, .shipping-info {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        .total-row {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Orden de Compra</h1>
+
+    <div class="order-details">
+        <p><strong>Orden N°:</strong> @Model.Id</p>
+        <p><strong>Fecha:</strong> @Model.CreatedDate.ToString("dd/MM/yyyy")</p>
+        <p><strong>Estado:</strong> @(Model.Status == 3 ? "Completada" : "Pendiente")</p>
+    </div>
+
+    <h2>Envío</h2>
+    <div class="shipping-info">
+        <p><strong>Método de Envío:</strong> @Model.Shipping.ShippingMethod.Title</p>
+        <p><strong>Dirección:</strong> @(Model.Shipping.ShippingAddress ?? "No especificada")</p>
+        <p><strong>Descripción:</strong> @Model.Shipping.ShippingMethod.Description</p>
+    </div>
+
+    <h2>Items de la Orden</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Marca</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderItems)
+            {
+                <tr>
+                    <td>@item.Product.ProductName</td>
+                    <td>@item.Product.Brand.Description</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price</td>
+                    <td>@(item.Quantity * item.Price)</td>
+                </tr>
+            }
+            <tr class="total-row">
+                <td colspan="4">Total General:</td>
+                <td>@Model.Total</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

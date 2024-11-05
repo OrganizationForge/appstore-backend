@@ -29,9 +29,4 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Categories\Commands\" />
-    <Folder Include="Features\Payments\Queries\" />
-  </ItemGroup>
-
 </Project>

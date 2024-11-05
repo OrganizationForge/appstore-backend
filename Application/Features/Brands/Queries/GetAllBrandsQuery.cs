@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
+using Application.Features.Brands.Commands.CreateBrandCommand;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -22,7 +23,7 @@ namespace Application.Features.Brands.Queries
 
         async Task<Response<List<BrandDTO>>> IRequestHandler<GetAllBrandsQuery, Response<List<BrandDTO>>>.Handle(GetAllBrandsQuery request, CancellationToken cancellationToken)
         {
-            var listBrands = await _unitOfWork.Repository<Brand>().ListAsync(cancellationToken);
+            var listBrands = await _unitOfWork.Repository<Brand>().ListAsync(new BrandSpecification(), cancellationToken);
 
             var result = _mapper.Map<List<BrandDTO>>(listBrands);
 

@@ -1,24 +1,17 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Wrappers;
-using Application.Features.Brands.Commands.CreateBrandCommand;
 using AutoMapper;
-using Domain.Entities;
 using Domain.Entities.Checkout;
 using Domain.Entities.Products;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Orders.Commands.CreateOrderCommand
 {
 
     public class CreateOrderCommand : IRequest<Response<Guid>>
     {
-        public ShippingDTO? Shipping { get; set; }
-        public List<OrderItemDTO>? OrderItems { get; set; }
+        public ShippingRequestDTO? Shipping { get; set; }
+        public List<OrderItemRequestDTO>? OrderItems { get; set; }
 
     }
 
@@ -36,18 +29,9 @@ namespace Application.Features.Orders.Commands.CreateOrderCommand
         public async Task<Response<Guid>> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
         {
 
-            foreach (var orderItem in command.OrderItems!)
-            {
-                var product = await _unitOfWork.Repository<Product>().GetByIdAsync(orderItem.ProductId);
+            var newOrder = _mapper.Map<Order>(command);
 
-                if (orderItem.Price is null || orderItem.Price == 0) orderItem.Price = product!.Price;
-
-
-            }
-
-            var newOrder= _mapper.Map<Order>(command);
-
-            await _unitOfWork.Repository<Order>().AddAsync(newOrder);
+            var order = await _unitOfWork.Repository<Order>().AddAsync(newOrder);
 
             newOrder.AddDomainEvent(new OrderCreateEvent(newOrder));
 

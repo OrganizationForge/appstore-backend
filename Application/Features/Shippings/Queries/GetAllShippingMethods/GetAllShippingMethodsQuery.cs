@@ -4,7 +4,7 @@ using AutoMapper;
 using Domain.Entities.Checkout;
 using MediatR;
 
-namespace Application.Features.Shipping.Queries.GetAllShippingMethods
+namespace Application.Features.Shippings.Queries.GetAllShippingMethods
 {
     public class GetAllShippingMethodsQuery : IRequest<Response<List<ShippingMethodDTO>>> { }
 

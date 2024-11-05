@@ -1,17 +1,25 @@
 ﻿using Application.Features.Availavilities.Queries;
 using Application.Features.Brands.Commands.CreateBrandCommand;
 using Application.Features.Brands.Queries;
+using Application.Features.Categories.Commands.CreateCategoryCommand;
+using Application.Features.Categories.Commands.DeleteCategoryByIdCommand;
 using Application.Features.Categories.Queries;
 using Application.Features.Orders;
 using Application.Features.Orders.Commands.CreateOrderCommand;
+using Application.Features.Orders.Commands.UpdateOrderCommand;
+using Application.Features.Orders.Commands.UpdateOrderStatusCommand;
 using Application.Features.Orders.Queries;
+using Application.Features.Payments.Commands.CreatePaymentMethodCommand;
+using Application.Features.Payments.Queries;
+using Application.Features.Payments.Queries.GetAllPaymentMethodsQuery;
 using Application.Features.ProductComments.Commands.CreateCommentCommand;
 using Application.Features.ProductComments.Queries;
 using Application.Features.Products.Commands.CreateProductCommand;
+using Application.Features.Products.Commands.UpdateProductCommand;
 using Application.Features.Products.Queries;
 using Application.Features.QuantityTypes.Queries;
-using Application.Features.Shipping.Commands.CreateShippingMethod;
-using Application.Features.Shipping.Queries;
+using Application.Features.Shippings.Commands.CreateShippingMethod;
+using Application.Features.Shippings.Queries;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Entities.Checkout;
@@ -33,13 +41,15 @@ namespace Application.Common.Mappings
             CreateMap<ProductFile, ProductFileDTO>();
             CreateMap<Comment, CommentDTO>();
             CreateMap<ShippingMethod, ShippingMethodDTO>();
-            CreateMap<ShippingDTO, Shipping>()
-                .ReverseMap();
-            CreateMap<OrderItemDTO, OrderItem>()
-                .ReverseMap();
-            CreateMap<Order, OrderDTO>();
+            CreateMap<Shipping, ShippingDTO>();
+            CreateMap<OrderItem, OrderItemDTO>();
+               
+            CreateMap<Order, OrderDTO>()
+                .ForMember(dest => dest.Total, opt => opt.MapFrom(x => x.OrderItems.Sum(orderItem => orderItem.Price * orderItem.Quantity)));
             CreateMap<QuantityType, QuantityTypeDTO>();
             CreateMap<Availability, AvailavilityDTO>();
+            CreateMap<Payment, PaymentDTO>();
+            CreateMap<PaymentMethod, PaymentMethodDTO>();
 
 
 
@@ -55,6 +65,19 @@ namespace Application.Common.Mappings
                 .ForMember(dest => dest.Shipping, opt => opt.MapFrom(x => x.Shipping))
                 .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(x => x.OrderItems))
                 .ForMember(dest =>  dest.Status, opt => opt.MapFrom(x => OrderStatus.New));
+            CreateMap<ShippingRequestDTO, Shipping>();
+            CreateMap<OrderItemRequestDTO, OrderItem>();
+
+
+            CreateMap<UpdateOrderCommand, Order>()
+                .ForMember(dest => dest.Shipping, opt => opt.MapFrom(x => x.Shipping))
+                .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(x => x.OrderItems));
+            CreateMap<UpdateProductCommand, Product>();
+            CreateMap<CreateCategoryCommand, Category>();
+            CreateMap<DeleteCategoryByIdCommand, Category>();
+            CreateMap<UpdateOrderStatusCommand, Order>();
+            CreateMap<CreatePaymentMethodCommand, PaymentMethod>();
+
             #endregion
         }
     }

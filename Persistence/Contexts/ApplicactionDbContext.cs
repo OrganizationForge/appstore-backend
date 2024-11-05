@@ -52,11 +52,16 @@ namespace Persistence.Contexts
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedBy = _user.Id;
-                        entry.Entity.Created = _datetime.NowUtc; 
+                        entry.Entity.CreatedDate= _datetime.Now; 
                         break;
                     case EntityState.Modified:
                         entry.Entity.ModifiedBy = _user.Id;
-                        entry.Entity.Modified = _datetime.NowUtc; 
+                        entry.Entity.ModifiedDate = _datetime.Now; 
+                        break;
+                    case EntityState.Deleted:
+                        entry.State = EntityState.Modified;
+                        entry.Entity.DeletedBy = _user.Id;
+                        entry.Entity.DeletedDate = _datetime.NowUtc;
                         break;
                 }
             }
