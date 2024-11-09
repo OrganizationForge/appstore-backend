@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities.Customers;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 
 namespace Persistence.Configuration
 {
@@ -28,6 +29,26 @@ namespace Persistence.Configuration
             builder.Property(p => p.Email)
                    .IsRequired()
                    .HasMaxLength(200);
+
+            builder.Property(p => p.DocumentType)
+               .IsRequired();
+
+            builder.Property(p => p.DocumentNumber)
+                   .IsRequired()
+                   .HasMaxLength(50);
+
+            builder.OwnsOne(p => p.Phone, phone =>
+            {
+                phone.Property(a => a.PhoneAreaCode)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("PhoneAreaCode");
+
+                phone.Property(a => a.PhoneNumber)
+                    .IsRequired()
+                    .HasMaxLength(30)
+                    .HasColumnName("PhoneNumber");
+            });
 
             builder.OwnsOne(p => p.Address, address =>
             {

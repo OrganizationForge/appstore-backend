@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs
 {
-    public class UserDTO
+    public class CustomerDTO
     {
         public string Name { get; set; }
-        public string Surname { get; set; }
+        public string LastName { get; set; }
         public string Email { get; set; }
         public PhoneDTO Phone { get; set; }
         public IdentificationDTO Identification { get; set; }

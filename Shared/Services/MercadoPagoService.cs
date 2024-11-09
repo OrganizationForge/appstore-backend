@@ -36,24 +36,24 @@ namespace Shared.Services
             // Configura el payer (pagador)
             var Payer = new PreferencePayerRequest
             {
-                Name = command.User!.Name,
-                Surname = command.User.Surname,
-                Email = command.User.Email,
+                Name = command.Customer!.Name,
+                Surname = command.Customer.LastName,
+                Email = command.Customer.Email,
                 Phone = new PhoneRequest
                 {
-                    AreaCode = command.User.Phone.AreaCode,
-                    Number = command.User.Phone.Number,
+                    AreaCode = command.Customer.Phone.AreaCode,
+                    Number = command.Customer.Phone.Number,
                 },
                 Identification = new IdentificationRequest
                 {
-                    Type = command.User.Identification.Type,
-                    Number = command.User.Identification.Number,
+                    Type = command.Customer.Identification.Type,
+                    Number = command.Customer.Identification.Number,
                 },
                 Address = new AddressRequest
                 {
-                    StreetName = command.User.Address.StreetName,
-                    StreetNumber = command.User.Address.StreetNumber,
-                    ZipCode = command.User.Address.ZipCode
+                    StreetName = command.Customer.Address.Street,
+                    StreetNumber = command.Customer.Address.Street,
+                    ZipCode = command.Customer.Address.ZipCode
                 }
             };
 

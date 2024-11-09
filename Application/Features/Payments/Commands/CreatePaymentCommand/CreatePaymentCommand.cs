@@ -9,7 +9,7 @@ namespace Application.Features.Payments.Commands.CreatePaymentCommand
     public class CreatePaymentCommand : IRequest<Response<CreatePaymentResponse>>
     {
         public List<ProductItemDTO>? Products { get; set; }
-        public UserDTO? User { get; set; }
+        public CustomerDTO? Customer { get; set; }
         public string? SuccessUrl { get; set; }
         public string? FailureUrl { get; set; }
         public string? PendingUrl { get; set; }

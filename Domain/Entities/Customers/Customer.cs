@@ -15,7 +15,9 @@ namespace Domain.Entities.Customers
         public string? LastName { get; set; }
         public string? Email { get; set; }
         public Guid? UserId { get; set; }
-        public bool IsRegistered { get; set; } = false;
+        public DocumentType DocumentType { get; set; }
+        public string DocumentNumber { get; set; } = string.Empty;
+        public Phone? Phone { get; set; }
         public Address? Address { get; set; } 
     }
 }

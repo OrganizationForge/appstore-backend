@@ -12,7 +12,7 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241109185039_CustomerAndAddress")]
+    [Migration("20241109202757_CustomerAndAddress")]
     partial class CustomerAndAddress
     {
         /// <inheritdoc />
@@ -523,13 +523,18 @@ namespace Persistence.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DocumentNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("IsRegistered")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -979,7 +984,34 @@ namespace Persistence.Migrations
                                 .HasForeignKey("CustomerId");
                         });
 
+                    b.OwnsOne("Domain.Entities.ValueObjects.Phone", "Phone", b1 =>
+                        {
+                            b1.Property<Guid>("CustomerId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("PhoneAreaCode")
+                                .IsRequired()
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
+                                .HasColumnName("PhoneAreaCode");
+
+                            b1.Property<string>("PhoneNumber")
+                                .IsRequired()
+                                .HasMaxLength(30)
+                                .HasColumnType("nvarchar(30)")
+                                .HasColumnName("PhoneNumber");
+
+                            b1.HasKey("CustomerId");
+
+                            b1.ToTable("Customers");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomerId");
+                        });
+
                     b.Navigation("Address");
+
+                    b.Navigation("Phone");
                 });
 
             modelBuilder.Entity("Domain.Entities.Products.Product", b =>
