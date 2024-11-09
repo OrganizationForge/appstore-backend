@@ -1,5 +1,4 @@
 using Application;
-using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Identity;
 using Identity.Context;
 using Identity.Models;
@@ -13,7 +12,7 @@ using Serilog;
 using Serilog.Events;
 using Shared;
 using System.Text.Json.Serialization;
-using WebApi.Extensions;
+using WebApi.Extensions;    
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -93,7 +92,7 @@ builder.Services.AddCors(options =>
            //.WithOrigins("http://localhost:4200", "http://append.store")
                   .AllowAnyHeader()
                   .AllowAnyMethod();
-                  //.AllowCredentials();
+           //.AllowCredentials();
        });
 });
 
@@ -199,5 +198,5 @@ async Task CargarSeeds()
     await ProductSeed.SeedQuantityTypesyAsync(context);
     await ProductSeed.SeedSpecsyAsync(context);
     await ProductSeed.SeedShippingMethodAsync(context);
-    //await ProductSeed.SeedProductAsync(context);
+    await ProductSeed.SeedProductAsync(context);
 }

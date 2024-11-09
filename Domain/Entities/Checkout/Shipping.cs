@@ -1,10 +1,11 @@
 ﻿using Domain.Common;
+using Domain.Entities.ValueObjects;
 
 namespace Domain.Entities.Checkout
 {
     public class Shipping : AuditableBaseEntity
     {
-        public string? ShippingAddress { get; set; }
+        public Address? ShippingAddress { get; set; }
         public DateTime? DateShipped { get; set; }
         public Guid ShippingMethodId { get; set; }
 
